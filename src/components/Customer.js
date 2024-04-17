@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Col, Form, Row } from 'react-bootstrap';
+import { Button, Col, Form, Row } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 const staticCustomers = [
     {
@@ -58,27 +58,27 @@ const Customer = () => {
     return (
         <section className='customer-section'>
             {/* header section statr */}
-            <header>
+            <header className='mobile-header'>
                 <Row className='align-items-center'>
-                    <Col md={6}>
+                    <Col xs={6} md={6}>
                         <div className='header-left-box'>
                             <h5 className='heading-main'><img src={require("../assets/images/ci_building-04.svg").default} className="me-2" alt="icons" /> Customers</h5>
                         </div>
                     </Col>
-                    <Col md={6}>
+                    <Col xs={6} md={6}>
                         <div className='header-right-box'>
                             <Form>
                                 <Form.Group className="position-relative w-50" controlId="exampleForm.ControlInput1">
-                                    <img src={require("../assets/images/iconamoon_search.svg").default} className="search-icon" alt="icons" /> 
+                                    <img src={require("../assets/images/iconamoon_search.svg").default} className="search-icon" alt="icons" />
                                     <Form.Control type="email" placeholder="Search" />
                                     <span className='cutomer-text'>CUSTOMERS</span>
-                                    <img src={require("../assets/images/mi_filter.svg").default} className="filter-icon" alt="icons" /> 
+                                    <img src={require("../assets/images/mi_filter.svg").default} className="filter-icon" alt="icons" />
                                 </Form.Group>
                                 <Link>
-                                    <img src={require("../assets/images/mdi_message-badge.svg").default} className="" alt="icons" /> 
+                                    <img src={require("../assets/images/mdi_message-badge.svg").default} className="" alt="icons" />
                                 </Link>
                                 <Link>
-                                    <img src={require("../assets/images/streamline_notification-alarm-2-solid.svg").default} className="" alt="icons" /> 
+                                    <img src={require("../assets/images/streamline_notification-alarm-2-solid.svg").default} className="" alt="icons" />
                                 </Link>
                             </Form>
                         </div>
@@ -88,10 +88,10 @@ const Customer = () => {
             {/* header section ends */}
             <div className='customer-outer-section'>
                 <div className='customer-list-header d-flex align-items-center justify-content-between'>
-                    <h5 className='heading-main'><img src={require("../assets/images/ci_building-04 (1).svg").default} className="me-2" alt="icons" /> Customers List</h5>
+                    <h5 className='heading-main'><img src={require("../assets/images/ci_building-04 (1).svg").default} className="me-2" alt="icons" /> Customers <span className='mobile-tab'>List</span> <span className='customer-mobile-text'>405</span></h5>
                     <div className='sort-box d-flex align-items-center'>
-                        <h5>SORT BY <img src={require("../assets/images/mi_filter-blue.svg").default} className="ms-2" alt="icons" /> </h5>
-                        <p>405</p>
+                        <h5><span className='mobile-tab'>SORT BY </span><img src={require("../assets/images/mi_filter-blue.svg").default} className="ms-2" alt="icons" /> </h5>
+                        <p className='mobile-tab'>405</p>
                     </div>
                 </div>
                 <div className="customer-container-body">
@@ -117,14 +117,31 @@ const Customer = () => {
                                     <td>{customer.email}</td>
                                     <td><p className='property'><img src={require("../assets/images/ph_door-light.svg").default} className="me-2" alt="icons" />{customer.property}  |  <img src={require("../assets/images/ph_door-light (1).svg").default} className="me-2" alt="icons" /> UNIT <span className='number'>02</span> </p></td>
                                     <td>
-                                    <img src={require("../assets/images/ic_round-delete.svg").default} className="cursor-pointer" alt="icons" onClick={() => handleDelete(customer.id)} />
+                                        <img src={require("../assets/images/ic_round-delete.svg").default} className="cursor-pointer" alt="icons" onClick={() => handleDelete(customer.id)} />
                                     </td>
                                 </tr>
-                            ))} 
+                            ))}
                         </tbody>
                     </table>
                     {/* Add pagination component here */}
                 </div>
+
+                {/* mobile side cards */}
+                {customers.map((customer, index) => (
+                    <div className='mobile-side-customer'>
+                        <p className='d-flex align-items-center'><span className='customer-name'>C</span>{customer.name}</p>
+                        <hr></hr>
+                        <p className='role'><span><img src={require("../assets/images/call.svg").default} className="cursor-pointer me-2" alt="icons" />Phone</span> <span className='number'>+1 672 6351 261</span></p>
+                        <p className='role'><span><img src={require("../assets/images/email.svg").default} className="cursor-pointer me-2" alt="icons" />Email</span> <span className='number'>user@email.com</span></p>
+                        <p className='role'><span><img src={require("../assets/images/date.svg").default} className="cursor-pointer me-2" alt="icons" />Joined</span> <span className='number'>02-04-2024</span></p>
+                        <p className='role'><span><img src={require("../assets/images/building.svg").default} className="cursor-pointer me-2" alt="icons" />Property</span> <span className='number'>Beldon</span></p>
+                        <div className='trash-section d-flex justify-content-between mt-2'>
+                            <Button className="blue-btn">Owner</Button>
+                            <img src={require("../assets/images/ic_round-delete.svg").default} className="cursor-pointer" alt="icons" onClick={() => handleDelete(customer.id)} />
+                        </div>
+                    </div>
+                ))}
+                {/* mobile side cards */}
             </div>
         </section>
     );
