@@ -1,0 +1,145 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    -ms-box-sizing: border-box;
+    -o-box-sizing: border-box;
+}
+
+html,
+body,
+address,
+blockquote,
+div,
+dl,
+form,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+ol,
+p,
+pre,
+table,
+ul,
+dd,
+dt,
+li,
+tbody,
+td,
+tfoot,
+th,
+thead,
+tr,
+button,
+del,
+ins,
+map,
+object,
+a,
+abbr,
+acronym,
+b,
+bdo,
+big,
+br,
+cite,
+code,
+dfn,
+em,
+i,
+img,
+kbd,
+q,
+samp,
+small,
+span,
+strong,
+sub,
+sup,
+tt,
+var,
+legend,
+fieldset,
+p,
+aside,
+header,
+footer,
+section,
+article {
+    border: medium none;
+    margin: 0;
+    padding: 0;
+
+}
+
+:focus {
+    outline: none !important;
+}
+
+img,
+fieldset {
+    border: 0 none;
+}
+
+a {
+    border: none;
+    outline: none;
+}
+
+input[type="submit"],
+select {
+    -webkit-appearance: none;
+}
+
+img {
+    border: none;
+    height: auto;
+    max-width: 100%;
+    outline: none;
+    vertical-align: middle;
+}
+
+iframe {
+    vertical-align: middle;
+}
+
+a:hover {
+    text-decoration: none;
+    color: red;
+}
+
+.clear {
+    clear: both;
+}
+
+ul::after {
+    clear: both;
+    content: "";
+    display: block;
+}
+
+ul {
+    list-style: none;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    font-size: 16px;
+    line-height: 27px;
+    -webkit-font-smoothing: antialiased;
+    background: #FFFFFF;
+    font-family: "Montserrat", sans-serif;
+}
+
+
+/* media-query */
+
+@media (max-width: 1700px) {
+    
+}
