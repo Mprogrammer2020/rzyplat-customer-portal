@@ -7,7 +7,7 @@ import { exceptionHandling } from '../Common/CommonComponents';
 const Customer = () => {
     // State for customer data
     const [customers, setCustomers] = useState([]);
-    const [filter, setFilter] = useState({page:0,size:10,sortBy:"name",orderBy:"ASC"});
+    const [filter, setFilter] = useState({ page: 0, size: 10, sortBy: "name", orderBy: "ASC" });
 
 
 
@@ -19,13 +19,13 @@ const Customer = () => {
         getCustomers(filter);
     }, []);
 
-// Define function to fetch Customers
+    // Define function to fetch Customers
 
     async function getCustomers(params) {
         try {
             const response = await APIServices.getCustomers(params);
             if (response.status === 200) {
-                console.log("response.data.data",response.data.data);
+                console.log("response.data.data", response.data.data);
                 setCustomers(response.data.data);
             } else {
                 throw new Error('Failed to fetch data');
@@ -39,11 +39,11 @@ const Customer = () => {
     // Function to sort customer data
     const sortCustomers = () => {
         // Implement sorting logic here
-        let filterTemp ={...filter}; 
-        if (filter.sortBy =="name") {
-            filterTemp.sortBy ="email";
-        }else{
-            filterTemp.sortBy ="name";
+        let filterTemp = { ...filter };
+        if (filter.sortBy == "name") {
+            filterTemp.sortBy = "email";
+        } else {
+            filterTemp.sortBy = "name";
         }
         setFilter(filterTemp);
         getCustomers(filterTemp);
@@ -80,16 +80,16 @@ const Customer = () => {
         if (customersRef.current) {
             const { scrollTop, scrollHeight, clientHeight } = customersRef.current;
             if (scrollTop + clientHeight === scrollHeight) {
-//                 let page = nextPage + 1, totalPages = Number(latestTokens.total_pages);
-//                 if (page < totalPages) {
-//                     await getLatestTokens(page, "BOTTOM");
-//                     setNextPage(page)
-// ;
-//                 }
+                //                 let page = nextPage + 1, totalPages = Number(latestTokens.total_pages);
+                //                 if (page < totalPages) {
+                //                     await getLatestTokens(page, "BOTTOM");
+                //                     setNextPage(page)
+                // ;
+                //                 }
             }
         }
     };
-      
+
 
     return (
         <section className='customer-section'>
@@ -123,16 +123,18 @@ const Customer = () => {
             </header>
             {/* header section ends */}
             <div className='customer-outer-section'>
-                <div className='customer-list-header d-flex align-items-center justify-content-between'>
-                    <h5 className='heading-main'>
-                        <img src={require("../assets/images/ci_building-04 (1).svg").default} className="me-2" alt="icons" /> 
-                        Customers <span className='mobile-tab'>List</span> 
-                        <span className='customer-mobile-text'>{customers?.total}</span></h5>
-                    <div className='sort-box d-flex align-items-center'>
-                        <h5 onClick={()=>sortCustomers()}><span className='mobile-tab'>SORT BY </span>
-                        <img src={require("../assets/images/mi_filter-blue.svg").default} className="ms-2" alt="icons" /> 
-                        </h5>
-                        <p className='mobile-tab'>{customers?.total}</p>
+                <div className='customer-list-header-mobile'>
+                    <div className='customer-list-header d-flex align-items-center justify-content-between'>
+                        <h5 className='heading-main'>
+                            <img src={require("../assets/images/ci_building-04 (1).svg").default} className="me-2" alt="icons" />
+                            Customers <span className='mobile-tab'>List</span>
+                            <span className='customer-mobile-text'>{customers?.total}</span></h5>
+                        <div className='sort-box d-flex align-items-center'>
+                            <h5 onClick={() => sortCustomers()}><span className='mobile-tab'>SORT BY </span>
+                                <img src={require("../assets/images/mi_filter-blue.svg").default} className="ms-2" alt="icons" />
+                            </h5>
+                            <p className='mobile-tab'>{customers?.total}</p>
+                        </div>
                     </div>
                 </div>
                 <div className="customer-container-body">
@@ -143,40 +145,42 @@ const Customer = () => {
                                 <th>Role</th>
                                 <th>Joined</th>
                                 <th>Phone</th>
-                                <th>Email</th>
-                                <th>Property</th>
-                                <th>Action</th>
+                                <th className='email-section'>Email</th>
+                                <th className='property-section'>Property</th>
+                                <th className='action-div'>Action</th>
                             </tr>
                         </thead>
                         <tbody>
                             <div ref={customersRef} onScroll={onScroll} className="customer-scroll">
-                            {customers?.list?.map((customer, index) => (
-                                <tr key={index}>
-                                    <td><p className='d-flex align-items-center'><span className='customer-name'>{customer.name.charAt(0).toUpperCase()}</span>{customer.name}</p></td>
-                                    <td><p className='role'>{customer.role}</p></td>
-                                    <td>{createDateFromData(customer.createdDate)}</td>
-                                    <td>{customer.phone}</td>
-                                    <td>{customer.email}</td>
-                                    <td><p className='property'>
-                                    {customer?.property.map((property,innerIndex)=>{
-                                        return(<>
-                                            {innerIndex % 2 ==0 ?
-                                                <><img src={require("../assets/images/ph_door-light.svg").default} className="me-2" alt="icons" /> {property}</>:
-                                                <> | <img src={require("../assets/images/ph_door-light (1).svg").default} className="me-2" alt="icons" /> {property} 
-                                                </>
-                                            }
-                                        </>)
-                                    })}
+                                {customers?.list?.map((customer, index) => (
+                                    <div className='border-radius'>
+                                    <tr key={index}>
+                                        <td><p className='d-flex align-items-center'><span className='customer-name'>{customer.name.charAt(0).toUpperCase()}</span>{customer.name}</p></td>
+                                        <td><p className='role'>{customer.role}</p></td>
+                                        <td>{createDateFromData(customer.createdDate)}</td>
+                                        <td>{customer.phone}</td>
+                                        <td className='email-section'>{customer.email}</td>
+                                        <td className='property-section'><p className='property'>
+                                            {customer?.property.map((property, innerIndex) => {
+                                                return (<>
+                                                    {innerIndex % 2 == 0 ?
+                                                        <><img src={require("../assets/images/ph_door-light.svg").default} className="me-2" alt="icons" /> {property}</> :
+                                                        <><span className='space-maker'>|</span> <img src={require("../assets/images/ph_door-light (1).svg").default} className="me-2" alt="icons" /> {property}
+                                                        </>
+                                                    }
+                                                </>)
+                                            })}
                                         </p>
-                                    </td>
-                                    <td>
-                                        <img src={require("../assets/images/ic_round-delete.svg").default} className="cursor-pointer" alt="icons" onClick={() => handleDelete(customer.id)} />
-                                    </td>
-                                </tr>
-                            ))}
+                                        </td>
+                                        <td className='action-div'>
+                                            <img src={require("../assets/images/ic_round-delete.svg").default} className="cursor-pointer" alt="icons" onClick={() => handleDelete(customer.id)} />
+                                        </td>
+                                    </tr>
+                                    </div>
+                                ))}
                             </div>
                         </tbody>
-                        
+
                     </table>
                 </div>
 
@@ -188,7 +192,7 @@ const Customer = () => {
                         <p className='role'><span><img src={require("../assets/images/call.svg").default} className="cursor-pointer me-2" alt="icons" />Phone</span> <span className='number'>{customer.phone}</span></p>
                         <p className='role'><span><img src={require("../assets/images/email.svg").default} className="cursor-pointer me-2" alt="icons" />Email</span> <span className='number'>{customer.email}</span></p>
                         <p className='role'><span><img src={require("../assets/images/date.svg").default} className="cursor-pointer me-2" alt="icons" />Joined</span> <span className='number'>{createDateFromData(customer.createdDate)}</span></p>
-                        <p className='role'><span><img src={require("../assets/images/building.svg").default} className="cursor-pointer me-2" alt="icons" />Property</span> <span className='number'>{customer?.property.map((property,innerIndex)=>{ return innerIndex ? ` | ${property}` : property })}</span></p>
+                        <p className='role'><span><img src={require("../assets/images/building.svg").default} className="cursor-pointer me-2" alt="icons" />Property</span> <span className='number'>{customer?.property.map((property, innerIndex) => { return innerIndex ? ` | ${property}` : property })}</span></p>
                         <div className='trash-section d-flex justify-content-between mt-2'>
                             <Button className="blue-btn">{customer.role}</Button>
                             <img src={require("../assets/images/ic_round-delete.svg").default} className="cursor-pointer" alt="icons" onClick={() => handleDelete(customer.id)} />

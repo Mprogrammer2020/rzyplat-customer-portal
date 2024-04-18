@@ -80,7 +80,21 @@ article {
 :focus {
     outline: none !important;
 }
+::-webkit-scrollbar {
+	width: 4px;
+	height: 4px;
+}
+    
+::-webkit-scrollbar-track {
+border-radius: 10px;
+background-color: #d3d3d3;
+}
 
+::-webkit-scrollbar-thumb {
+border-radius: 10px;
+background-color: #01337C;
+-webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.5);
+}
 img,
 fieldset {
     border: 0 none;
@@ -179,11 +193,18 @@ header {
     top: 9px;
     right: 40px;
 }
-
-.customer-scroll{
-    overflow: auto;
+.customer-scroll {
+    overflow-y: auto;
+    top: 74px !important;
+    position: relative;
+    max-height: 672px;
+    height: 100%;
+    margin-bottom: 52px;
 }
-
+.border-radius {
+    margin: 0 0 12px 0;
+    border-radius: 10px;
+}
 .filter-icon {
     position: absolute;
     top: 10px;
@@ -210,8 +231,10 @@ header {
     background: #EDF1F7;
     padding: 16px;
     border-radius: 0px 0px 8px 8px;
-    overflow: auto;
     width: 100%;
+    position: relative;
+    overflow-y: hidden;
+    overflow-x: hidden;
 }
 
 .customer-list-header .heading-main {
@@ -246,6 +269,17 @@ header {
 .customer-container-body .table thead {
     background: linear-gradient(231.98deg, #01337C 28.19%, #013A8C 28.2%, #013A8C 96.59%, #00C17B 119.39%);
     padding: 12px !important;
+    position: absolute;
+    width: 98%;
+    border-radius: 12px;
+    top: 10px;
+}
+.customer-container-body .table thead tr, 
+.customer-container-body .table tbody tr {
+    width: 98%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
 }
 
 .customer-container-body .table th {
@@ -257,8 +291,8 @@ header {
     text-align: left;
     color: #fff;
     text-transform: uppercase;
-    padding: 18px;
-    min-width: 262px;
+    padding: 12px;
+    min-width: 261px;
 }
 
 .customer-container-body .table td {
@@ -268,7 +302,7 @@ header {
     text-align: left;
     padding: 12px;
     vertical-align: middle;
-    min-width: 262px;
+    min-width: 261px;
     white-space: nowrap;
 }
 
@@ -291,6 +325,8 @@ header {
     display: inline-block;
     border-bottom: 3px;
     color: #31353B;
+    border-radius: 4px;
+    text-transform: uppercase;
 }
 
 .property {
@@ -327,35 +363,46 @@ input:-webkit-autofill {
 .customer-container-body .table td:last-child{
     border-radius: 0 6px 6px 0  !important;
 }
-.customer-container-body tbody tr {
-    display: block;
-    margin: 10px 0;
-}
-.customer-container-body tr {
-    display: block;
-    margin: 0;
-}
 .customer-mobile-text {
     display: none;
 }
 .mobile-side-customer {
     display: none;
 }
+.space-maker {
+    margin: 0 14px;
+}
 /* media-query */
-@media (max-width: 1600px) {
+@media (max-width: 1700px) {
     .customer-container-body .table td {
-        min-width: 214px;
+        min-width: 235px;
+    }
+    .action-div {
+        min-width: 138px !important;
     }
     .customer-container-body .table th {
-        min-width: 214px;
+        min-width: 234px;
+    }
+    .property-section {
+        min-width: 285px !important;
     }
 }
 @media (max-width: 1600px) {
-    .customer-container-body .table td {
-        min-width: 245px;
+    .customer-container-body .table th, .customer-container-body .table td {
+        min-width: 215px;
     }
-    .customer-container-body .table th {
-        min-width: 245px;
+    .email-section {
+        min-width: 252px !important;
+    }
+}
+@media (max-width: 1500px) {
+    .customer-container-body .table th, .customer-container-body .table td {
+        min-width: 183px;
+    }
+}
+@media (max-width: 1400px) {
+    .customer-container-body .table th, .customer-container-body .table td {
+        min-width: 169px;
     }
 }
 @media (max-width: 1199px) {
@@ -366,6 +413,23 @@ input:-webkit-autofill {
 @media (max-width: 600px) {
     .header-right-box .form-control {
         display: none;
+    }
+    .customer-outer-section {
+        margin-top: 122px;
+    }
+    .customer-list-header-mobile {
+        position: fixed;
+        width: 100%;
+        left: 0;
+        padding: 21px;
+        top: 53px;
+    }
+    header {
+        border-radius: 0 0 12px 12px;
+        position: fixed;
+        width: 100%;
+        z-index: 9;
+        top: 0;
     }
     .mobile-side-customer {
         display: block;
