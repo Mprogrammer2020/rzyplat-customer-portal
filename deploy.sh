@@ -1,0 +1,1 @@
+npm run build && scp -r build/* deploy@138.197.86.118:/var/www/html/rzyplat

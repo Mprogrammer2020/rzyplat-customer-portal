@@ -89,7 +89,10 @@ const Customer = () => {
             }
         }
     };
-
+      
+    function capitalizeFirstLetter(string) {
+        return string.charAt(0).toUpperCase() + string.slice(1);
+      }
 
     return (
         <section className='customer-section'>
@@ -164,8 +167,8 @@ const Customer = () => {
                                             {customer?.property.map((property, innerIndex) => {
                                                 return (<>
                                                     {innerIndex % 2 == 0 ?
-                                                        <><img src={require("../assets/images/ph_door-light.svg").default} className="me-2" alt="icons" /> {property}</> :
-                                                        <><span className='space-maker'>|</span> <img src={require("../assets/images/ph_door-light (1).svg").default} className="me-2" alt="icons" /> {property}
+                                                        <><img src={require("../assets/images/ph_door-light.svg").default} className="me-2" alt="icons" /> {capitalizeFirstLetter(property)}</> :
+                                                        <><span className='space-maker'>|</span> <img src={require("../assets/images/ph_door-light (1).svg").default} className="me-2" alt="icons" /> {capitalizeFirstLetter(property)}
                                                         </>
                                                     }
                                                 </>)
@@ -192,7 +195,7 @@ const Customer = () => {
                         <p className='role'><span><img src={require("../assets/images/call.svg").default} className="cursor-pointer me-2" alt="icons" />Phone</span> <span className='number'>{customer.phone}</span></p>
                         <p className='role'><span><img src={require("../assets/images/email.svg").default} className="cursor-pointer me-2" alt="icons" />Email</span> <span className='number'>{customer.email}</span></p>
                         <p className='role'><span><img src={require("../assets/images/date.svg").default} className="cursor-pointer me-2" alt="icons" />Joined</span> <span className='number'>{createDateFromData(customer.createdDate)}</span></p>
-                        <p className='role'><span><img src={require("../assets/images/building.svg").default} className="cursor-pointer me-2" alt="icons" />Property</span> <span className='number'>{customer?.property.map((property, innerIndex) => { return innerIndex ? ` | ${property}` : property })}</span></p>
+                        <p className='role'><span><img src={require("../assets/images/building.svg").default} className="cursor-pointer me-2" alt="icons" />Property</span> <span className='number'>{customer?.property.map((property, innerIndex) => { return innerIndex ? `, ${capitalizeFirstLetter(property)}` : capitalizeFirstLetter(property) })}</span></p>
                         <div className='trash-section d-flex justify-content-between mt-2'>
                             <Button className="blue-btn">{customer.role}</Button>
                             <img src={require("../assets/images/ic_round-delete.svg").default} className="cursor-pointer" alt="icons" onClick={() => handleDelete(customer.id)} />
