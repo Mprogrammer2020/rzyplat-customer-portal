@@ -143,9 +143,15 @@ const Customer = () => {
                             Customers <span className='mobile-tab'>List</span>
                             <span className='customer-mobile-text'>{customers?.totalRecords}</span></h5>
                         <div className='sort-box d-flex align-items-center'>
-                            <h5 onClick={() => sortCustomers()}><span className='mobile-tab'>SORT BY </span>
-                                <img src={require("../assets/images/mi_filter-blue.svg").default} className="ms-2" alt="icons" />
-                            </h5>
+                            <Form.Select aria-label="Default select example" className='mobile-tab'>
+                                <option>SORT BY</option>
+                                <option value="1">Assending</option>
+                                <option value="2">Desending</option>
+                            </Form.Select>
+                            <img src={require("../assets/images/mi_filter-blue.svg").default} className="ms-2" alt="icons" />
+                            {/* <h5 onClick={() => sortCustomers()}><span > </span>
+                                
+                            </h5> */}
                             <p className='mobile-tab'>{customers?.totalRecords}</p>
                         </div>
                     </div>
@@ -163,8 +169,8 @@ const Customer = () => {
                                 <th className='action-div'>Action</th>
                             </tr>
                         </thead>
-                        <tbody>
-                            <div ref={customersRef} onScroll={onScroll} className="customer-scroll">
+                        <tbody  ref={customersRef} onScroll={onScroll} className="customer-scroll">
+                            {/* <div ref={customersRef} onScroll={onScroll} className="customer-scroll"> */}
                                 {customers.length <= 0 ? <div className='border-radius'>
                                     <tr>
                                         <td><Skeleton className="main-wallet-top mb-2" height={30} width={150} count={10} /></td>
@@ -177,7 +183,6 @@ const Customer = () => {
 
                                     </tr>
                                 </div> : customers?.list?.map((customer, index) => (
-                                    <div className='border-radius'>
                                         <tr key={index}>
                                             <td><p className='d-flex align-items-center'><span className='customer-name'>{customer.name.charAt(0).toUpperCase()}</span>{customer.name}</p></td>
                                             <td><p className='role'>{customer.role}</p></td>
@@ -200,9 +205,9 @@ const Customer = () => {
                                                 <img src={require("../assets/images/ic_round-delete.svg").default} className="cursor-pointer" alt="icons" onClick={() => handleDelete(customer.id)} />
                                             </td>
                                         </tr>
-                                    </div>
+                                    
                                 ))}
-                            </div>
+                            {/* </div> */}
                         </tbody>
 
                     </table>

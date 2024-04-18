@@ -180,7 +180,9 @@ header {
     top: 8px;
     left: 8px;
 }
-
+.customer-scroll.mobile {
+    display: none;
+}
 .cutomer-text {
     font-size: 12px;
     font-weight: 500;
@@ -193,13 +195,30 @@ header {
     top: 9px;
     right: 40px;
 }
-.customer-scroll {
-    overflow-y: auto;
-    top: 74px !important;
+.sort-box img {
+    position: absolute;
+    right: 47px;
+    background: #C0D9FF;
+    pointer-events: none;
+}   
+.form-select {
+    background: #C0D9FF;
+    border: none;
+    color: #01337C;
+    font-weight: 600;
+    margin-right: 12px;
+}
+.sort-box {
     position: relative;
-    max-height: 672px;
+}
+.customer-scroll {
+    overflow-y: scroll;
+    top: 10px !important;
+    position: relative;
+    max-height: 642px;
     height: 100%;
     margin-bottom: 52px;
+    display: block;
 }
 .border-radius {
     margin: 0 0 12px 0;
@@ -233,8 +252,7 @@ header {
     border-radius: 0px 0px 8px 8px;
     width: 100%;
     position: relative;
-    overflow-y: hidden;
-    overflow-x: hidden;
+    overflow: auto;
 }
 
 .customer-list-header .heading-main {
@@ -266,20 +284,22 @@ header {
     text-align: left;
 }
 
-.customer-container-body .table thead {
+
+.customer-container-body .table thead tr {
     background: linear-gradient(231.98deg, #01337C 28.19%, #013A8C 28.2%, #013A8C 96.59%, #00C17B 119.39%);
-    padding: 12px !important;
-    position: absolute;
-    width: 98%;
-    border-radius: 12px;
-    top: 10px;
-}
-.customer-container-body .table thead tr, 
-.customer-container-body .table tbody tr {
-    width: 98%;
+    /* border-radius: 9px; */
+    /* padding: 12px; */
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    width: 100%;
+    padding: 10px;
+    border-radius: 9px;
+}
+.customer-container-body .table tbody tr {
+    width: 100%;
+    display: flex;
+    align-items: stretch;
+    margin-bottom: 11px;
 }
 
 .customer-container-body .table th {
@@ -292,7 +312,8 @@ header {
     color: #fff;
     text-transform: uppercase;
     padding: 12px;
-    min-width: 261px;
+    /* min-width: 261px; */
+    width: inherit;
 }
 
 .customer-container-body .table td {
@@ -302,8 +323,9 @@ header {
     text-align: left;
     padding: 12px;
     vertical-align: middle;
-    min-width: 261px;
+    /* min-width: 261px; */
     white-space: nowrap;
+    width: inherit;
 }
 
 .customer-name {
@@ -374,7 +396,10 @@ input:-webkit-autofill {
 }
 /* media-query */
 @media (max-width: 1700px) {
-    .customer-container-body .table td {
+    .property-section {
+        min-width: 292px;
+    }
+    /* .customer-container-body .table td {
         min-width: 235px;
     }
     .action-div {
@@ -385,25 +410,36 @@ input:-webkit-autofill {
     }
     .property-section {
         min-width: 285px !important;
-    }
+    } */
 }
 @media (max-width: 1600px) {
-    .customer-container-body .table th, .customer-container-body .table td {
+    /* .customer-container-body .table th, .customer-container-body .table td {
         min-width: 215px;
-    }
-    .email-section {
+    } */
+    /* .email-section {
         min-width: 252px !important;
-    }
+    } */
 }
 @media (max-width: 1500px) {
-    .customer-container-body .table th, .customer-container-body .table td {
+    /* .customer-container-body .table th, .customer-container-body .table td {
         min-width: 183px;
-    }
+    } */
 }
 @media (max-width: 1400px) {
-    .customer-container-body .table th, .customer-container-body .table td {
+    /* .customer-container-body .table th, .customer-container-body .table td {
         min-width: 169px;
+    } */
+}
+@media (max-width: 1376px) {
+    .customer-container-body {
+        overflow-x: auto;
     }
+    .customer-container-body .table thead {
+        width: 100%;
+    }
+    /* .customer-container-body .table th, .customer-container-body .table td, .property-section, .action-div, .email-section {
+        min-width: unset;
+    } */
 }
 @media (max-width: 1199px) {
     .position-relative.w-50 {
@@ -413,6 +449,9 @@ input:-webkit-autofill {
 @media (max-width: 600px) {
     .header-right-box .form-control {
         display: none;
+    }
+    .customer-scroll.mobile {
+        display: block;
     }
     .customer-scroll.mobile {
         top: 7px !important;
