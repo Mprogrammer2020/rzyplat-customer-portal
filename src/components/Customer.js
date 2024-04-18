@@ -3,6 +3,7 @@ import { Button, Col, Form, Row } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { APIServices } from '../services/APIServices';
 import { exceptionHandling } from '../Common/CommonComponents';
+import Skeleton from 'react-loading-skeleton';
 
 const Customer = () => {
     // State for customer data
@@ -27,9 +28,9 @@ const Customer = () => {
             if (response.status === 200) {
                 let responseData = response.data.data;
                 console.log("response.data.data", response.data.data);
-                let tempList = customers?.list ? [...customers.list]:[];
+                let tempList = customers?.list ? [...customers.list] : [];
                 tempList.push(...responseData.list);
-                responseData.list =tempList;
+                responseData.list = tempList;
                 setCustomers(responseData);
             } else {
                 throw new Error('Failed to fetch data');
@@ -58,9 +59,13 @@ const Customer = () => {
     const handleDelete = async (customerId) => {
         // Implement delete action logic here
         try {
+            setCustomers(prevCustomers => ({
+                ...prevCustomers,
+                list: prevCustomers.list.filter(customer => customer.id !== customerId)
+            }));
             const response = await APIServices.deleteCustomer(customerId);
             if (response.status === 200) {
-                getCustomers(filter);
+
             } else {
                 throw new Error('Failed to fetch data');
             }
@@ -160,7 +165,18 @@ const Customer = () => {
                         </thead>
                         <tbody>
                             <div ref={customersRef} onScroll={onScroll} className="customer-scroll">
-                                {customers?.list?.map((customer, index) => (
+                                {customers.length <= 0 ? <div className='border-radius'>
+                                    <tr>
+                                        <td><Skeleton className="main-wallet-top mb-2" height={30} width={150} count={10} /></td>
+                                        <td><Skeleton className="main-wallet-top mb-2" height={30} width={150} count={10} /></td>
+                                        <td><Skeleton className="main-wallet-top mb-2" height={30} width={150} count={10} /></td>
+                                        <td><Skeleton className="main-wallet-top mb-2" height={30} width={150} count={10} /></td>
+                                        <td><Skeleton className="main-wallet-top mb-2" height={30} width={150} count={10} /></td>
+                                        <td><Skeleton className="main-wallet-top mb-2" height={30} width={150} count={10} /></td>
+                                        <td><Skeleton className="main-wallet-top mb-2" height={30} width={150} count={10} /></td>
+
+                                    </tr>
+                                </div> : customers?.list?.map((customer, index) => (
                                     <div className='border-radius'>
                                         <tr key={index}>
                                             <td><p className='d-flex align-items-center'><span className='customer-name'>{customer.name.charAt(0).toUpperCase()}</span>{customer.name}</p></td>
@@ -194,20 +210,38 @@ const Customer = () => {
 
                 {/* mobile side cards */}
                 <div ref={customersRef} onScroll={onScroll} className="customer-scroll mobile">
-                {customers?.list?.map((customer, index) => (
-                    <div className='mobile-side-customer'>
-                        <p className='d-flex align-items-center'><span className='customer-name'>{customer.name.charAt(0).toUpperCase()}</span>{customer.name}</p>
-                        <hr></hr>
-                        <p className='role'><span><img src={require("../assets/images/call.svg").default} className="cursor-pointer me-2" alt="icons" />Phone</span> <span className='number'>{customer.phone}</span></p>
-                        <p className='role'><span><img src={require("../assets/images/email.svg").default} className="cursor-pointer me-2" alt="icons" />Email</span> <span className='number'>{customer.email}</span></p>
-                        <p className='role'><span><img src={require("../assets/images/date.svg").default} className="cursor-pointer me-2" alt="icons" />Joined</span> <span className='number'>{createDateFromData(customer.createdDate)}</span></p>
-                        <p className='role'><span><img src={require("../assets/images/building.svg").default} className="cursor-pointer me-2" alt="icons" />Property</span> <span className='number'>{customer?.property.map((property, innerIndex) => { return innerIndex ? `, ${capitalizeFirstLetter(property)}` : capitalizeFirstLetter(property) })}</span></p>
-                        <div className='trash-section d-flex justify-content-between mt-2'>
-                            <Button className="blue-btn">{customer.role}</Button>
-                            <img src={require("../assets/images/ic_round-delete.svg").default} className="cursor-pointer" alt="icons" onClick={() => handleDelete(customer.id)} />
-                        </div>
-                    </div>
-                ))}
+                    {customers.length <= 0 ?
+                        <>{
+                            Array.from({ length: 5 }).map(() => (<div className='mobile-side-customer'>
+
+                                <p className='d-flex align-items-center'><span className='customer-name'><Skeleton className="main-wallet-top mb-2" height={30} width={10} /></span><Skeleton className="main-wallet-top mb-2" height={30} width={200} /></p>
+                                <hr></hr>
+                                <p className='role'><span><img src={require("../assets/images/call.svg").default} className="cursor-pointer me-2" alt="icons" />Phone</span> <span className='number'><Skeleton className="main-wallet-top mb-2" height={30} width={150} /></span></p>
+                                <p className='role'><span><img src={require("../assets/images/email.svg").default} className="cursor-pointer me-2" alt="icons" />Email</span> <span className='number'><Skeleton className="main-wallet-top mb-2" height={30} width={150} /></span></p>
+                                <p className='role'><span><img src={require("../assets/images/date.svg").default} className="cursor-pointer me-2" alt="icons" />Joined</span> <span className='number'><Skeleton className="main-wallet-top mb-2" height={30} width={150} /></span></p>
+                                <p className='role'><span><img src={require("../assets/images/building.svg").default} className="cursor-pointer me-2" alt="icons" />Property</span> <span className='number'><Skeleton className="main-wallet-top mb-2" height={30} width={150} /></span></p>
+                                <div className='trash-section d-flex justify-content-between mt-2'>
+                                    <Skeleton className="main-wallet-top mb-2" height={30} width={150} />
+                                    <img src={require("../assets/images/ic_round-delete.svg").default} className="cursor-pointer" alt="icons" />
+                                </div>
+
+                            </div>))
+                        }</>
+                        :
+                        customers?.list?.map((customer, index) => (
+                            <div className='mobile-side-customer'>
+                                <p className='d-flex align-items-center'><span className='customer-name'>{customer.name.charAt(0).toUpperCase()}</span>{customer.name}</p>
+                                <hr></hr>
+                                <p className='role'><span><img src={require("../assets/images/call.svg").default} className="cursor-pointer me-2" alt="icons" />Phone</span> <span className='number'>{customer.phone}</span></p>
+                                <p className='role'><span><img src={require("../assets/images/email.svg").default} className="cursor-pointer me-2" alt="icons" />Email</span> <span className='number'>{customer.email}</span></p>
+                                <p className='role'><span><img src={require("../assets/images/date.svg").default} className="cursor-pointer me-2" alt="icons" />Joined</span> <span className='number'>{createDateFromData(customer.createdDate)}</span></p>
+                                <p className='role'><span><img src={require("../assets/images/building.svg").default} className="cursor-pointer me-2" alt="icons" />Property</span> <span className='number'>{customer?.property.map((property, innerIndex) => { return innerIndex ? `, ${capitalizeFirstLetter(property)}` : capitalizeFirstLetter(property) })}</span></p>
+                                <div className='trash-section d-flex justify-content-between mt-2'>
+                                    <Button className="blue-btn">{customer.role}</Button>
+                                    <img src={require("../assets/images/ic_round-delete.svg").default} className="cursor-pointer" alt="icons" onClick={() => handleDelete(customer.id)} />
+                                </div>
+                            </div>
+                        ))}
                 </div>
             </div>
         </section>
