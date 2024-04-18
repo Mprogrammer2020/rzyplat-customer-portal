@@ -8,8 +8,9 @@ import Skeleton from 'react-loading-skeleton';
 const Customer = () => {
     // State for customer data
     const [customers, setCustomers] = useState([]);
-    const [filter, setFilter] = useState({ page: 0, size: 10, sortBy: "name", orderBy: "ASC" });
-
+    const [filter, setFilter] = useState({ page: 0, size: 10, sortBy: "joined", orderBy: "ASC" });
+    const customersRef = useRef();
+    const loadingResponse = useRef(false);
 
 
 
@@ -27,29 +28,34 @@ const Customer = () => {
             const response = await APIServices.getCustomers(params);
             if (response.status === 200) {
                 let responseData = response.data.data;
-                console.log("response.data.data", response.data.data);
-                let tempList = customers?.list ? [...customers.list] : [];
+                let tempList;
+                if (params.page ==0) {
+                    tempList=[];
+                }else{
+                    tempList=[...customers.list];
+                }
                 tempList.push(...responseData.list);
                 responseData.list = tempList;
                 setCustomers(responseData);
+                loadingResponse.current = false;
+
             } else {
                 throw new Error('Failed to fetch data');
             }
         } catch (error) {
+            loadingResponse.current = false;
             exceptionHandling(error);
             console.error('Error fetching data:', error);
         }
     }
 
     // Function to sort customer data
-    const sortCustomers = () => {
-        // Implement sorting logic here
-        let filterTemp = { ...filter };
-        if (filter.sortBy == "name") {
-            filterTemp.sortBy = "email";
-        } else {
-            filterTemp.sortBy = "name";
-        }
+    const sortCustomers = (sortOrder) => {
+        let filterTemp = { ...filter };        
+        const parts = sortOrder.split(" ");
+        filterTemp.sortBy = parts[0].toLowerCase();
+        filterTemp.orderBy = parts[1];
+        filterTemp.page = 0;
         setFilter(filterTemp);
         getCustomers(filterTemp);
 
@@ -83,7 +89,8 @@ const Customer = () => {
         return formattedDate;
     }
 
-    const customersRef = useRef()
+
+
 
     const onScroll = async () => {
         if (customersRef.current) {
@@ -92,7 +99,8 @@ const Customer = () => {
                 const totalPages = Math.ceil(customers?.totalRecords / filter.size);
                 let filterTemp = { ...filter };
                 filterTemp.page = filterTemp.page + 1
-                if (filterTemp.page < totalPages) {
+                if (filterTemp.page < totalPages && !loadingResponse.current) {
+                    loadingResponse.current = true;
                     setFilter(filterTemp);
                     getCustomers(filterTemp);
                 }
@@ -103,6 +111,8 @@ const Customer = () => {
     function capitalizeFirstLetter(string) {
         return string.charAt(0).toUpperCase() + string.slice(1);
     }
+    const sortByOption = ["Name ASC", "Role ASC", "Joined ASC", "Phone ASC", "Email ASC",
+        "Name DESC", "Role DESC", "Joined DESC", "Phone DESC", "Email DESC",]
 
     return (
         <section className='customer-section'>
@@ -143,10 +153,10 @@ const Customer = () => {
                             Customers <span className='mobile-tab'>List</span>
                             <span className='customer-mobile-text'>{customers?.totalRecords}</span></h5>
                         <div className='sort-box d-flex align-items-center'>
-                            <Form.Select aria-label="Default select example" className='mobile-tab'>
-                                <option>SORT BY</option>
-                                <option value="1">Assending</option>
-                                <option value="2">Desending</option>
+                            <Form.Select aria-label="Default select example" className='mobile-tab' value={`${capitalizeFirstLetter(filter.sortBy)} ${filter.orderBy}`} onChange={(e) => sortCustomers(e.target.value)}>
+                                {sortByOption.map((option, index) => {
+                                    return (<option value={option}>{option.replace("ASC", "Assending").replace("DESC", "Desending")}</option>)
+                                })}
                             </Form.Select>
                             <img src={require("../assets/images/mi_filter-blue.svg").default} className="ms-2" alt="icons" />
                             {/* <h5 onClick={() => sortCustomers()}><span > </span>
@@ -169,44 +179,44 @@ const Customer = () => {
                                 <th className='action-div'>Action</th>
                             </tr>
                         </thead>
-                        <tbody  ref={customersRef} onScroll={onScroll} className="customer-scroll">
+                        <tbody ref={customersRef} onScroll={onScroll} className="customer-scroll">
                             {/* <div ref={customersRef} onScroll={onScroll} className="customer-scroll"> */}
-                                {customers.length <= 0 ? <div className='border-radius'>
-                                    <tr>
-                                        <td><Skeleton className="main-wallet-top mb-2" height={30} width={150} count={10} /></td>
-                                        <td><Skeleton className="main-wallet-top mb-2" height={30} width={150} count={10} /></td>
-                                        <td><Skeleton className="main-wallet-top mb-2" height={30} width={150} count={10} /></td>
-                                        <td><Skeleton className="main-wallet-top mb-2" height={30} width={150} count={10} /></td>
-                                        <td><Skeleton className="main-wallet-top mb-2" height={30} width={150} count={10} /></td>
-                                        <td><Skeleton className="main-wallet-top mb-2" height={30} width={150} count={10} /></td>
-                                        <td><Skeleton className="main-wallet-top mb-2" height={30} width={150} count={10} /></td>
+                            {customers.length <= 0 ? <div className='border-radius'>
+                                <tr>
+                                    <td><Skeleton className="main-wallet-top mb-2" height={30} width={150} count={10} /></td>
+                                    <td><Skeleton className="main-wallet-top mb-2" height={30} width={150} count={10} /></td>
+                                    <td><Skeleton className="main-wallet-top mb-2" height={30} width={150} count={10} /></td>
+                                    <td><Skeleton className="main-wallet-top mb-2" height={30} width={150} count={10} /></td>
+                                    <td><Skeleton className="main-wallet-top mb-2" height={30} width={150} count={10} /></td>
+                                    <td><Skeleton className="main-wallet-top mb-2" height={30} width={150} count={10} /></td>
+                                    <td><Skeleton className="main-wallet-top mb-2" height={30} width={150} count={10} /></td>
 
-                                    </tr>
-                                </div> : customers?.list?.map((customer, index) => (
-                                        <tr key={index}>
-                                            <td><p className='d-flex align-items-center'><span className='customer-name'>{customer.name.charAt(0).toUpperCase()}</span>{customer.name}</p></td>
-                                            <td><p className='role'>{customer.role}</p></td>
-                                            <td>{createDateFromData(customer.createdDate)}</td>
-                                            <td>{customer.phone}</td>
-                                            <td className='email-section'>{customer.email}</td>
-                                            <td className='property-section'><p className='property'>
-                                                {customer?.property.map((property, innerIndex) => {
-                                                    return (<>
-                                                        {innerIndex % 2 == 0 ?
-                                                            <><img src={require("../assets/images/ph_door-light.svg").default} className="me-2" alt="icons" /> {capitalizeFirstLetter(property)}</> :
-                                                            <><span className='space-maker'>|</span> <img src={require("../assets/images/ph_door-light (1).svg").default} className="me-2" alt="icons" /> {capitalizeFirstLetter(property)}
-                                                            </>
-                                                        }
-                                                    </>)
-                                                })}
-                                            </p>
-                                            </td>
-                                            <td className='action-div'>
-                                                <img src={require("../assets/images/ic_round-delete.svg").default} className="cursor-pointer" alt="icons" onClick={() => handleDelete(customer.id)} />
-                                            </td>
-                                        </tr>
-                                    
-                                ))}
+                                </tr>
+                            </div> : customers?.list?.map((customer, index) => (
+                                <tr key={index}>
+                                    <td><p className='d-flex align-items-center'><span className='customer-name'>{customer.name.charAt(0).toUpperCase()}</span>{customer.name}</p></td>
+                                    <td><p className='role'>{customer.role}</p></td>
+                                    <td>{createDateFromData(customer.createdDate)}</td>
+                                    <td>{customer.phone}</td>
+                                    <td className='email-section'>{customer.email}</td>
+                                    <td className='property-section'><p className='property'>
+                                        {customer?.property.map((property, innerIndex) => {
+                                            return (<>
+                                                {innerIndex % 2 == 0 ?
+                                                    <><img src={require("../assets/images/ph_door-light.svg").default} className="me-2" alt="icons" /> {capitalizeFirstLetter(property)}</> :
+                                                    <><span className='space-maker'>|</span> <img src={require("../assets/images/ph_door-light (1).svg").default} className="me-2" alt="icons" /> {capitalizeFirstLetter(property)}
+                                                    </>
+                                                }
+                                            </>)
+                                        })}
+                                    </p>
+                                    </td>
+                                    <td className='action-div'>
+                                        <img src={require("../assets/images/ic_round-delete.svg").default} className="cursor-pointer" alt="icons" onClick={() => handleDelete(customer.id)} />
+                                    </td>
+                                </tr>
+
+                            ))}
                             {/* </div> */}
                         </tbody>
 
