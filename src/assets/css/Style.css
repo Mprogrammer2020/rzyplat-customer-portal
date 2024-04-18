@@ -414,6 +414,9 @@ input:-webkit-autofill {
     .header-right-box .form-control {
         display: none;
     }
+    .customer-scroll.mobile {
+        top: 7px !important;
+    }
     .customer-outer-section {
         margin-top: 122px;
     }
@@ -452,7 +455,7 @@ input:-webkit-autofill {
         background: #fff;
         padding: 12px;
         border-radius: 6px;
-        margin: 12px 0;
+        margin: 0 0 12px 0;
     }
     .mobile-side-customer .role {
         display: flex;

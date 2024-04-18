@@ -25,8 +25,12 @@ const Customer = () => {
         try {
             const response = await APIServices.getCustomers(params);
             if (response.status === 200) {
+                let responseData = response.data.data;
                 console.log("response.data.data", response.data.data);
-                setCustomers(response.data.data);
+                let tempList = customers?.list ? [...customers.list]:[];
+                tempList.push(...responseData.list);
+                responseData.list =tempList;
+                setCustomers(responseData);
             } else {
                 throw new Error('Failed to fetch data');
             }
@@ -80,19 +84,20 @@ const Customer = () => {
         if (customersRef.current) {
             const { scrollTop, scrollHeight, clientHeight } = customersRef.current;
             if (scrollTop + clientHeight === scrollHeight) {
-                //                 let page = nextPage + 1, totalPages = Number(latestTokens.total_pages);
-                //                 if (page < totalPages) {
-                //                     await getLatestTokens(page, "BOTTOM");
-                //                     setNextPage(page)
-                // ;
-                //                 }
+                const totalPages = Math.ceil(customers?.totalRecords / filter.size);
+                let filterTemp = { ...filter };
+                filterTemp.page = filterTemp.page + 1
+                if (filterTemp.page < totalPages) {
+                    setFilter(filterTemp);
+                    getCustomers(filterTemp);
+                }
             }
         }
     };
-      
+
     function capitalizeFirstLetter(string) {
         return string.charAt(0).toUpperCase() + string.slice(1);
-      }
+    }
 
     return (
         <section className='customer-section'>
@@ -125,18 +130,18 @@ const Customer = () => {
                 </Row>
             </header>
             {/* header section ends */}
-            <div className='customer-outer-section'>
+            <div className='customer-outer-section' >
                 <div className='customer-list-header-mobile'>
                     <div className='customer-list-header d-flex align-items-center justify-content-between'>
                         <h5 className='heading-main'>
                             <img src={require("../assets/images/ci_building-04 (1).svg").default} className="me-2" alt="icons" />
                             Customers <span className='mobile-tab'>List</span>
-                            <span className='customer-mobile-text'>{customers?.total}</span></h5>
+                            <span className='customer-mobile-text'>{customers?.totalRecords}</span></h5>
                         <div className='sort-box d-flex align-items-center'>
                             <h5 onClick={() => sortCustomers()}><span className='mobile-tab'>SORT BY </span>
                                 <img src={require("../assets/images/mi_filter-blue.svg").default} className="ms-2" alt="icons" />
                             </h5>
-                            <p className='mobile-tab'>{customers?.total}</p>
+                            <p className='mobile-tab'>{customers?.totalRecords}</p>
                         </div>
                     </div>
                 </div>
@@ -157,28 +162,28 @@ const Customer = () => {
                             <div ref={customersRef} onScroll={onScroll} className="customer-scroll">
                                 {customers?.list?.map((customer, index) => (
                                     <div className='border-radius'>
-                                    <tr key={index}>
-                                        <td><p className='d-flex align-items-center'><span className='customer-name'>{customer.name.charAt(0).toUpperCase()}</span>{customer.name}</p></td>
-                                        <td><p className='role'>{customer.role}</p></td>
-                                        <td>{createDateFromData(customer.createdDate)}</td>
-                                        <td>{customer.phone}</td>
-                                        <td className='email-section'>{customer.email}</td>
-                                        <td className='property-section'><p className='property'>
-                                            {customer?.property.map((property, innerIndex) => {
-                                                return (<>
-                                                    {innerIndex % 2 == 0 ?
-                                                        <><img src={require("../assets/images/ph_door-light.svg").default} className="me-2" alt="icons" /> {capitalizeFirstLetter(property)}</> :
-                                                        <><span className='space-maker'>|</span> <img src={require("../assets/images/ph_door-light (1).svg").default} className="me-2" alt="icons" /> {capitalizeFirstLetter(property)}
-                                                        </>
-                                                    }
-                                                </>)
-                                            })}
-                                        </p>
-                                        </td>
-                                        <td className='action-div'>
-                                            <img src={require("../assets/images/ic_round-delete.svg").default} className="cursor-pointer" alt="icons" onClick={() => handleDelete(customer.id)} />
-                                        </td>
-                                    </tr>
+                                        <tr key={index}>
+                                            <td><p className='d-flex align-items-center'><span className='customer-name'>{customer.name.charAt(0).toUpperCase()}</span>{customer.name}</p></td>
+                                            <td><p className='role'>{customer.role}</p></td>
+                                            <td>{createDateFromData(customer.createdDate)}</td>
+                                            <td>{customer.phone}</td>
+                                            <td className='email-section'>{customer.email}</td>
+                                            <td className='property-section'><p className='property'>
+                                                {customer?.property.map((property, innerIndex) => {
+                                                    return (<>
+                                                        {innerIndex % 2 == 0 ?
+                                                            <><img src={require("../assets/images/ph_door-light.svg").default} className="me-2" alt="icons" /> {capitalizeFirstLetter(property)}</> :
+                                                            <><span className='space-maker'>|</span> <img src={require("../assets/images/ph_door-light (1).svg").default} className="me-2" alt="icons" /> {capitalizeFirstLetter(property)}
+                                                            </>
+                                                        }
+                                                    </>)
+                                                })}
+                                            </p>
+                                            </td>
+                                            <td className='action-div'>
+                                                <img src={require("../assets/images/ic_round-delete.svg").default} className="cursor-pointer" alt="icons" onClick={() => handleDelete(customer.id)} />
+                                            </td>
+                                        </tr>
                                     </div>
                                 ))}
                             </div>
@@ -188,6 +193,7 @@ const Customer = () => {
                 </div>
 
                 {/* mobile side cards */}
+                <div ref={customersRef} onScroll={onScroll} className="customer-scroll mobile">
                 {customers?.list?.map((customer, index) => (
                     <div className='mobile-side-customer'>
                         <p className='d-flex align-items-center'><span className='customer-name'>{customer.name.charAt(0).toUpperCase()}</span>{customer.name}</p>
@@ -202,6 +208,7 @@ const Customer = () => {
                         </div>
                     </div>
                 ))}
+                </div>
             </div>
         </section>
     );
