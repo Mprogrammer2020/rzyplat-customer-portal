@@ -1,49 +1,35 @@
 import React, { useEffect, useState } from 'react';
 import { Button, Col, Form, Row } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
-const staticCustomers = [
-    {
-        id: 1,
-        name: 'John Doe',
-        role: 'Owner',
-        joined: '02-04-2024',
-        phone: '1234567890',
-        email: 'john@example.com',
-        property: 'BELDON'
-    },
-    {
-        id: 2,
-        name: 'Jane Smith',
-        role: 'Owner',
-        joined: '02-04-2024',
-        phone: '9876543210',
-        email: 'jane@example.com',
-        property: 'BELDON'
-    },
-    // Add more static customer data as needed
-];
+import { APIServices } from '../services/APIServices';
+import { exceptionHandling } from '../Common/CommonComponents';
+
 const Customer = () => {
     // State for customer data
     const [customers, setCustomers] = useState([]);
 
     // Fetch customer data from API
     useEffect(() => {
-        // Define function to fetch data
-        const fetchData = async () => {
-            try {
-                // Fetch data from API
-                // const response = await fetch('https://api.example.com/customers');
-                // const data = await response.json();
-                // Update state with fetched data
-                setCustomers(staticCustomers);
-            } catch (error) {
-                console.error('Error fetching customer data:', error);
-            }
-        };
 
-        // Call fetchData function
-        fetchData();
-    }, []); // Run only once on component mount
+        // Call getCustomers function
+        getCustomers();
+    }, []);
+
+// Define function to fetch Customers
+
+    async function getCustomers(page) {
+        try {
+            const response = await APIServices.getCustomers(page);
+            if (response.status === 200) {
+                setCustomers(response.data);
+            } else {
+                throw new Error('Failed to fetch data');
+            }
+        } catch (error) {
+            exceptionHandling(error);
+            console.error('Error fetching data:', error);
+        }
+    }
 
     // Function to sort customer data
     const sortCustomers = (key) => {
