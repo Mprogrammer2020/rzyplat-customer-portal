@@ -8,7 +8,7 @@ import Skeleton from 'react-loading-skeleton';
 const Customer = () => {
     // State for customer data
     const [customers, setCustomers] = useState([]);
-    const [filter, setFilter] = useState({ page: 0, size: 10, sortBy: "joined", orderBy: "ASC" });
+    const [filter, setFilter] = useState({ page: 0, size: 10, sortBy: "", orderBy: "" });
     const customersRef = useRef();
     const loadingResponse = useRef(false);
 
@@ -67,6 +67,7 @@ const Customer = () => {
         try {
             setCustomers(prevCustomers => ({
                 ...prevCustomers,
+                totalRecords:Number(prevCustomers.totalRecords) -1,
                 list: prevCustomers.list.filter(customer => customer.id !== customerId)
             }));
             const response = await APIServices.deleteCustomer(customerId);
@@ -153,7 +154,8 @@ const Customer = () => {
                             Customers <span className='mobile-tab'>List</span>
                             <span className='customer-mobile-text'>{customers?.totalRecords}</span></h5>
                         <div className='sort-box d-flex align-items-center'>
-                            <Form.Select aria-label="Default select example" className='mobile-tab' value={`${capitalizeFirstLetter(filter.sortBy)} ${filter.orderBy}`} onChange={(e) => sortCustomers(e.target.value)}>
+                            <Form.Select aria-label="Default select example" className='mobile-tab inner-mobile-tab cursor-pointer' value={`${capitalizeFirstLetter(filter.sortBy)} ${filter.orderBy}`} onChange={(e) => sortCustomers(e.target.value)}>
+                                <option value={" "}>SORT BY</option>
                                 {sortByOption.map((option, index) => {
                                     return (<option value={option}>{option.replace("ASC", "Assending").replace("DESC", "Desending")}</option>)
                                 })}
@@ -183,13 +185,13 @@ const Customer = () => {
                             {/* <div ref={customersRef} onScroll={onScroll} className="customer-scroll"> */}
                             {customers.length <= 0 ? <div className='border-radius'>
                                 <tr>
-                                    <td><Skeleton className="main-wallet-top mb-2" height={30} width={150} count={10} /></td>
-                                    <td><Skeleton className="main-wallet-top mb-2" height={30} width={150} count={10} /></td>
-                                    <td><Skeleton className="main-wallet-top mb-2" height={30} width={150} count={10} /></td>
-                                    <td><Skeleton className="main-wallet-top mb-2" height={30} width={150} count={10} /></td>
-                                    <td><Skeleton className="main-wallet-top mb-2" height={30} width={150} count={10} /></td>
-                                    <td><Skeleton className="main-wallet-top mb-2" height={30} width={150} count={10} /></td>
-                                    <td><Skeleton className="main-wallet-top mb-2" height={30} width={150} count={10} /></td>
+                                    <td><Skeleton className="main-wallet-top mb-2" height={30} width={150} count={20} /></td>
+                                    <td><Skeleton className="main-wallet-top mb-2" height={30} width={150} count={20} /></td>
+                                    <td><Skeleton className="main-wallet-top mb-2" height={30} width={150} count={20} /></td>
+                                    <td><Skeleton className="main-wallet-top mb-2" height={30} width={150} count={20} /></td>
+                                    <td><Skeleton className="main-wallet-top mb-2" height={30} width={150} count={20} /></td>
+                                    <td><Skeleton className="main-wallet-top mb-2" height={30} width={150} count={20} /></td>
+                                    <td><Skeleton className="main-wallet-top mb-2" height={30} width={150} count={20} /></td>
 
                                 </tr>
                             </div> : customers?.list?.map((customer, index) => (
