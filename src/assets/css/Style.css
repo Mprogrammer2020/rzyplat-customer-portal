@@ -180,6 +180,10 @@ header {
     right: 40px;
 }
 
+.customer-scroll{
+    overflow: auto;
+}
+
 .filter-icon {
     position: absolute;
     top: 10px;

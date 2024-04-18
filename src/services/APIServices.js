@@ -19,13 +19,14 @@ const configJsonHeaders = () => {
 // }
 export const APIServices = {
     getCustomers,
+    deleteCustomer
 }
 
 
-function getCustomers() {
-    return axios.get(`${config.apiUrl}/user/filter`,configJsonHeaders());
+function getCustomers(params) {
+    return axios.post(`${config.apiUrl}/user/filter`,params,configJsonHeaders());
 }
 
-// function updateUser(params) {
-//     return axios.put(`${config.apiUrl}/admin/update-user`,params,configJsonHeaders());
-// }
+function deleteCustomer(customerId) {
+    return axios.delete(`${config.apiUrl}/user/${customerId}`,configJsonHeaders());
+}
