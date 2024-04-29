@@ -43,13 +43,13 @@ const Inventory = () => {
                 <div className='customer-outer-section' >
                     <div className='new-conversation'>
                         <Row>
-                            <Col md={6}>
+                            <Col md={12} lg={6}>
                                 <div className='new-convversation-left'>
                                     <Button type='button' variant='unset'>New Conversation</Button>
                                     <h6>Property Name <span>Location    </span></h6>
                                 </div>
                             </Col>
-                            <Col md={6}>
+                            <Col md={12} lg={6}>
                                 <div className='new-conversation-right'>
                                     <Button className='order-status' type='button' variant='unset'>
                                         <img src={require("../assets/images/order-status.png")} alt="icons"/>Order Status</Button>
@@ -61,13 +61,13 @@ const Inventory = () => {
                     </div>
                     <div className='new-conversation'>
                         <Row>
-                            <Col md={6}>
+                            <Col md={12} lg={6}>
                                 <div className='new-convversation-left'>
                                     <Button type='button' variant='unset' className='replacement'>Replacement</Button>
                                     <h6>Property Name <span>Location    </span></h6>
                                 </div>
                             </Col>
-                            <Col md={6}>
+                            <Col md={12} lg={6}>
                                 <div className='new-conversation-right'>
                                     <Button className='order-status' type='button' variant='unset'><img src={require("../assets/images/order-status.png")} alt="icons"/>Order Status</Button>
                                     <Button className='required-devices' type='button' variant='unset'>Required Devices <span>02</span></Button>
@@ -85,7 +85,7 @@ const Inventory = () => {
                             </div>
                         </div>
                         <Row>
-                            <Col md={4}>
+                            <Col md={6} lg={4}>
                                 <div className='device-content-inner'>
                                     <img src={require("../assets/images/device1.png")} alt="icons"/>
                                     <div className='device-info'>
@@ -97,7 +97,7 @@ const Inventory = () => {
 
                                 </div>
                             </Col>
-                            <Col md={4}>
+                            <Col md={6} lg={4}>
                                 <div className='device-content-inner'>
                                     <img src={require("../assets/images/device2.png")} alt="icons" />
                                     <div className='device-info'>
@@ -106,7 +106,7 @@ const Inventory = () => {
                                     </div>
                                 </div>
                             </Col>
-                            <Col md={4}>
+                            <Col md={6} lg={4}>
                                 <div className='device-content-inner'>
                                     <img src={require("../assets/images/device3.png")} alt="icons"/>
                                     <div className='device-info'>
@@ -115,7 +115,7 @@ const Inventory = () => {
                                     </div>
                                 </div>
                             </Col>
-                            <Col md={4}>
+                            <Col md={6} lg={4}>
                                 <div className='device-content-inner'>
                                     <img src={require("../assets/images/device4.png")}  alt="icons"/>
                                     <div className='device-info'>
@@ -124,7 +124,7 @@ const Inventory = () => {
                                     </div>
                                 </div>
                             </Col>
-                            <Col md={4}>
+                            <Col md={6} lg={4}>
                                 <div className='device-content-inner'>
                                     <img src={require("../assets/images/device5.png")} alt="icons"/>
                                     <div className='device-info'>

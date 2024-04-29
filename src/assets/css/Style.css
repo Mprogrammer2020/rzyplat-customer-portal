@@ -456,6 +456,7 @@ button.order-status {
     color: #fff;
     display: flex;
     align-items: center;
+    white-space: nowrap;
 }
 
 button.order-status img {
@@ -481,6 +482,7 @@ button.required-devices span {
 
 .new-conversation-right button {
     margin: 0 5px;
+    white-space: nowrap;
 }
 
 .new-convversation-left {
@@ -583,6 +585,11 @@ button.required-devices span {
 .device-info p {
     color: #31353B;
     font-weight: 500;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    line-clamp: 2;
+    -webkit-box-orient: vertical;
 }
 
 .device-info h6 {
@@ -626,13 +633,15 @@ button.required-devices span {
     padding: 12px;
 }
 .footer-btns-bottom-left button {
-	background: #01337C !important;
-	color: #fff !important;
+    background: #01337C !important;
+    color: #fff !important;
+    font-size: 14px;
 }
 .footer-btns-bottom-right button {
-	background: #A5B0C4 !important;
-	border: 1px solid #A5B0C4 !important;
-	margin: 0 0 0 8px;
+    background: #A5B0C4 !important;
+    border: 1px solid #A5B0C4 !important;
+    margin: 0 0 0 8px;
+    font-size: 14px;
 }
 .footer-btns-bottom-left button
 .add-new-device-popup .form-control::placeholder {
@@ -644,7 +653,12 @@ button.required-devices span {
     margin: 0;
     font-size: 15px;
 }
-
+.add-new-device-popup .form-control::placeholder{
+font-size: 13px;
+}
+.add-new-device-popup .modal-title {
+    font-size: 20px;
+}
 /* media-query */
 @media (max-width: 1700px) {
     .property-section {
@@ -684,6 +698,29 @@ button.required-devices span {
 @media (max-width: 1199px) {
     .position-relative.w-50 {
         width: 100% !important;
+    }
+}
+@media (max-width: 991px) {
+    .new-conversation-right {
+        display: flex;
+        align-items: center;
+        justify-content: start;
+    }
+    .new-convversation-left {
+        margin-bottom: 10px;
+    }
+    .new-conversation-right button {
+        margin: 0 5px 0 0;
+    }
+    .new-conversation-right i {
+        position: absolute;
+        top: 14px;
+        right: 12px;
+        margin: 0;
+        font-size: 22px;
+    }
+    .new-conversation {
+        position: relative;
     }
 }
 
@@ -788,5 +825,94 @@ button.required-devices span {
     .customer-list-header {
         padding: 12px 16px;
         border-radius: 8px;
+    }
+}
+@media (max-width: 575px) { 
+    .customer-outer-section {
+        margin-top: 70px;
+        padding: 10px;
+    }
+    .new-convversation-left {
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+    }
+    .new-convversation-left h6 {
+        margin: 10px 0 0 0;
+        width: 100%;
+    }
+    .new-convversation-left button {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 0 0;
+    }
+    .add-new-device-popup .modal-title {
+        font-size: 18px;
+    }
+}
+@media (max-width: 480px) {
+    .device-content-inner button {
+        font-size: 14px;
+    }
+    button.btn-close {
+        font-size: 11px;
+    }
+    .footer-btns-bottom-left button {
+        background: #01337C !important;
+        color: #fff !important;
+        font-size: 14px;
+        padding: 5px 7px;
+    }
+    .footer-btns-bottom-right button {
+        background: #A5B0C4 !important;
+        border: 1px solid #A5B0C4 !important;
+        margin: 0 0 0 2px;
+        font-size: 14px;
+        padding: 5px 7px;
+    }
+    .new-convversation-left h6 {
+        font-size: 14px;
+    }
+    .devices-area-top-right h6 {
+        margin: 0 0 0 12px;
+        font-size: 12px;
+    }
+    .devices-area-top {
+        padding: 12px;
+    }
+    .devices-outer-area .row {
+        padding: 10px;
+    }
+    .devices-area-top-right h6 i, .devices-area-top-right h6 img {
+        margin-left: 5px;
+    }
+    .devices-area-top h5 span {
+        margin-left: 5px;
+    }
+    .devices-area-top h5 {
+        font-size: 15px;
+    }
+    .devices-area-top h5 img {
+        margin-right: 3px;
+        width: 13px;
+    }
+    .new-convversation-left button {
+        font-size: 14px;
+        min-width: 120px;
+    }
+    button.order-status img {
+        margin-right: 5px;
+        width: 12px;
+    }
+    button.required-devices {
+        min-width: 165px;
+    }
+    .new-conversation-right button {
+        margin: 0 5px 0 0;
+        font-size: 14px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
     }
 }
