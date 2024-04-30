@@ -546,7 +546,7 @@ button.required-devices span {
     font-size: 13px;
     margin: 0 0 0 15px;
     cursor: pointer;
-    padding: 6px 10px;
+    padding: 11px 10px;
 }
 .devices-area-top-right h6:hover {
     background: #C0D9FF;
@@ -876,7 +876,7 @@ button.required-devices span {
     pointer-events: none;
 }
 .sort-btn {
-    position: unset;
+    position: unset !important;
     background: transparent !important;
 }
 .sort-bt-outer ul {
@@ -940,7 +940,11 @@ hr {
 .green-btn.btn.btn-unset i{
     margin-right: 0;
 }
-
+.sort-bt-outer {
+    position: absolute;
+    z-index: 9;
+    top: 40px;
+}
 /* media-query */
 @media (max-width: 1700px) {
     .property-section {
@@ -1222,7 +1226,9 @@ hr {
         align-items: center;
     }
 }
+
 @media (max-width: 420px) {
+
     .inner-hover-divice.first-child-section button {
         margin-top: 4px;
         font-size: 12px;
