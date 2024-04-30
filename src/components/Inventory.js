@@ -1,12 +1,25 @@
 import React, { useState } from 'react';
 import { Button, Col, Form, Modal, Row } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
+import Select from "react-select";
 
 const Inventory = () => {
     const [show, setShow] = useState(false);
+    const [showAddNew, setShowAddNew] = useState(false);
 
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
+
+    const handleCloseAddNew = () => setShowAddNew(false);
+    const handleShowAddNew = () => setShowAddNew(true);
+
+    const options = [
+        { value: "Device 1", label: "Device 1" },
+        { value: "Device 2", label: "Device 2" },
+        { value: "Device 3", label: "Device 3" },
+        { value: "Device 4", label: "Device 4" },
+    ];
+
 
     return (
         <>
@@ -52,7 +65,7 @@ const Inventory = () => {
                             <Col md={12} lg={6}>
                                 <div className='new-conversation-right'>
                                     <Button className='order-status' type='button' variant='unset'>
-                                        <img src={require("../assets/images/order-status.png")} alt="icons"/>Order Status</Button>
+                                        <img src={require("../assets/images/order-status.png")} alt="icons" />Order Status</Button>
                                     <Button className='required-devices' type='button' variant='unset'>Required Devices <span>182</span></Button>
                                     <i class="fa fa-angle-right" aria-hidden="true"></i>
                                 </div>
@@ -69,7 +82,7 @@ const Inventory = () => {
                             </Col>
                             <Col md={12} lg={6}>
                                 <div className='new-conversation-right'>
-                                    <Button className='order-status' type='button' variant='unset'><img src={require("../assets/images/order-status.png")} alt="icons"/>Order Status</Button>
+                                    <Button className='order-status' type='button' variant='unset'><img src={require("../assets/images/order-status.png")} alt="icons" />Order Status</Button>
                                     <Button className='required-devices' type='button' variant='unset'>Required Devices <span>02</span></Button>
                                     <i class="fa fa-angle-right" aria-hidden="true"></i>
                                 </div>
@@ -80,14 +93,21 @@ const Inventory = () => {
                         <div className='devices-area-top'>
                             <h5><img src={require("../assets/images/dashboard.png")} alt="icons" />Devices <span>8</span></h5>
                             <div className='devices-area-top-right'>
-                                <h6>SORT BY <img src={require("../assets/images/filter.png")} alt="icons" /></h6>
-                                <h6>ADD NEW <i class="fa fa-plus" aria-hidden="true"></i></h6>
+                                <Form.Group
+                                    className="mb-3"
+                                    controlId="exampleForm.ControlInput1"
+                                >
+                                   {/* <img src={require("../assets/images/filter.png")} alt="icons" /> */}
+                                    <Select options={options} placeholde="SORT BY"/>
+                                </Form.Group>
+                            
+                                <h6 onClick={handleShowAddNew}>ADD NEW <i class="fa fa-plus" aria-hidden="true"></i></h6>
                             </div>
                         </div>
                         <Row>
                             <Col md={6} lg={4}>
                                 <div className='device-content-inner'>
-                                    <img src={require("../assets/images/device1.png")} alt="icons"/>
+                                    <img src={require("../assets/images/device1.png")} alt="icons" />
                                     <div className='device-info'>
                                         <p>Smoke Detectors / Fire Alarms</p>
                                         <h6>230</h6>
@@ -108,7 +128,7 @@ const Inventory = () => {
                             </Col>
                             <Col md={6} lg={4}>
                                 <div className='device-content-inner'>
-                                    <img src={require("../assets/images/device3.png")} alt="icons"/>
+                                    <img src={require("../assets/images/device3.png")} alt="icons" />
                                     <div className='device-info'>
                                         <p>Water Flow Meters</p>
                                         <h6>750</h6>
@@ -117,7 +137,7 @@ const Inventory = () => {
                             </Col>
                             <Col md={6} lg={4}>
                                 <div className='device-content-inner'>
-                                    <img src={require("../assets/images/device4.png")}  alt="icons"/>
+                                    <img src={require("../assets/images/device4.png")} alt="icons" />
                                     <div className='device-info'>
                                         <p>Gateways</p>
                                         <h6>230</h6>
@@ -126,7 +146,7 @@ const Inventory = () => {
                             </Col>
                             <Col md={6} lg={4}>
                                 <div className='device-content-inner'>
-                                    <img src={require("../assets/images/device5.png")} alt="icons"/>
+                                    <img src={require("../assets/images/device5.png")} alt="icons" />
                                     <div className='device-info'>
                                         <p>Door Sensors</p>
                                         <h6>750</h6>
@@ -161,6 +181,104 @@ const Inventory = () => {
                             CANCEL
                         </Button>
                         <Button variant="primary" onClick={handleClose}>
+                            ADD
+                        </Button>
+                    </div>
+
+                </Modal.Footer>
+            </Modal>
+
+
+            {/* add-new */}
+            <Modal show={showAddNew} onHide={handleCloseAddNew} centered className='add-new-device-popup add-new-popup' size='lg'>
+                <Modal.Header closeButton>
+                    <Modal.Title>Add New Device</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    <Form>
+                        <Row>
+                            <Col md={12} lg={6}>
+                                <Form.Group
+                                    className="mb-2"
+                                    controlId="exampleForm.ControlInput1"
+                                >
+                                    <Form.Label>Device Category</Form.Label>
+                                    <Select options={options} placeholder="Select Device Category"
+                                        styles={{
+                                            control: (base, state) => ({
+                                                // ...base,
+                                                background: "#EDF1F7",
+                                                borderRadius: "5px",
+                                            }),
+                                            placeholder: (base, state) => ({
+                                                ...base,
+                                                color: "#fff",
+
+                                            }),
+                                            input: (base, state) => ({
+                                                ...base,
+                                                color: "white"
+                                            })
+                                        }}
+                                    />
+                                </Form.Group>
+                            </Col>
+                            <Col md={12} lg={6}>
+                                <Form.Group
+                                    className="mb-2"
+                                    controlId="exampleForm.ControlInput1"
+                                >
+                                    <Form.Label>Device</Form.Label>
+                                    <Select options={options} placeholder="Select Device"
+                                        styles={{
+                                            control: (base, state) => ({
+                                                // ...base,
+                                                background: "#EDF1F7",
+                                                borderRadius: "5px",
+                                            }),
+                                            placeholder: (base, state) => ({
+                                                ...base,
+                                                color: "#fff",
+
+                                            }),
+                                            input: (base, state) => ({
+                                                ...base,
+                                                color: "white"
+                                            })
+                                        }}
+                                    />
+                                </Form.Group>
+                            </Col>
+                            <Col md={12} lg={6}>
+                                <Form.Group className="mb-2" controlId="formBasicEmail">
+                                    <Form.Label>Serial Number</Form.Label>
+                                    <Form.Control type="email" placeholder="Enter Serial Number" />
+                                </Form.Group>
+                            </Col>
+                            <Col md={12} lg={6}>
+                                <Form.Group className="mb-2" controlId="formBasicEmail">
+                                    <Form.Label>SKU</Form.Label>
+                                    <Form.Control type="email" />
+                                </Form.Group>
+                            </Col>
+                        </Row>
+                    </Form>
+                    <p>or bulk upload</p>
+                    <div className='upload-file'>
+                        <img src={require("../assets/images/upload-file.png")} alt='upload-img' />
+                        <h6>Drag & Drop or <span>browse</span> file</h6>
+                        <input type="file" />
+                    </div>
+                </Modal.Body>
+                <Modal.Footer>
+                    <div className='footer-btns-bottom-left'>
+                        <Button type='button' variant='unset'> NEW CATEGORY</Button>
+                    </div>
+                    <div className='footer-btns-bottom-right'>
+                        <Button variant="secondary" onClick={handleCloseAddNew}>
+                            CANCEL
+                        </Button>
+                        <Button variant="primary" onClick={handleCloseAddNew}>
                             ADD
                         </Button>
                     </div>

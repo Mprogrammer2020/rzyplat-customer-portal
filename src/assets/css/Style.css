@@ -483,6 +483,7 @@ button.required-devices span {
 .new-conversation-right button {
     margin: 0 5px;
     white-space: nowrap;
+    font-size: 15px;
 }
 
 .new-convversation-left {
@@ -538,14 +539,25 @@ button.required-devices span {
     display: flex;
     align-items: center;
     color: #31353B;
-    font-size: 14px;
-    margin: 0 0 0 40px;
+    font-size: 13px;
+    margin: 0 0 0 15px;
+    cursor: pointer;
+    padding: 6px 10px;
 }
-
+.devices-area-top-right h6:hover {
+    background:#C0D9FF ;
+    padding: 6px 10px;
+    border-radius: 4px;
+    color: #01337C;
+    font-weight: 500;
+}
+.devices-area-top-right h6:hover i {
+    color: #01337C;
+}
 .devices-area-top-right h6 i,
 .devices-area-top-right h6 img {
     color: #31353B;
-    margin-left: 14px;
+    margin-left: 9px;
 }
 
 .device-info {
@@ -630,7 +642,8 @@ button.required-devices span {
 .add-new-device-popup .form-control {
     background: #EDF1F7;
     border: none;
-    padding: 12px;
+    padding: 8px;
+    font-size: 14px;
 }
 .footer-btns-bottom-left button {
     background: #01337C !important;
@@ -651,13 +664,64 @@ button.required-devices span {
 
 .add-new-device-popup .form-label {
     margin: 0;
-    font-size: 15px;
+    font-size: 14px;
 }
 .add-new-device-popup .form-control::placeholder{
 font-size: 13px;
 }
 .add-new-device-popup .modal-title {
-    font-size: 20px;
+    font-size: 16px;
+}
+.css-qx5h3x-placeholder {
+    color: #A5B0C4 !important;
+    font-size: 14px !important;
+}
+.css-u5axtu-Control {
+    background: #EDF1F7;
+    border-radius: 5px;
+    display: flex;
+    cursor: pointer;
+}
+.css-1xc3v61-indicatorContainer {
+    color: #01337C;
+}
+.css-1u9des2-indicatorSeparator {
+    background-color: none;
+}
+.form-control:focus {
+    box-shadow: unset;
+}
+.add-new-popup p {
+    font-size: 16px;
+    color: #000;
+    text-align: center;
+    padding: 10px 0;
+}
+.upload-file {
+    background: rgba(255, 255, 255, 0.60);
+    border: 2px dashed #0000001a;
+    padding: 15px;
+    text-align: center;
+    border-radius: 10px;
+    cursor: pointer;
+    position: relative;
+}
+.upload-file input {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 92px;
+    width: 100%;
+    opacity: 0;
+    cursor: pointer;
+}
+.upload-file h6 {
+    color: #5C626E;
+    font-size: 15px;
+    padding: 12px 0 0 0;
+}
+.upload-file h6 span {
+    color: #4283F2;
 }
 /* media-query */
 @media (max-width: 1700px) {
