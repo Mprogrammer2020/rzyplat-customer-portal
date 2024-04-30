@@ -106,7 +106,8 @@ const Inventory = () => {
                         </div>
                         <Row>
                             <Col md={6} lg={4}>
-                                <div className='position-relative'>
+                                <div className='position-relative add-green-btn-outer-box'>
+                                <Button type='button' className='green-btn' variant='unset' onClick={handleShow}><i class="fa fa-plus" aria-hidden="true"></i></Button>
                                     <div className='device-content-inner'>
                                         <img src={require("../assets/images/device1.png")} alt="icons" />
                                         <div className='device-info'>
@@ -126,7 +127,7 @@ const Inventory = () => {
                                                         <span className='device-text'>Device Type 1 <b>70</b></span>
                                                         <Button type='button'  variant='unset' onClick={handleShow}>View More <i class="fa fa-chevron-down" aria-hidden="true"></i></Button>
                                                     </div>
-                                                    <Button type='button' className='green-btn' variant='unset' onClick={handleShow}><i class="fa fa-plus" aria-hidden="true"></i></Button>
+                                                  
                                                 </div>
                                             </div>
                                             <div className='device-info on-hover-content'>

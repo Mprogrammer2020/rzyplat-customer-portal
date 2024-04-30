@@ -827,10 +827,20 @@ font-size: 13px;
     border-radius: 6px;
     background: var(--Secondary-100, #00C17B) !important;
     border: 0 !important;
-    display: flex;
-    align-items: center;
-    justify-content: center;
     padding: 14px;
+    position: absolute;
+    z-index: 1;
+    top: 25px;
+    right: 25px;
+    display: none;
+    width: 40px;
+    height: 40px;
+    justify-content: center;
+    align-items: center;
+    line-height: 0;
+}
+.add-green-btn-outer-box:hover .green-btn.btn.btn-unset {
+    display: block;
 }
 .green-btn.btn.btn-unset i{
     margin-right: 0;
