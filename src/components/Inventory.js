@@ -77,7 +77,7 @@ const Inventory = () => {
                         <Row>
                             <Col md={12} lg={6}>
                                 <div className='new-convversation-left'>
-                                    <Button type='button' variant='unset'>New Conversation</Button>
+                                    <Button type='button' variant='unset'>New Connection</Button>
                                     <h6>Property Name <span>Location    </span></h6>
                                 </div>
                             </Col>
@@ -126,7 +126,7 @@ const Inventory = () => {
                                             <li>Quantity</li>
                                             <hr></hr>
                                             <li>Ascending</li>
-                                            <li>Ascending</li>
+                                            <li>Descending</li>
                                         </ul>
                                     </div> : ""}
                                 </Form.Group>
@@ -137,7 +137,7 @@ const Inventory = () => {
                         <Row>
                             <Col md={6} lg={6} xl={4}>
                                 <div className='position-relative add-green-btn-outer-box'>
-                                    <Button type='button' className='green-btn' variant='unset' onClick={handleShow}><i class="fa fa-plus" aria-hidden="true"></i></Button>
+                                    <Button type='button' className='green-btn' variant='unset' onClick={handleShow}><i class="fa fa-plus" aria-hidden="true"></i><span className='new-device-text'>New Device Type</span> </Button>
                                     <div className='device-content-inner'>
                                         <div className='position-relative'>
                                             <img src={require("../assets/images/device1.png")} alt="icons" />

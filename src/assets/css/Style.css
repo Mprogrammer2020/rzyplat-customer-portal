@@ -235,6 +235,8 @@ header {
 
 .error {
     color: red !important;
+    font-size: 13px;
+    display: block;
 }
 
 .border-radius {
@@ -904,14 +906,49 @@ button.required-devices span {
 .add-green-btn-outer-box button{
     display: none;
 }
+.device-text b {
+    margin: 0 0 0 7px;
+}
 .add-green-btn-outer-box:hover .main-btn{
     display: block;
-    z-index: 999999;
+    z-index: 1040;
 }
 .inner-img img {
     opacity: 0.8;
 }
+.add-green-btn-outer-box:hover .green-btn.btn.btn-unset{
+    display: block;
+    opacity: 1;
+    visibility: visible;
+    transform: translate3d(0, 0, 0);
+    transition: width 2s;
+}
 
+.green-btn.btn.btn-unset {
+    display: flex;
+    background: var(--Secondary-100, #00C17B) !important;
+    z-index: 99999999;
+    width: -moz-fit-content;
+    width: fit-content;
+    align-items: center;
+    position: absolute;
+    top: 22px;
+    right: 39px;
+    display: none;
+    margin-top: 0;
+    opacity: 0;
+    position: absolute;
+    transform: translate3d(15px, 0, 0);
+    transition: all 150ms linear;
+    font-size: 1.0625rem;
+    font-weight: 500;
+    line-height: 1.4;
+    visibility: hidden;
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    border: 0 !important;
+}
 .hover-text {
     position: absolute;
     top: 12px;
@@ -999,23 +1036,6 @@ hr {
     transform: rotate(89deg);
     left: 43px;
 }
-.green-btn.btn.btn-unset {
-    border-radius: 6px;
-    background: var(--Secondary-100, #00C17B) !important;
-    border: 0 !important;
-    padding: 14px;
-    position: absolute;
-    z-index: 1;
-    top: 25px;
-    right: 25px;
-    display: none;
-    width: 40px;
-    height: 40px;
-    justify-content: center;
-    align-items: center;
-    line-height: 0;
-    color: #fff;
-}
 .device-info h6 img {
     width: 24px;
 }
@@ -1029,13 +1049,10 @@ hr {
     cursor: pointer !important;
     z-index: 99;
 }
-.add-green-btn-outer-box:hover .green-btn.btn.btn-unset {
-    display: block;
-    z-index: 99999999;
+.green-btn.btn.btn-unset i {
+    margin-right: 10px;
 }
-.green-btn.btn.btn-unset i{
-    margin-right: 0;
-}
+
 .sort-bt-outer {
     position: absolute;
     z-index: 9;
@@ -1244,6 +1261,9 @@ hr {
 @media (max-width: 480px) {
     .device-content-inner button {
         font-size: 14px;
+    }
+    .add-green-btn-outer-box button {
+        font-size: 11px;
     }
 
     button.btn-close {
