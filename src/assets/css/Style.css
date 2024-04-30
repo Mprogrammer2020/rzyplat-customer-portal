@@ -1121,6 +1121,11 @@ hr {
     .new-conversation {
         position: relative;
     }
+    .inner-hover-divice.first-child-section button {
+        margin-top: 8px;
+        font-size: 12px;
+        padding: 3px;
+    }
 }
 
 @media (max-width: 600px) {
