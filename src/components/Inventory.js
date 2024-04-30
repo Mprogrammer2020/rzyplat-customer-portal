@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Button, Col, Form, Modal, Row } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import Select from "react-select";
@@ -22,6 +22,22 @@ const Inventory = () => {
         { value: "Ascending", label: "Ascending" },
         { value: "Descending", label: "Descending" },
     ];
+
+    const [showSortBy, setShowSortBy] = useState(false);
+
+    useEffect(() => {
+        const handleClick = (event) => {
+            if (event.target.innerText !=="SORT BY") {
+                setShowSortBy(false);
+            }
+            console.log('Clicked:', event.target.innerText);
+        };
+        document.addEventListener('click', handleClick);
+        return () => {
+            document.removeEventListener('click', handleClick);
+        };
+    }, []);
+
 
 
     return (
@@ -100,10 +116,10 @@ const Inventory = () => {
                                     className="sort-by-top-right"
                                     controlId="exampleForm.ControlInput1"
                                 >
-                                   
+{console.log("showSortBy",showSortBy)}
                                     {/* <Select options={options} placeholder="SORT BY" menuIsOpen={true}/> */}
-                                    <h6>SORT BY <img src={require("../assets/images/filter.png")} alt="icons" className='sort-btn' /></h6>
-                                    <div className='sort-bt-outer'>
+                                    <h6 onClick={() => setShowSortBy(!showSortBy)}>SORT BY<img src={require("../assets/images/filter.png")} alt="icons" className='sort-btn' /></h6>
+                                    {showSortBy ? <div className='sort-bt-outer'>
                                         <ul>
                                             <li className='active'>Name</li>
                                             <li>Date</li>
@@ -112,16 +128,16 @@ const Inventory = () => {
                                             <li>Ascending</li>
                                             <li>Ascending</li>
                                         </ul>
-                                    </div>
+                                    </div> : ""}
                                 </Form.Group>
-                            
+
                                 <h6 onClick={handleShowAddNew}>ADD NEW <i class="fa fa-plus" aria-hidden="true"></i></h6>
                             </div>
                         </div>
                         <Row>
                             <Col md={6} lg={6} xl={4}>
                                 <div className='position-relative add-green-btn-outer-box'>
-                                <Button type='button' className='green-btn' variant='unset' onClick={handleShow}><i class="fa fa-plus" aria-hidden="true"></i></Button>
+                                    <Button type='button' className='green-btn' variant='unset' onClick={handleShow}><i class="fa fa-plus" aria-hidden="true"></i></Button>
                                     <div className='device-content-inner'>
                                         <img src={require("../assets/images/device1.png")} alt="icons" />
                                         <div className='device-info'>
@@ -132,16 +148,16 @@ const Inventory = () => {
                                     <div className='outer-device'>
                                         <div className='device-content-inner on-hover'>
                                             <div className='device-img-section'>
-                                            <img src={require("../assets/images/device1.png")} alt="icons" />
+                                                <img src={require("../assets/images/device1.png")} alt="icons" />
                                                 <div className='outer-device-content first-child-section-outer'>
                                                     <div className='inner-hover-divice first-child-section'>
                                                         <span className='device-text'>Device Type 1 <b>70</b></span>
                                                         <span className='device-text'>Device Type 1 <b>70</b></span>
                                                         <span className='device-text'>Device Type 1 <b>70</b></span>
                                                         <span className='device-text'>Device Type 1 <b>70</b></span>
-                                                        <Button type='button'  variant='unset' onClick={handleShow}>View More <i class="fa fa-chevron-down" aria-hidden="true"></i></Button>
+                                                        <Button type='button' variant='unset' onClick={handleShow}>View More <i class="fa fa-chevron-down" aria-hidden="true"></i></Button>
                                                     </div>
-                                                  
+
                                                 </div>
                                             </div>
                                             <div className='device-info on-hover-content'>
@@ -294,7 +310,7 @@ const Inventory = () => {
 
             {/* add-new-device */}
             {show && <AddNewDeviceType show={show} handleClose={handleClose} />}
-            {showAddNew && <AddDeviceCategory show={showAddNew} handleClose={handleCloseAddNew}/>}
+            {showAddNew && <AddDeviceCategory show={showAddNew} handleClose={handleCloseAddNew} />}
 
         </>
 

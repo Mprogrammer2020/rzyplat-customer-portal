@@ -8,7 +8,8 @@ const AddDeviceCategory = ({ show, handleClose }) => {
     const deviceImageRef = useRef(null);
     const [deviceDetail, setDeviceDetail] = useState({
         showBulkUpload: true, deviceImage: "", deviceName: "",
-        errors: { deviceImage: "", deviceName: "" }
+        sku: "", serialNumber: "", deviceCategory: "",
+        errors: { deviceImage: "", deviceName: "", sku: "", serialNumber: "", deviceCategory: "", }
     });
 
 
@@ -49,7 +50,7 @@ const AddDeviceCategory = ({ show, handleClose }) => {
         if (!deviceDetail.deviceName.trim()) {
             errors.deviceName = "This field is required";
         }
-        if (!deviceDetail.deviceImage) {
+        if (!deviceDetail.showBulkUpload && !deviceDetail.deviceImage) {
             errors.deviceImage = "Please select an image";
         }
 
@@ -119,7 +120,6 @@ const AddDeviceCategory = ({ show, handleClose }) => {
                                 {deviceDetail.showBulkUpload ? <Select options={options} placeholder="Select Device" name="deviceName" onChange={handleInputChange}
                                     styles={{
                                         control: (base, state) => ({
-                                            // ...base,
                                             background: "#EDF1F7",
                                             borderRadius: "5px",
                                         }),
