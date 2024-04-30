@@ -94,7 +94,7 @@ const Inventory = () => {
                             <h5><img src={require("../assets/images/dashboard.png")} alt="icons" />Devices <span>8</span></h5>
                             <div className='devices-area-top-right'>
                                 <Form.Group
-                                    className="mb-3 pos"
+                                    className="sort-by-top-right"
                                     controlId="exampleForm.ControlInput1"
                                 >
                                    <img src={require("../assets/images/filter.png")} alt="icons" />
