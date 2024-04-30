@@ -3,6 +3,7 @@ import { Button, Col, Form, Modal, Row } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import Select from "react-select";
 import AddNewDeviceType from './modals/AddNewDeviceType';
+import AddDeviceCategory from './modals/AddDeviceCategory';
 
 const Inventory = () => {
     const [show, setShow] = useState(false);
@@ -293,103 +294,8 @@ const Inventory = () => {
 
             {/* add-new-device */}
             {show && <AddNewDeviceType show={show} handleClose={handleClose} />}
+            {showAddNew && <AddDeviceCategory show={showAddNew} handleClose={handleCloseAddNew}/>}
 
-            {/* add-new */}
-            <Modal show={showAddNew} onHide={handleCloseAddNew} centered className='add-new-device-popup add-new-popup' size='lg'>
-                <Modal.Header closeButton>
-                    <Modal.Title>Add New Device</Modal.Title>
-                </Modal.Header>
-                <Modal.Body>
-                    <Form>
-                        <Row>
-                            <Col md={12} lg={6}>
-                                <Form.Group
-                                    className="mb-2"
-                                    controlId="exampleForm.ControlInput1"
-                                >
-                                    <Form.Label>Device Category</Form.Label>
-                                    <Select options={options} placeholder="Select Device Category"
-                                        styles={{
-                                            control: (base, state) => ({
-                                                // ...base,
-                                                background: "#EDF1F7",
-                                                borderRadius: "5px",
-                                            }),
-                                            placeholder: (base, state) => ({
-                                                ...base,
-                                                color: "#fff",
-
-                                            }),
-                                            input: (base, state) => ({
-                                                ...base,
-                                                color: "white"
-                                            })
-                                        }}
-                                    />
-                                </Form.Group>
-                            </Col>
-                            <Col md={12} lg={6}>
-                                <Form.Group
-                                    className="mb-2"
-                                    controlId="exampleForm.ControlInput1"
-                                >
-                                    <Form.Label>Device</Form.Label>
-                                    <Select options={options} placeholder="Select Device"
-                                        styles={{
-                                            control: (base, state) => ({
-                                                // ...base,
-                                                background: "#EDF1F7",
-                                                borderRadius: "5px",
-                                            }),
-                                            placeholder: (base, state) => ({
-                                                ...base,
-                                                color: "#fff",
-
-                                            }),
-                                            input: (base, state) => ({
-                                                ...base,
-                                                color: "white"
-                                            })
-                                        }}
-                                    />
-                                </Form.Group>
-                            </Col>
-                            <Col md={12} lg={6}>
-                                <Form.Group className="mb-2" controlId="formBasicEmail">
-                                    <Form.Label>Serial Number</Form.Label>
-                                    <Form.Control type="email" placeholder="Enter Serial Number" />
-                                </Form.Group>
-                            </Col>
-                            <Col md={12} lg={6}>
-                                <Form.Group className="mb-2" controlId="formBasicEmail">
-                                    <Form.Label>SKU</Form.Label>
-                                    <Form.Control type="email" />
-                                </Form.Group>
-                            </Col>
-                        </Row>
-                    </Form>
-                    <p>or bulk upload</p>
-                    <div className='upload-file'>
-                        <img src={require("../assets/images/upload-file.png")} alt='upload-img' />
-                        <h6>Drag & Drop or <span>browse</span> file</h6>
-                        <input type="file" />
-                    </div>
-                </Modal.Body>
-                <Modal.Footer>
-                    <div className='footer-btns-bottom-left'>
-                        <Button type='button' variant='unset'> NEW CATEGORY</Button>
-                    </div>
-                    <div className='footer-btns-bottom-right'>
-                        <Button variant="secondary" onClick={handleCloseAddNew}>
-                            CANCEL
-                        </Button>
-                        <Button variant="primary" onClick={handleCloseAddNew}>
-                            ADD
-                        </Button>
-                    </div>
-
-                </Modal.Footer>
-            </Modal>
         </>
 
 
