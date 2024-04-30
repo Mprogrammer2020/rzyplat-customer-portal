@@ -981,7 +981,8 @@ button.required-devices span {
     font-weight: 400;
     line-height: normal;
     padding: 8px;
-    margin-bottom: 0;
+    margin-bottom: 3px;
+    cursor: pointer;
 }
 hr {
     margin: 7px;
