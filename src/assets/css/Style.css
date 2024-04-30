@@ -420,7 +420,12 @@ input:-webkit-autofill {
 .mobile-side-customer {
     display: none;
 }
-
+.add-green-btn-outer-box i {
+    margin-right: 0 !important;
+}
+.new-device-text {
+    display: none;
+}
 .space-maker {
     margin: 0 14px;
 }
