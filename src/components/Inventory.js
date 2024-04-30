@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Button, Col, Form, Modal, Row } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import Select from "react-select";
+import AddNewDeviceType from './modals/AddNewDeviceType';
 
 const Inventory = () => {
     const [show, setShow] = useState(false);
@@ -280,34 +281,7 @@ const Inventory = () => {
 
 
             {/* add-new-device */}
-            <Modal show={show} onHide={handleClose} centered className='add-new-device-popup'>
-                <Modal.Header closeButton>
-                    <Modal.Title>Add New Device</Modal.Title>
-                </Modal.Header>
-                <Modal.Body>
-                    <Form>
-                        <Form.Group controlId="formBasicEmail">
-                            <Form.Label>Device Name</Form.Label>
-                            <Form.Control type="email" placeholder="Enter Device Name" />
-                        </Form.Group>
-                    </Form>
-                </Modal.Body>
-                <Modal.Footer>
-                    <div className='footer-btns-bottom-left'>
-                        <Button type='button' variant='unset'><i class="fa fa-upload" aria-hidden="true"></i> Upload Image</Button>
-                    </div>
-                    <div className='footer-btns-bottom-right'>
-                        <Button variant="secondary" onClick={handleClose}>
-                            CANCEL
-                        </Button>
-                        <Button variant="primary" onClick={handleClose}>
-                            ADD
-                        </Button>
-                    </div>
-
-                </Modal.Footer>
-            </Modal>
-
+            {show && <AddNewDeviceType show={show} handleClose={handleClose} />}
 
             {/* add-new */}
             <Modal show={showAddNew} onHide={handleCloseAddNew} centered className='add-new-device-popup add-new-popup' size='lg'>
