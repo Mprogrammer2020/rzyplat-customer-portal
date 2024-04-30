@@ -9,7 +9,7 @@ var commonHeaders = {
     'appVersion': '1.0',
     'Access-Control-Allow-Origin': 'true',
     'timezone': 'Asia/Kolkata',
-    Authorization: getToken(),
+    // Authorization: getToken(),
 }
 
 
