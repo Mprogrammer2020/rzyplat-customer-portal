@@ -94,11 +94,11 @@ const Inventory = () => {
                             <h5><img src={require("../assets/images/dashboard.png")} alt="icons" />Devices <span>8</span></h5>
                             <div className='devices-area-top-right'>
                                 <Form.Group
-                                    className="mb-3"
+                                    className="mb-3 pos"
                                     controlId="exampleForm.ControlInput1"
                                 >
-                                   {/* <img src={require("../assets/images/filter.png")} alt="icons" /> */}
-                                    <Select options={options} placeholde="SORT BY"/>
+                                   <img src={require("../assets/images/filter.png")} alt="icons" />
+                                    <Select options={options} placeholder="SORT BY"/>
                                 </Form.Group>
                             
                                 <h6 onClick={handleShowAddNew}>ADD NEW <i class="fa fa-plus" aria-hidden="true"></i></h6>
@@ -106,50 +106,168 @@ const Inventory = () => {
                         </div>
                         <Row>
                             <Col md={6} lg={4}>
-                                <div className='device-content-inner'>
-                                    <img src={require("../assets/images/device1.png")} alt="icons" />
-                                    <div className='device-info'>
-                                        <p>Smoke Detectors / Fire Alarms</p>
-                                        <h6>230</h6>
+                                <div className='position-relative'>
+                                    <div className='device-content-inner'>
+                                        <img src={require("../assets/images/device1.png")} alt="icons" />
+                                        <div className='device-info'>
+                                            <p>Smoke Detectors / Fire Alarms</p>
+                                            <h6>230</h6>
+                                        </div>
                                     </div>
-
-                                    <Button type='button' variant='unset' onClick={handleShow}><i class="fa fa-plus" aria-hidden="true"></i> New Device Type</Button>
-
-                                </div>
-                            </Col>
-                            <Col md={6} lg={4}>
-                                <div className='device-content-inner'>
-                                    <img src={require("../assets/images/device2.png")} alt="icons" />
-                                    <div className='device-info'>
-                                        <p>Temp & Humidity</p>
-                                        <h6>750</h6>
-                                    </div>
-                                </div>
-                            </Col>
-                            <Col md={6} lg={4}>
-                                <div className='device-content-inner'>
-                                    <img src={require("../assets/images/device3.png")} alt="icons" />
-                                    <div className='device-info'>
-                                        <p>Water Flow Meters</p>
-                                        <h6>750</h6>
-                                    </div>
-                                </div>
-                            </Col>
-                            <Col md={6} lg={4}>
-                                <div className='device-content-inner'>
-                                    <img src={require("../assets/images/device4.png")} alt="icons" />
-                                    <div className='device-info'>
-                                        <p>Gateways</p>
-                                        <h6>230</h6>
+                                    <div className='outer-device'>
+                                        <div className='device-content-inner on-hover'>
+                                            <div className='device-img-section'>
+                                            <img src={require("../assets/images/device1.png")} alt="icons" />
+                                                <div className='outer-device-content first-child-section-outer'>
+                                                    <div className='inner-hover-divice first-child-section'>
+                                                        <span className='device-text'>Device Type 1 <b>70</b></span>
+                                                        <span className='device-text'>Device Type 1 <b>70</b></span>
+                                                        <span className='device-text'>Device Type 1 <b>70</b></span>
+                                                        <span className='device-text'>Device Type 1 <b>70</b></span>
+                                                        <Button type='button'  variant='unset' onClick={handleShow}>View More <i class="fa fa-chevron-down" aria-hidden="true"></i></Button>
+                                                    </div>
+                                                    <Button type='button' className='green-btn' variant='unset' onClick={handleShow}><i class="fa fa-plus" aria-hidden="true"></i></Button>
+                                                </div>
+                                            </div>
+                                            <div className='device-info on-hover-content'>
+                                                <p>Smoke Detectors / Fire Alarms</p>
+                                                <span className='d-flex align-items-center'>
+                                                    <h6>230</h6><img src={require("../assets/images/left.svg").default} alt="icons" />
+                                                </span>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </Col>
                             <Col md={6} lg={4}>
-                                <div className='device-content-inner'>
-                                    <img src={require("../assets/images/device5.png")} alt="icons" />
-                                    <div className='device-info'>
-                                        <p>Door Sensors</p>
-                                        <h6>750</h6>
+                                <div className='position-relative'>
+                                    <div className='device-content-inner'>
+                                        <img src={require("../assets/images/device2.png")} alt="icons" />
+                                        <div className='device-info'>
+                                            <p>Temp & Humidity</p>
+                                            <h6>750</h6>
+                                        </div>
+                                    </div>
+                                    <div className='outer-device'>
+                                        <div className='device-content-inner on-hover'>
+                                            <div className='device-img-section'>
+                                                <img src={require("../assets/images/device1.png")} alt="icons" />
+                                                <div className='outer-device-content'>
+                                                    <div className='inner-hover-divice'>
+                                                        <span className='device-text'>Device Type 1 <b>70</b></span>
+                                                        <span className='device-text'>Device Type 1 <b>70</b></span>
+                                                        <span className='device-text'>Device Type 1 <b>70</b></span>
+                                                        <span className='device-text'>Device Type 1 <b>70</b></span>
+                                                    </div>
+                                                    <Button type='button' variant='unset' onClick={handleShow}><i class="fa fa-plus" aria-hidden="true"></i> New Device Type</Button>
+                                                </div>
+                                            </div>
+                                            <div className='device-info on-hover-content'>
+                                                <p>Temp & Humidity</p>
+                                                <span className='d-flex align-items-center'>
+                                                    <h6>750 </h6><img src={require("../assets/images/left.svg").default} alt="icons" />
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </Col>
+                            <Col md={6} lg={4}>
+                                <div className='position-relative'>
+                                    <div className='device-content-inner'>
+                                        <img src={require("../assets/images/device3.png")} alt="icons" />
+                                        <div className='device-info'>
+                                            <p>Water Flow Meters</p>
+                                            <h6>750</h6>
+                                        </div>
+                                    </div>
+                                    <div className='outer-device'>
+                                        <div className='device-content-inner on-hover'>
+                                            <div className='device-img-section'>
+                                                <img src={require("../assets/images/device1.png")} alt="icons" />
+                                                <div className='outer-device-content'>
+                                                    <div className='inner-hover-divice'>
+                                                        <span className='device-text'>Device Type 1 <b>70</b></span>
+                                                        <span className='device-text'>Device Type 1 <b>70</b></span>
+                                                        <span className='device-text'>Device Type 1 <b>70</b></span>
+                                                        <span className='device-text'>Device Type 1 <b>70</b></span>
+                                                    </div>
+                                                    <Button type='button' variant='unset' onClick={handleShow}><i class="fa fa-plus" aria-hidden="true"></i> New Device Type</Button>
+                                                </div>
+                                            </div>
+                                            <div className='device-info on-hover-content'>
+                                                <p>Water Flow Meters</p>
+                                                <span className='d-flex align-items-center'>
+                                                    <h6>750 </h6><img src={require("../assets/images/left.svg").default} alt="icons" />
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </Col>
+                            <Col md={6} lg={4}>
+                                <div className='position-relative'>
+                                    <div className='device-content-inner'>
+                                        <img src={require("../assets/images/device4.png")} alt="icons" />
+                                        <div className='device-info'>
+                                            <p>Gateways</p>
+                                            <h6>230</h6>
+                                        </div>
+                                    </div>
+                                    <div className='outer-device'>
+                                        <div className='device-content-inner on-hover'>
+                                            <div className='device-img-section'>
+                                                <img src={require("../assets/images/device1.png")} alt="icons" />
+                                                <div className='outer-device-content'>
+                                                    <div className='inner-hover-divice'>
+                                                        <span className='device-text'>Device Type 1 <b>70</b></span>
+                                                        <span className='device-text'>Device Type 1 <b>70</b></span>
+                                                        <span className='device-text'>Device Type 1 <b>70</b></span>
+                                                        <span className='device-text'>Device Type 1 <b>70</b></span>
+                                                    </div>
+                                                    <Button type='button' variant='unset' onClick={handleShow}><i class="fa fa-plus" aria-hidden="true"></i> New Device Type</Button>
+                                                </div>
+                                            </div>
+                                            <div className='device-info on-hover-content'>
+                                                <p>Gateways</p>
+                                                <span className='d-flex align-items-center'>
+                                                    <h6>750 </h6><img src={require("../assets/images/left.svg").default} alt="icons" />
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </Col>
+                            <Col md={6} lg={4}>
+                                <div className='position-relative'>
+                                    <div className='device-content-inner'>
+                                        <img src={require("../assets/images/device5.png")} alt="icons" />
+                                        <div className='device-info'>
+                                            <p>Door Sensors</p>
+                                            <h6>750</h6>
+                                        </div>
+                                    </div>
+                                    <div className='outer-device'>
+                                        <div className='device-content-inner on-hover'>
+                                            <div className='device-img-section'>
+                                                <img src={require("../assets/images/device1.png")} alt="icons" />
+                                                <div className='outer-device-content'>
+                                                    <div className='inner-hover-divice'>
+                                                        <span className='device-text'>Device Type 1 <b>70</b></span>
+                                                        <span className='device-text'>Device Type 1 <b>70</b></span>
+                                                        <span className='device-text'>Device Type 1 <b>70</b></span>
+                                                        <span className='device-text'>Device Type 1 <b>70</b></span>
+                                                    </div>
+                                                    <Button type='button' variant='unset' onClick={handleShow}><i class="fa fa-plus" aria-hidden="true"></i> New Device Type</Button>
+                                                </div>
+                                            </div>
+                                            <div className='device-info on-hover-content'>
+                                                <p>Door Sensors</p>
+                                                <span className='d-flex align-items-center'>
+                                                    <h6>750 </h6><img src={require("../assets/images/left.svg").default} alt="icons" />
+                                                </span>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </Col>
