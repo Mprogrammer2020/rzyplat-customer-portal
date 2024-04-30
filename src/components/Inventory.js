@@ -99,8 +99,19 @@ const Inventory = () => {
                                     className="sort-by-top-right"
                                     controlId="exampleForm.ControlInput1"
                                 >
-                                   <img src={require("../assets/images/filter.png")} alt="icons" className='sort-btn' />
-                                    <Select options={options} placeholder="SORT BY" menuIsOpen={true}/>
+                                   
+                                    {/* <Select options={options} placeholder="SORT BY" menuIsOpen={true}/> */}
+                                    <h6>SORT BY <img src={require("../assets/images/filter.png")} alt="icons" className='sort-btn' /></h6>
+                                    <div className='sort-bt-outer'>
+                                        <ul>
+                                            <li className='active'>Name</li>
+                                            <li>Date</li>
+                                            <li>Quantity</li>
+                                            <hr></hr>
+                                            <li>Ascending</li>
+                                            <li>Ascending</li>
+                                        </ul>
+                                    </div>
                                 </Form.Group>
                             
                                 <h6 onClick={handleShowAddNew}>ADD NEW <i class="fa fa-plus" aria-hidden="true"></i></h6>
