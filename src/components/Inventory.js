@@ -14,10 +14,11 @@ const Inventory = () => {
     const handleShowAddNew = () => setShowAddNew(true);
 
     const options = [
-        { value: "Device 1", label: "Device 1" },
-        { value: "Device 2", label: "Device 2" },
-        { value: "Device 3", label: "Device 3" },
-        { value: "Device 4", label: "Device 4" },
+        { value: "Name", label: "Name" },
+        { value: "Date", label: "Date" },
+        { value: "Quantity", label: "Quantity" },
+        { value: "Ascending", label: "Ascending" },
+        { value: "Descending", label: "Descending" },
     ];
 
 
@@ -97,8 +98,8 @@ const Inventory = () => {
                                     className="sort-by-top-right"
                                     controlId="exampleForm.ControlInput1"
                                 >
-                                   <img src={require("../assets/images/filter.png")} alt="icons" />
-                                    <Select options={options} placeholder="SORT BY"/>
+                                   <img src={require("../assets/images/filter.png")} alt="icons" className='sort-btn' />
+                                    <Select options={options} placeholder="SORT BY" menuIsOpen={true}/>
                                 </Form.Group>
                             
                                 <h6 onClick={handleShowAddNew}>ADD NEW <i class="fa fa-plus" aria-hidden="true"></i></h6>

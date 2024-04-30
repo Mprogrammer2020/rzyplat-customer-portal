@@ -545,11 +545,14 @@ button.required-devices span {
     padding: 6px 10px;
 }
 .devices-area-top-right h6:hover {
-    background:#C0D9FF ;
-    padding: 6px 10px;
+    background: #C0D9FF;
+    padding: 11px 10px;
     border-radius: 4px;
     color: #01337C;
     font-weight: 500;
+}
+.sort-btn{
+    background-color: #C0D9FF !important;
 }
 .devices-area-top-right h6:hover i {
     color: #01337C;
@@ -792,6 +795,42 @@ font-size: 13px;
 	border-radius: 5px;
 	margin-bottom: 7px;
 }
+.sort-by-top-right .css-13cymwt-control:hover  .sort-by-top-right .css-t3ipsp-control:hover{
+    background: #93baf2 !important;
+    color: #166dec !important;
+   
+}
+.sort-by-top-right .css-1nmdiq5-menu {
+    border-radius: 8px;
+    background: rgba(192, 217, 255, 0.80);
+    box-shadow: 0px 30px 31.5px -4px rgba(0, 0, 0, 0.14);
+    -webkit-backdrop-filter: blur(14.350000381469727px);
+    backdrop-filter: blur(14.350000381469727px);
+    padding: 12px;
+    overflow: unset;
+    min-width: 151px;
+}
+.sort-by-top-right .css-10wo9uf-option:active, .sort-by-top-right .css-d711ni-option {
+    border-radius: 6px;
+    background: rgba(255, 255, 255, 0.60) !important;
+}
+.css-d711ni-option{
+    border-radius: 6px;
+    background: rgba(255, 255, 255, 0.60) !important;
+}
+
+.css-t3ipsp-control:hover{
+    border-color: transparent !important;
+    border-color: 0 !important;
+    border-width: 0 !important;
+    box-shadow: unset !important;
+    border-style: unset !important;
+    background: #93baf2 !important;
+    color: #166dec !important;
+}
+.sort-by-top-right .css-13cymwt-control {
+    background: #93baf2 !important;
+}
 .device-info.on-hover-content {
 	background-color: #EDF1F7;
 	padding: 12px;
@@ -801,7 +840,8 @@ font-size: 13px;
     opacity: 1;
     visibility: visible;
     -webkit-transform: translate3d(0, 0, 0);
-            transform: translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0);
+
 }
 .inner-hover-divice.first-child-section button {
     position: unset;
