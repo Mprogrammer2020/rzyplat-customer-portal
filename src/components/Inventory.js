@@ -118,7 +118,7 @@ const Inventory = () => {
                             </div>
                         </div>
                         <Row>
-                            <Col md={6} lg={4}>
+                            <Col md={6} lg={6} xl={4}>
                                 <div className='position-relative add-green-btn-outer-box'>
                                 <Button type='button' className='green-btn' variant='unset' onClick={handleShow}><i class="fa fa-plus" aria-hidden="true"></i></Button>
                                     <div className='device-content-inner'>
@@ -153,7 +153,7 @@ const Inventory = () => {
                                     </div>
                                 </div>
                             </Col>
-                            <Col md={6} lg={4}>
+                            <Col md={6} lg={6} xl={4}>
                                 <div className='position-relative'>
                                     <div className='device-content-inner'>
                                         <img src={require("../assets/images/device2.png")} alt="icons" />
@@ -186,7 +186,7 @@ const Inventory = () => {
                                     </div>
                                 </div>
                             </Col>
-                            <Col md={6} lg={4}>
+                            <Col md={6} lg={6} xl={4}>
                                 <div className='position-relative'>
                                     <div className='device-content-inner'>
                                         <img src={require("../assets/images/device3.png")} alt="icons" />
@@ -219,7 +219,7 @@ const Inventory = () => {
                                     </div>
                                 </div>
                             </Col>
-                            <Col md={6} lg={4}>
+                            <Col md={6} lg={6} xl={4}>
                                 <div className='position-relative'>
                                     <div className='device-content-inner'>
                                         <img src={require("../assets/images/device4.png")} alt="icons" />
@@ -252,7 +252,7 @@ const Inventory = () => {
                                     </div>
                                 </div>
                             </Col>
-                            <Col md={6} lg={4}>
+                            <Col md={6} lg={6} xl={4}>
                                 <div className='position-relative'>
                                     <div className='device-content-inner'>
                                         <img src={require("../assets/images/device5.png")} alt="icons" />

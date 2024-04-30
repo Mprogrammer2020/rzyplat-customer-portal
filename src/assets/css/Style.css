@@ -589,7 +589,6 @@ button.required-devices span {
 }
 .device-content-inner.on-hover {
     box-shadow: 0px 30px 31.5px -4px rgba(0, 0, 0, 0.14);
-    backdrop-filter: blur(14.350000381469727px);
 }
 
 .device-content-inner button {
@@ -933,6 +932,7 @@ hr {
     justify-content: center;
     align-items: center;
     line-height: 0;
+    color: #fff;
 }
 .add-green-btn-outer-box:hover .green-btn.btn.btn-unset {
     display: block;
@@ -958,7 +958,15 @@ hr {
     .customer-container-body {
         overflow-x: auto;
     }
-
+    .device-content-inner button {
+        top: 11px;
+        right: 12px;
+        font-size: 11px;
+    }
+    .device-text {
+        font-size: 13px;
+        padding: 4px;
+    }
     .customer-container-body .table thead {
         width: 100%;
     }
@@ -1002,7 +1010,9 @@ hr {
     .header-right-box .form-control {
         display: none;
     }
-
+    .device-img-section {
+        overflow: auto;
+    }
     .sort-box img {
         right: 26px;
         width: 23px;
@@ -1210,5 +1220,11 @@ hr {
         display: flex;
         justify-content: center;
         align-items: center;
+    }
+}
+@media (max-width: 420px) {
+    .inner-hover-divice.first-child-section button {
+        margin-top: 4px;
+        font-size: 12px;
     }
 }
