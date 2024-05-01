@@ -22,16 +22,17 @@ export const APIServices = {
     getDeviceTypeByCategoryId,
     addCategory,
     addDevice,
+    uploadBulkDevice,
     addDeviceType,
     getCustomers,
     deleteCustomer
 }
 
-function getCategories(page, size = 10) {
-    return axios.get(`${config.apiUrl}/categories?page=${page}&size=${size}`, configJsonHeaders());
+function getCategories(page, size = 10, orderBy, direction) {
+    return axios.get(`${config.apiUrl}/categories?page=${page}&size=${size}&orderBy=${orderBy}&direction=${direction}`, configJsonHeaders());
 }
 
-function getDeviceTypeByCategoryId(categoryId,page, size = 10) {
+function getDeviceTypeByCategoryId(categoryId, page, size = 10) {
     return axios.get(`${config.apiUrl}/device-type/${categoryId}?page=${page}&size=${size}`, configJsonHeaders());
 }
 
@@ -42,14 +43,19 @@ function addCategory(params) {
 function addDevice(params) {
     return axios.post(`${config.apiUrl}/devices`, params, configJsonHeaders());
 }
-function addDeviceType(deviceId,params) {
+
+function uploadBulkDevice(params) {
+    return axios.post(`${config.apiUrl}/devices/bulk-upload`, params, configMultipartHeaders());
+}
+
+function addDeviceType(deviceId, params) {
     return axios.post(`${config.apiUrl}/device-type/${deviceId}`, params, configMultipartHeaders());
 }
 
-function getCustomers(params) {
-    return axios.post(`${config.apiUrl}/user/filter`, params, configJsonHeaders());
+function getCustomers(page, size, orderBy, direction) {
+    return axios.get(`${config.apiUrl}/customers/search?page=${page}&size=${size}&orderBy=${orderBy}&direction=${direction}`, configJsonHeaders());
 }
 
 function deleteCustomer(customerId) {
-    return axios.delete(`${config.apiUrl}/user/${customerId}`, configJsonHeaders());
+    return axios.delete(`${config.apiUrl}/customers/${customerId}`, configJsonHeaders());
 }

@@ -4,11 +4,12 @@ import { Link } from 'react-router-dom';
 import { APIServices } from '../services/APIServices';
 import { exceptionHandling } from '../Common/CommonComponents';
 import Skeleton from 'react-loading-skeleton';
+import swal from 'sweetalert';
 
 const Customer = () => {
     // State for customer data
     const [customers, setCustomers] = useState([]);
-    const [filter, setFilter] = useState({ page: 0, size: 10, sortBy: "", orderBy: "" });
+    const [filter, setFilter] = useState({ page: 0, size: 10, sortBy: "name", orderBy: "DESC" });
     const customersRef = useRef();
     const loadingResponse = useRef(false);
 
@@ -25,14 +26,14 @@ const Customer = () => {
 
     async function getCustomers(params) {
         try {
-            const response = await APIServices.getCustomers(params);
+            const response = await APIServices.getCustomers(params.page, params.size, params.sortBy, params.orderBy);
             if (response.status === 200) {
-                let responseData = response.data.data;
+                let responseData = response.data;
                 let tempList;
-                if (params.page ==0) {
-                    tempList=[];
-                }else{
-                    tempList=[...customers.list];
+                if (params.page == 0) {
+                    tempList = [];
+                } else {
+                    tempList = [...customers.list];
                 }
                 tempList.push(...responseData.list);
                 responseData.list = tempList;
@@ -51,7 +52,7 @@ const Customer = () => {
 
     // Function to sort customer data
     const sortCustomers = (sortOrder) => {
-        let filterTemp = { ...filter };        
+        let filterTemp = { ...filter };
         const parts = sortOrder.split(" ");
         filterTemp.sortBy = parts[0].toLowerCase();
         filterTemp.orderBy = parts[1];
@@ -64,22 +65,26 @@ const Customer = () => {
     // Function to handle delete action
     const handleDelete = async (customerId) => {
         // Implement delete action logic here
-        try {
-            setCustomers(prevCustomers => ({
-                ...prevCustomers,
-                totalRecords:Number(prevCustomers.totalRecords) -1,
-                list: prevCustomers.list.filter(customer => customer.id !== customerId)
-            }));
-            const response = await APIServices.deleteCustomer(customerId);
-            if (response.status === 200) {
+        swal({title:"", text:"Are you sure you want to delete this customer?", icon:"warning",  buttons: ["No","Yes"]}).then(async (res) => {
+            if (res) {
+                try {
+                    setCustomers(prevCustomers => ({
+                        ...prevCustomers,
+                        totalRecords: Number(prevCustomers.totalRecords) - 1,
+                        list: prevCustomers.list.filter(customer => customer.id !== customerId)
+                    }));
+                    const response = await APIServices.deleteCustomer(customerId);
+                    if (response.status === 200) {
 
-            } else {
-                throw new Error('Failed to fetch data');
+                    } else {
+                        throw new Error('Failed to fetch data');
+                    }
+                } catch (error) {
+                    exceptionHandling(error);
+                    console.error('Error fetching data:', error);
+                }
             }
-        } catch (error) {
-            exceptionHandling(error);
-            console.error('Error fetching data:', error);
-        }
+        });
     };
 
     function createDateFromData(createdDate) {
@@ -97,7 +102,7 @@ const Customer = () => {
         if (customersRef.current) {
             const { scrollTop, scrollHeight, clientHeight } = customersRef.current;
             if (scrollTop + clientHeight === scrollHeight) {
-                const totalPages = Math.ceil(customers?.totalRecords / filter.size);
+                const totalPages = Math.ceil(customers?.totalElements / filter.size);
                 let filterTemp = { ...filter };
                 filterTemp.page = filterTemp.page + 1
                 if (filterTemp.page < totalPages && !loadingResponse.current) {
@@ -155,7 +160,7 @@ const Customer = () => {
                             <span className='customer-mobile-text'>{customers?.totalRecords}</span></h5>
                         <div className='sort-box d-flex align-items-center'>
                             <Form.Select aria-label="Default select example" className='mobile-tab inner-mobile-tab cursor-pointer' value={`${capitalizeFirstLetter(filter.sortBy)} ${filter.orderBy}`} onChange={(e) => sortCustomers(e.target.value)}>
-                                <option value={" "}>SORT BY</option>
+                                <option value={"Name DESC"}>SORT BY</option>
                                 {sortByOption.map((option, index) => {
                                     return (<option value={option}>{option.replace("ASC", "Assending").replace("DESC", "Desending")}</option>)
                                 })}
@@ -196,7 +201,7 @@ const Customer = () => {
                                 </tr>
                             </div> : customers?.list?.map((customer, index) => (
                                 <tr key={index}>
-                                    <td><p className='d-flex align-items-center'><span className='customer-name'>{customer.name.charAt(0).toUpperCase()}</span>{customer.name}</p></td>
+                                    <td><p className='d-flex align-items-center'><span className='customer-name'>{customer.name ? customer.name.charAt(0).toUpperCase() : ""}</span>{customer.name}</p></td>
                                     <td><p className='role'>{customer.role}</p></td>
                                     <td>{createDateFromData(customer.createdDate)}</td>
                                     <td>{customer.phone}</td>
@@ -247,7 +252,7 @@ const Customer = () => {
                         :
                         customers?.list?.map((customer, index) => (
                             <div className='mobile-side-customer'>
-                                <p className='d-flex align-items-center'><span className='customer-name'>{customer.name.charAt(0).toUpperCase()}</span>{customer.name}</p>
+                                <p className='d-flex align-items-center'><span className='customer-name'>{customer.name ? customer.name.charAt(0).toUpperCase() : ""}</span>{customer.name}</p>
                                 <hr></hr>
                                 <p className='role'><span><img src={require("../assets/images/call.svg").default} className="cursor-pointer me-2" alt="icons" />Phone</span> <span className='number'>{customer.phone}</span></p>
                                 <p className='role'><span><img src={require("../assets/images/email.svg").default} className="cursor-pointer me-2" alt="icons" />Email</span> <span className='number'>{customer.email}</span></p>

@@ -2,10 +2,13 @@ import { useRef, useState } from "react";
 import { Button, Form, Modal } from "react-bootstrap"
 import { APIServices } from "../../services/APIServices";
 import { exceptionHandling } from "../../Common/CommonComponents";
+import Loader from "../../Common/Loader";
+import swal from "sweetalert";
 
-const AddNewDeviceType = ({ show, handleClose }) => {
+const AddNewDeviceType = ({ show, handleClose, categoryId }) => {
     const deviceImageRef = useRef(null);
     const [deviceDetail, setDeviceDetail] = useState({ deviceImage: "", deviceName: "", errors: { deviceImage: "", deviceName: "" } });
+    const [showLoader, setShowLoader] = useState(false);
 
 
     function selectDeviceImage() {
@@ -39,8 +42,7 @@ const AddNewDeviceType = ({ show, handleClose }) => {
             },
         });
     };
-
-    const addDeviceType = async () => {
+    function checkValidation() {
         const errors = {};
         if (!deviceDetail.deviceName.trim()) {
             errors.deviceName = "This field is required";
@@ -48,20 +50,29 @@ const AddNewDeviceType = ({ show, handleClose }) => {
         if (!deviceDetail.deviceImage) {
             errors.deviceImage = "Please select an image";
         }
+        return errors;
+    }
+
+    const addDeviceType = async () => {
+        const errors = checkValidation();
 
         if (Object.keys(errors).length === 0) {
             try {
                 const formData = new FormData();
-                formData.append("deviceName", deviceDetail.deviceName);
-                formData.append("deviceImage", deviceDetail.deviceImage);
-                const response = await APIServices.addDeviceType("ddd", formData);
-                if (response.status === 200) {
+                formData.append("type", deviceDetail.deviceName);
+                formData.append("image", deviceDetail.deviceImage);
+                setShowLoader(true);
+                const response = await APIServices.addDeviceType(categoryId, formData);
+                if (response.status === 201) {
                     handleClose();
+                    setShowLoader(false);
+                    swal("", "Device Type has been successfully added.", "success").then(() => {});
                 } else {
                     throw new Error('Failed to fetch data');
                 }
             } catch (error) {
                 exceptionHandling(error);
+                setShowLoader(false);
                 console.error('Error fetching data:', error);
             }
         } else {
@@ -72,15 +83,15 @@ const AddNewDeviceType = ({ show, handleClose }) => {
 
     return (<>
         <Form.Control ref={deviceImageRef} type="file" name="deviceImage" accept="image/*" style={{ display: "none" }} onChange={handleImageChange} />
-        <Modal show={show} onHide={() => handleClose()} centered className='add-new-device-popup'>
-            <Modal.Header closeButton>
+        <Modal show={show} onHide={() => handleClose()} centered className='add-new-device-popup' backdrop="static">
+            <Modal.Header>
                 <Modal.Title>Add New Device</Modal.Title>
             </Modal.Header>
             <Modal.Body>
                 <Form>
                     <Form.Group controlId="device_name">
                         <Form.Label>Device Name</Form.Label>
-                        <Form.Control type="text" name="deviceName" placeholder="Enter Device Name" value={deviceDetail.deviceName} onChange={handleInputChange} />
+                        <Form.Control type="text" maxLength={50} name="deviceName" placeholder="Enter Device Name" value={deviceDetail.deviceName} onChange={handleInputChange} />
                         {deviceDetail.errors.deviceName && <span className="error">{deviceDetail.errors.deviceName}</span>}
                     </Form.Group>
                 </Form>
@@ -92,20 +103,19 @@ const AddNewDeviceType = ({ show, handleClose }) => {
                 </div>
 
                 <div className='footer-btns-bottom-right'>
-                    <Button variant="secondary" onClick={handleClose}>
+                    <Button variant="secondary" onClick={handleClose} disabled={showLoader}>
                         CANCEL
                     </Button>
-                    <Button variant="primary" className="add-btn" onClick={addDeviceType}>
-                        ADD
+                    <Button variant="primary" onClick={addDeviceType} className={Object.keys(checkValidation()).length === 0 ? "add-btn" : ""} disabled={showLoader || Object.keys(checkValidation()).length !== 0 ? true : false}>
+                        {showLoader ? <Loader loaderType={"COLOR_RING"} width={25} height={25} /> : "ADD"}
                     </Button>
                 </div>
-
             </Modal.Footer>
 
             {/* show succesfull detail modal  */}
             <div className="successfull-section text-center d-none">
-            <img src={require("../../assets/images/check.svg").default} className="" alt="icons" />
-            <h4 className="succefull-txt">New Device Type has been added</h4>
+                <img src={require("../../assets/images/check.svg").default} className="" alt="icons" />
+                <h4 className="succefull-txt">New Device Type has been added</h4>
             </div>
         </Modal>
     </>)

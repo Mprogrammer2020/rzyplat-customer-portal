@@ -1,4 +1,4 @@
-// const baseUrl = "http://192.168.2.46:8080" // local
+// const baseUrl = "http://192.168.2.82:8080" // local
 const baseUrl = "http://104.236.9.55:6009"
 
 

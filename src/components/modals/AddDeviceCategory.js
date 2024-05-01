@@ -3,11 +3,14 @@ import { Button, Col, Form, Modal, Row } from "react-bootstrap"
 import { APIServices } from "../../services/APIServices";
 import { exceptionHandling } from "../../Common/CommonComponents";
 import Select from "react-select";
+import Loader from "../../Common/Loader";
+import swal from "sweetalert";
 
 const AddDeviceCategory = ({ show, handleClose }) => {
     const deviceImageRef = useRef(null);
     const [deviceCategoryOptions, setDeviceCategoryOptions] = useState([]);
     const [deviceOptions, setDeviceOptions] = useState([]);
+    const [showLoader, setShowLoader] = useState(false);
 
 
     const [deviceDetail, setDeviceDetail] = useState({
@@ -20,20 +23,21 @@ const AddDeviceCategory = ({ show, handleClose }) => {
         getCategories(0, 30);
     }, [])
 
-    useEffect(() => {
-        setDeviceDetail({
-            ...deviceDetail,
-            deviceImage: "", deviceName: "",
-            sku: "", serialNumber: "", deviceCategory: "",
-            errors: { deviceImage: "", deviceName: "", sku: "", serialNumber: "", deviceCategory: "", }
-        })
-    }, [deviceDetail.showBulkUpload])
+    // useEffect(() => {
+    //     setDeviceDetail({
+    //         ...deviceDetail,
+    //         deviceImage: "", deviceName: "",
+    //         sku: "", serialNumber: "", deviceCategory: "",
+    //         errors: { deviceImage: "", deviceName: "", sku: "", serialNumber: "", deviceCategory: "", }
+    //     })
+    // }, [deviceDetail.showBulkUpload])
 
     async function getCategories(page, size) {
         try {
             const response = await APIServices.getCategories(page, size);
             if (response.status === 200) {
-                setDeviceCategoryOptions(response.data.list.map(item => { return { value: item.category.id, label: item.category.deviceName } }))
+                const options = response.data.list.map(item => { return { value: item.category.id, label: item.category.name } })
+                setDeviceCategoryOptions(options);
             } else {
                 throw new Error('Failed to fetch data');
             }
@@ -47,9 +51,7 @@ const AddDeviceCategory = ({ show, handleClose }) => {
         try {
             const response = await APIServices.getDeviceTypeByCategoryId(categoryId, page, size);
             if (response.status === 200) {
-                console.log(response);
-
-                setDeviceOptions(response.data.list.map(item => { return { value: item.id, label: item.deviceName } }))
+                setDeviceOptions(response.data.list.map(item => { return { value: item.id, label: item.type } }))
             } else {
                 throw new Error('Failed to fetch data');
             }
@@ -61,7 +63,7 @@ const AddDeviceCategory = ({ show, handleClose }) => {
 
     function selectDeviceCategory(e) {
         getDeviceTypeByCategoryId(e.value, 0, 30);
-        setDeviceDetail({ ...deviceDetail, deviceCategory: e })
+        setDeviceDetail({ ...deviceDetail, deviceCategory: e, deviceName: "", errors: {} });
     }
 
 
@@ -78,9 +80,10 @@ const AddDeviceCategory = ({ show, handleClose }) => {
         setDeviceDetail({
             ...deviceDetail,
             [name]: value,
+            bulkDataFile: "",
             errors: {
                 ...deviceDetail.errors,
-                [name]: value.trim() ? "" : (deviceDetail.showBulkUpload || name == "deviceName") ? "This field is required" : "",
+                [name]: value.trim() ? "" : (deviceDetail.showBulkUpload || name == "deviceCategory") ? "This field is required" : "",
             },
         });
     };
@@ -90,6 +93,7 @@ const AddDeviceCategory = ({ show, handleClose }) => {
         setDeviceDetail({
             ...deviceDetail,
             deviceImage: file,
+            bulkDataFile: "",
             errors: {
                 ...deviceDetail.errors,
                 deviceImage: file ? "" : "Please select an image",
@@ -97,12 +101,12 @@ const AddDeviceCategory = ({ show, handleClose }) => {
         });
     };
 
-    const addDeviceCategory = async () => {
+    function checkValidation() {
         const errors = {};
-        if (!deviceDetail.deviceName.trim()) {
+        if (deviceDetail.showBulkUpload && !deviceDetail.deviceName?.value) {
             errors.deviceName = "This field is required";
         }
-        if (deviceDetail.showBulkUpload && !deviceDetail.deviceCategory.trim()) {
+        if ((!deviceDetail.showBulkUpload && !deviceDetail.deviceCategory.trim()) || (deviceDetail.showBulkUpload && !deviceDetail.deviceCategory.value)) {
             errors.deviceCategory = "This field is required";
         }
         if (deviceDetail.showBulkUpload && !deviceDetail.sku.trim()) {
@@ -116,33 +120,59 @@ const AddDeviceCategory = ({ show, handleClose }) => {
             errors.deviceImage = "Please select an image";
         }
 
+        if (deviceDetail.bulkDataFile && deviceDetail.bulkDataFile.name) {
+            return {};
+        } else {
+            return errors;
+
+        }
+    }
+    const handleFileUpload = (event) => {
+        const file = event.target.files[0];
+        setDeviceDetail({
+            ...deviceDetail, bulkDataFile: file,
+            deviceImage: "", deviceName: "",
+            sku: "", serialNumber: "", deviceCategory: "",
+            errors: { deviceImage: "", deviceName: "", sku: "", serialNumber: "", deviceCategory: "", }
+        });
+    }
+
+    const addDeviceCategory = async () => {
+        const errors = checkValidation();
         if (Object.keys(errors).length === 0) {
             try {
+                setShowLoader(true);
                 let response;
                 if (deviceDetail.showBulkUpload) {
-                    const params = {
-                        categoryId: deviceDetail.deviceCategory,
-                        deviceTypeId: deviceDetail.deviceName,
-                        serialNumber: deviceDetail.serialNumber,
-                        sku: deviceDetail.sku
+                    if (deviceDetail.bulkDataFile && deviceDetail.bulkDataFile.name) {
+                        const formData = new FormData();
+                        formData.append("file", deviceDetail.bulkDataFile);
+                        response = await APIServices.uploadBulkDevice(formData);
+                    } else {
+                        const params = {
+                            categoryId: deviceDetail.deviceCategory.value,
+                            deviceTypeId: deviceDetail.deviceName.value,
+                            serialNumber: deviceDetail.serialNumber,
+                            sku: deviceDetail.sku
+                        }
+                        response = await APIServices.addDevice(params);
                     }
-                    response = await APIServices.addDevice(params);
                 } else {
                     const formData = new FormData();
-                    formData.append("deviceCategory", deviceDetail.deviceCategory);
-                    formData.append("deviceName", deviceDetail.deviceName);
-                    formData.append("serialNumber", deviceDetail.serialNumber);
-                    formData.append("sku", deviceDetail.sku);
-                    formData.append("deviceImage", deviceDetail.deviceImage);
+                    formData.append("name", deviceDetail.deviceCategory);
+                    formData.append("image", deviceDetail.deviceImage);
                     response = await APIServices.addCategory(formData);
                 }
-                if (response.status === 200) {
+                if (response.status === 201) {
                     handleClose();
+                    setShowLoader(false);
+                    swal("", deviceDetail.showBulkUpload ? "Device has been successfully added." : "Device category has been successfully added.", "success").then(() => { });
                 } else {
                     throw new Error('Failed to fetch data');
                 }
             } catch (error) {
                 exceptionHandling(error);
+                setShowLoader(false);
                 console.error('Error fetching data:', error);
             }
         } else {
@@ -152,9 +182,9 @@ const AddDeviceCategory = ({ show, handleClose }) => {
 
     return (<>
         <Form.Control ref={deviceImageRef} type="file" name="deviceImage" accept="image/*" style={{ display: "none" }} onChange={handleImageChange} />
-        <Modal show={show} onHide={() => handleClose()} centered className='add-new-device-popup add-new-popup' size='lg'>
-            <Modal.Header closeButton>
-                <Modal.Title>Add New Device</Modal.Title>
+        <Modal show={show} onHide={() => handleClose()} centered className='add-new-device-popup add-new-popup' size='lg' backdrop="static">
+            <Modal.Header>
+                <Modal.Title>Add New {deviceDetail.showBulkUpload ? "Device" : "Category"}</Modal.Title>
             </Modal.Header>
             <Modal.Body>
                 <Form>
@@ -179,72 +209,78 @@ const AddDeviceCategory = ({ show, handleClose }) => {
                                             color: "white"
                                         })
                                     }}
-                                /> : <Form.Control type="text" placeholder="Enter Device Category" name="deviceCategory" onChange={handleInputChange} />}
+                                /> : <Form.Control type="text" maxLength={50} placeholder="Enter Device Category" name="deviceCategory" onChange={handleInputChange} />}
                             </Form.Group>
                             {deviceDetail.errors.deviceCategory && <span className="error">{deviceDetail.errors.deviceCategory}</span>}
                         </Col>
-                        <Col md={12} lg={6}>
-                            <Form.Group className="mb-2" controlId="device">
-                                <Form.Label>Device</Form.Label>
-                                {deviceDetail.showBulkUpload ? <Select options={deviceOptions} placeholder="Select Device" name="deviceName" value={deviceDetail.deviceName} onChange={(e) => setDeviceDetail({ ...deviceDetail, deviceName: e })}
-                                    styles={{
-                                        control: (base, state) => ({
-                                            background: "#EDF1F7",
-                                            borderRadius: "5px",
-                                        }),
-                                        placeholder: (base, state) => ({
-                                            ...base,
-                                            color: "#fff",
+                        {deviceDetail.showBulkUpload ? <>
+                            <Col md={12} lg={6}>
+                                <Form.Group className="mb-2" controlId="device">
+                                    <Form.Label>Device</Form.Label>
+                                    {deviceDetail.showBulkUpload ? <Select options={deviceOptions} placeholder="Select Device" name="deviceName" value={deviceDetail.deviceName} onChange={(e) => setDeviceDetail({ ...deviceDetail, deviceName: e, errors: {} })}
+                                        styles={{
+                                            control: (base, state) => ({
+                                                background: "#EDF1F7",
+                                                borderRadius: "5px",
+                                            }),
+                                            placeholder: (base, state) => ({
+                                                ...base,
+                                                color: "#fff",
 
-                                        }),
-                                        input: (base, state) => ({
-                                            ...base,
-                                            color: "white"
-                                        })
-                                    }}
-                                /> :
-                                    <Form.Control type="text" placeholder="Enter Device Name" name="deviceName" onChange={handleInputChange} />}
+                                            }),
+                                            input: (base, state) => ({
+                                                ...base,
+                                                color: "white"
+                                            })
+                                        }}
+                                    /> :
+                                        <Form.Control type="text" placeholder="Enter Device Name" maxLength={50} name="deviceName" onChange={handleInputChange} />}
 
-                            </Form.Group>
-                            {deviceDetail.errors.deviceName && <span className="error">{deviceDetail.errors.deviceName}</span>}
-                        </Col>
-                        <Col md={12} lg={6}>
-                            <Form.Group className="mb-2" controlId="formBasicEmail">
-                                <Form.Label>Serial Number</Form.Label>
-                                <Form.Control type="text" placeholder="Enter Serial Number" name="serialNumber" onChange={handleInputChange} />
-                            </Form.Group>
-                            {deviceDetail.errors.serialNumber && <span className="error">{deviceDetail.errors.serialNumber}</span>}
-                        </Col>
-                        <Col md={12} lg={6}>
-                            <Form.Group className="mb-2" controlId="formBasicEmail">
-                                <Form.Label>SKU</Form.Label>
-                                <Form.Control type="text" name="sku" onChange={handleInputChange} />
-                            </Form.Group>
-                            {deviceDetail.errors.sku && <span className="error">{deviceDetail.errors.sku}</span>}
-                        </Col>
+                                </Form.Group>
+                                {deviceDetail.errors.deviceName && <span className="error">{deviceDetail.errors.deviceName}</span>}
+                            </Col>
+                            <Col md={12} lg={6}>
+                                <Form.Group className="mb-2" controlId="formBasicEmail">
+                                    <Form.Label>Serial Number</Form.Label>
+                                    <Form.Control type="text" maxLength={50} placeholder="Enter Serial Number" name="serialNumber" onChange={handleInputChange} />
+                                </Form.Group>
+                                {deviceDetail.errors.serialNumber && <span className="error">{deviceDetail.errors.serialNumber}</span>}
+                            </Col>
+                            <Col md={12} lg={6}>
+                                <Form.Group className="mb-2" controlId="formBasicEmail">
+                                    <Form.Label>SKU</Form.Label>
+                                    <Form.Control type="text" maxLength={50} name="sku" onChange={handleInputChange} />
+                                </Form.Group>
+                                {deviceDetail.errors.sku && <span className="error">{deviceDetail.errors.sku}</span>}
+                            </Col>
+                        </> : ""}
                     </Row>
                 </Form>
                 {deviceDetail.showBulkUpload && <>
                     <p>or bulk upload</p>
                     <div className='upload-file'>
                         <img src={require("../../assets/images/upload-file.png")} alt='upload-img' />
-                        <h6>Drag & Drop or <span>browse</span> file</h6>
-                        <input type="file" />
+                        {deviceDetail?.bulkDataFile && deviceDetail?.bulkDataFile?.name ? <h6> {deviceDetail.bulkDataFile.name}</h6> : <h6>Drag & Drop or <span>browse</span> file</h6>}
+                        <input type="file" accept=".csv,.xlsx" onChange={handleFileUpload} />
                     </div>
                 </>}
             </Modal.Body>
             <Modal.Footer>
                 <div className='footer-btns-bottom-left'>
-                    {deviceDetail.showBulkUpload ? <Button type='button' variant='unset' onClick={() => setDeviceDetail({ ...deviceDetail, showBulkUpload: false })}> NEW CATEGORY</Button> :
+                    {deviceDetail.showBulkUpload ? <Button type='button' variant='unset' onClick={() => setDeviceDetail({
+                        ...deviceDetail, showBulkUpload: false, deviceImage: "", deviceName: "",
+                        sku: "", serialNumber: "", deviceCategory: "",
+                        errors: { deviceImage: "", deviceName: "", sku: "", serialNumber: "", deviceCategory: "", }
+                    })}> NEW CATEGORY</Button> :
                         <Button type='button' variant='unset' onClick={() => selectDeviceImage()}><i class="fa fa-upload" aria-hidden="true"></i> {deviceDetail.deviceImage && deviceDetail.deviceImage?.name ? deviceDetail.deviceImage.name : "Upload Image"}</Button>}
                     {!deviceDetail.showBulkUpload && deviceDetail.errors.deviceImage && <span className="error">{deviceDetail.errors.deviceImage}</span>}
                 </div>
                 <div className='footer-btns-bottom-right'>
-                    <Button variant="secondary" onClick={handleClose}>
+                    <Button variant="secondary" onClick={handleClose} disabled={showLoader}>
                         CANCEL
                     </Button>
-                    <Button variant="primary" onClick={addDeviceCategory}>
-                        ADD
+                    <Button variant="primary" className={Object.keys(checkValidation()).length === 0 ? "add-btn" : ""} onClick={addDeviceCategory} disabled={showLoader || Object.keys(checkValidation()).length !== 0 ? true : false}>
+                        {showLoader ? <Loader loaderType={"COLOR_RING"} width={25} height={25} /> : "ADD"}
                     </Button>
                 </div>
 
