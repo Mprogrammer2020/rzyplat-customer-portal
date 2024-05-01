@@ -129,12 +129,19 @@ const AddDeviceCategory = ({ show, handleClose }) => {
     }
     const handleFileUpload = (event) => {
         const file = event.target.files[0];
-        setDeviceDetail({
-            ...deviceDetail, bulkDataFile: file,
-            deviceImage: "", deviceName: "",
-            sku: "", serialNumber: "", deviceCategory: "",
-            errors: { deviceImage: "", deviceName: "", sku: "", serialNumber: "", deviceCategory: "", }
-        });
+        const fileName = file.name;
+
+        if (fileName.endsWith('.csv') || fileName.endsWith('.xls')) {
+            setDeviceDetail({
+                ...deviceDetail, bulkDataFile: file,
+                deviceImage: "", deviceName: "",
+                sku: "", serialNumber: "", deviceCategory: "",
+                errors: { deviceImage: "", deviceName: "", sku: "", serialNumber: "", deviceCategory: "", }
+            });
+        }else{
+            swal("",  `File type "${fileName.split('.').pop()}" is not supported. Please upload a CSV or xls file.`, "error");
+
+        }
     }
 
     const addDeviceCategory = async () => {
@@ -261,7 +268,7 @@ const AddDeviceCategory = ({ show, handleClose }) => {
                     <div className='upload-file'>
                         <img src={require("../../assets/images/upload-file.png")} alt='upload-img' />
                         {deviceDetail?.bulkDataFile && deviceDetail?.bulkDataFile?.name ? <h6> {deviceDetail.bulkDataFile.name}</h6> : <h6>Drag & Drop or <span>browse</span> file</h6>}
-                        <input type="file" accept=".csv,.xlsx" onChange={handleFileUpload} />
+                        <input type="file" accept=".csv,.xls" onChange={handleFileUpload} />
                     </div>
                 </>}
             </Modal.Body>
