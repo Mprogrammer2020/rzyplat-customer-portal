@@ -462,7 +462,7 @@ button.replacement {
     font-weight: 400;
 }
 
-button.order-status {
+button.order-status, button.order-status:hover {
     background: rgba(22, 109, 236, 1);
     color: #fff;
     display: flex;
@@ -927,12 +927,13 @@ button.required-devices span {
     visibility: visible;
     transform: translate3d(0, 0, 0);
     transition: width 2s;
+    z-index: 1040;
 }
 
 .green-btn.btn.btn-unset {
     display: flex;
     background: var(--Secondary-100, #00C17B) !important;
-    z-index: 99999999;
+    z-index: 1034;
     width: -moz-fit-content;
     width: fit-content;
     align-items: center;
@@ -1063,6 +1064,23 @@ hr {
     z-index: 9;
     top: 40px;
 }
+.footer-btns-bottom-right .add-btn {
+    background: #01337c !important;
+    border: 1px solid #01337c !important;
+}
+.succefull-txt {
+    color:  #01337C;
+    text-align: center;
+    font-family: Inter;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    margin-top: 22px;
+}
+.successfull-section {
+    padding: 32px;
+}
 /* media-query */
 @media (max-width: 1700px) {
     .property-section {
@@ -1073,6 +1091,9 @@ hr {
 @media (max-width: 1600px) {
     .property-section {
         min-width: 332px;
+    }
+    .add-green-btn-outer-box button {
+        font-size: 13px;
     }
 }
 

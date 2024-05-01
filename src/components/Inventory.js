@@ -155,9 +155,9 @@ const Inventory = () => {
                                     </div>
                                     <div className='inner-hover-divice first-child-section'>
                                         <span className='device-text'>Device Type 1 <b>70</b></span>
-                                        <span className='device-text'>Device Type 1 <b>70</b></span>
-                                        <span className='device-text'>Device Type 1 <b>70</b></span>
-                                        <span className='device-text'>Device Type 1 <b>70</b></span>
+                                        <span className='device-text'>Device Type 2 <b>70</b></span>
+                                        <span className='device-text'>Device Type 3 <b>70</b></span>
+                                        <span className='device-text'>Device Type 4 <b>70</b></span>
                                         <Button type='button' className='view-more' variant='unset' onClick={handleShow}>View More <i class="fa fa-chevron-down" aria-hidden="true"></i></Button>
                                     </div>
 
@@ -183,9 +183,9 @@ const Inventory = () => {
                                     </div>
                                     <div className='inner-hover-divice'>
                                         <span className='device-text'>Device Type 1 <b>70</b></span>
-                                        <span className='device-text'>Device Type 1 <b>70</b></span>
-                                        <span className='device-text'>Device Type 1 <b>70</b></span>
-                                        <span className='device-text'>Device Type 1 <b>70</b></span>
+                                        <span className='device-text'>Device Type 2 <b>70</b></span>
+                                        <span className='device-text'>Device Type 3 <b>70</b></span>
+                                        <span className='device-text'>Device Type 4 <b>70</b></span>
                                     </div>
                                 </div>
                             </Col>
@@ -209,9 +209,9 @@ const Inventory = () => {
                                     </div>
                                     <div className='inner-hover-divice'>
                                         <span className='device-text'>Device Type 1 <b>70</b></span>
-                                        <span className='device-text'>Device Type 1 <b>70</b></span>
-                                        <span className='device-text'>Device Type 1 <b>70</b></span>
-                                        <span className='device-text'>Device Type 1 <b>70</b></span>
+                                        <span className='device-text'>Device Type 2 <b>70</b></span>
+                                        <span className='device-text'>Device Type 3 <b>70</b></span>
+                                        <span className='device-text'>Device Type 4 <b>70</b></span>
                                     </div>
                                 </div>
                             </Col>
@@ -235,9 +235,9 @@ const Inventory = () => {
                                     </div>
                                     <div className='inner-hover-divice'>
                                         <span className='device-text'>Device Type 1 <b>70</b></span>
-                                        <span className='device-text'>Device Type 1 <b>70</b></span>
-                                        <span className='device-text'>Device Type 1 <b>70</b></span>
-                                        <span className='device-text'>Device Type 1 <b>70</b></span>
+                                        <span className='device-text'>Device Type 2 <b>70</b></span>
+                                        <span className='device-text'>Device Type 3 <b>70</b></span>
+                                        <span className='device-text'>Device Type 4 <b>70</b></span>
                                     </div>
                                 </div>
                             </Col>
@@ -261,9 +261,9 @@ const Inventory = () => {
                                     </div>
                                     <div className='inner-hover-divice'>
                                         <span className='device-text'>Device Type 1 <b>70</b></span>
-                                        <span className='device-text'>Device Type 1 <b>70</b></span>
-                                        <span className='device-text'>Device Type 1 <b>70</b></span>
-                                        <span className='device-text'>Device Type 1 <b>70</b></span>
+                                        <span className='device-text'>Device Type 2 <b>70</b></span>
+                                        <span className='device-text'>Device Type 3 <b>70</b></span>
+                                        <span className='device-text'>Device Type 4 <b>70</b></span>
                                     </div>
                                 </div>
                             </Col>

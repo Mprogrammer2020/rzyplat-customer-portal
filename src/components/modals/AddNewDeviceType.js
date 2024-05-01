@@ -95,12 +95,18 @@ const AddNewDeviceType = ({ show, handleClose }) => {
                     <Button variant="secondary" onClick={handleClose}>
                         CANCEL
                     </Button>
-                    <Button variant="primary" onClick={addDeviceType}>
+                    <Button variant="primary" className="add-btn" onClick={addDeviceType}>
                         ADD
                     </Button>
                 </div>
 
             </Modal.Footer>
+
+            {/* show succesfull detail modal  */}
+            <div className="successfull-section text-center d-none">
+            <img src={require("../../assets/images/check.svg").default} className="" alt="icons" />
+            <h4 className="succefull-txt">New Device Type has been added</h4>
+            </div>
         </Modal>
     </>)
 }
