@@ -242,12 +242,7 @@ const Inventory = () => {
                                                 {item?.deviceTypes.length > 0 ? <div className='inner-hover-divice first-child-section'>
                                                     {item?.deviceTypes?.map((innerItem, innerIndex) => {
                                                         if (innerIndex < 5) {
-                                                            return (<span className='device-text'><p className='inner-main-text' style={{
-                                                                display: "-webkit-box",
-                                                                WebkitLineClamp: 1,
-                                                                lineClamp: 2,
-                                                                WebkitBoxOrient: "vertical"
-                                                              }}>{innerItem?.type}</p><b>{innerItem?.count}</b></span>)
+                                                            return (<span className='device-text'><span className='inner-main-text'>{innerItem?.type}</span><b>{innerItem?.count}</b></span>)
                                                         }
                                                     })}
                                                     {item?.deviceTypes.length > 5 ? <Button type='button' className='view-more' variant='unset'>View More <i class="fa fa-chevron-down" aria-hidden="true"></i></Button> : ""}

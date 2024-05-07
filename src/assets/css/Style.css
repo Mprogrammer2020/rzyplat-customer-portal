@@ -1104,10 +1104,11 @@ hr {
 .css-1m4u1bx {
     display: flex !important;
 }
-.inner-main-text{
+.inner-main-text {
+    overflow: hidden;
     text-overflow: ellipsis;
-white-space: nowrap;
-overflow: hidden;
+    white-space: nowrap;
+    padding-right: 12px;
 }
 /* media-query */
 @media (max-width: 1700px) {
