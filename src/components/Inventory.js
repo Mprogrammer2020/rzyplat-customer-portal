@@ -82,8 +82,10 @@ const Inventory = () => {
     const onScroll = async () => {
         if (inventoryRef.current) {
             const { scrollTop, scrollHeight, clientHeight } = inventoryRef.current;
+            console.log("scrollTop + clientHeight === scrollHeight",scrollTop + clientHeight , scrollHeight);
             if (scrollTop + clientHeight === scrollHeight) {
                 const totalPages = Math.ceil(categories.totalElements / filter.size);
+                console.log("totalPages",totalPages);
                 let filterTemp = { ...filter };
                 filterTemp.page = filterTemp.page + 1
                 if (filterTemp.page < totalPages && !loadingResponse.current) {
@@ -221,26 +223,31 @@ const Inventory = () => {
                                     categories?.list?.map((item, index) => {
                                         return (<Col md={6} lg={6} xl={4}>
                                             <div className='position-relative add-green-btn-outer-box'>
-                                                <Button type='button' className='main-btn' variant='unset' onClick={() => addNewDevice(item?.category.id)}><i class="fa fa-plus" aria-hidden="true"></i> New Device Type</Button>
+                                                <Button type='button' className='main-btn' variant='unset' onClick={() => addNewDevice(item?.id)}><i class="fa fa-plus" aria-hidden="true"></i> New Device Type</Button>
                                                 <div className='device-content-inner'>
                                                     <div className='position-relative'>
-                                                        <img src={getFileURL(item?.category?.imagePath)} alt="icons" />
+                                                        <img src={`data:${item?.imageContentType};base64,${item?.imageContent}`} alt="icons" />
                                                         <div className='inner-img' >
                                                             <img src={require("../assets/images/device1.png")} alt="icons" />
                                                         </div>
                                                     </div>
                                                     <div className='device-info'>
-                                                        <p>{item?.category?.name}</p>
+                                                        <p>{item?.name}</p>
                                                         <span className='d-flex align-items-center arrow-icon'>
-                                                            <h6 className='upper-text'>{item?.category?.count}</h6>
-                                                            <h6 className='hover-text'>{item?.category?.count} <img src={require("../assets/images/left.svg").default} alt="icons" /></h6>
+                                                            <h6 className='upper-text'>{item?.count}</h6>
+                                                            <h6 className='hover-text'>{item?.count} <img src={require("../assets/images/left.svg").default} alt="icons" /></h6>
                                                         </span>
                                                     </div>
                                                 </div>
                                                 {item?.deviceTypes.length > 0 ? <div className='inner-hover-divice first-child-section'>
                                                     {item?.deviceTypes?.map((innerItem, innerIndex) => {
                                                         if (innerIndex < 5) {
-                                                            return (<span className='device-text'>{innerItem?.type}<b>{innerItem?.count}</b></span>)
+                                                            return (<span className='device-text'><p className='inner-main-text' style={{
+                                                                display: "-webkit-box",
+                                                                WebkitLineClamp: 1,
+                                                                lineClamp: 2,
+                                                                WebkitBoxOrient: "vertical"
+                                                              }}>{innerItem?.type}</p><b>{innerItem?.count}</b></span>)
                                                         }
                                                     })}
                                                     {item?.deviceTypes.length > 5 ? <Button type='button' className='view-more' variant='unset'>View More <i class="fa fa-chevron-down" aria-hidden="true"></i></Button> : ""}
@@ -248,7 +255,6 @@ const Inventory = () => {
                                             </div>
                                         </Col>)
                                     })
-
                                 }
                             </Row>
                         </div>

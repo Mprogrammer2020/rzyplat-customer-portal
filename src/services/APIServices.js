@@ -29,11 +29,11 @@ export const APIServices = {
 }
 
 function getCategories(page, size = 10, orderBy, direction) {
-    return axios.get(`${config.apiUrl}/categories?page=${page}&size=${size}&orderBy=${orderBy}&direction=${direction}`, configJsonHeaders());
+    return axios.get(`${config.apiUrl}/categories?pageNumber=${page}&pageSize=${size}&orderBy=${orderBy}&direction=${direction}`, configJsonHeaders());
 }
 
 function getDeviceTypeByCategoryId(categoryId, page, size = 10) {
-    return axios.get(`${config.apiUrl}/device-type/${categoryId}?page=${page}&size=${size}`, configJsonHeaders());
+    return axios.get(`${config.apiUrl}/device-type/${categoryId}?pageNumber=${page}&pageSize=${size}`, configJsonHeaders());
 }
 
 function addCategory(params) {
@@ -53,7 +53,7 @@ function addDeviceType(deviceId, params) {
 }
 
 function getCustomers(page, size, orderBy, direction) {
-    return axios.get(`${config.apiUrl}/customers/search?page=${page}&size=${size}&orderBy=${orderBy}&direction=${direction}`, configJsonHeaders());
+    return axios.get(`${config.apiUrl}/customers/search?pageNumber=${page}&pageSize=${size}&orderBy=${orderBy}&direction=${direction}`, configJsonHeaders());
 }
 
 function deleteCustomer(customerId) {

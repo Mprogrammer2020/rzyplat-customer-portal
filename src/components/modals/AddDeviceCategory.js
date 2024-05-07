@@ -34,9 +34,9 @@ const AddDeviceCategory = ({ show, handleClose }) => {
 
     async function getCategories(page, size) {
         try {
-            const response = await APIServices.getCategories(page, size);
+            const response = await APIServices.getCategories(page, size,"name","desc");
             if (response.status === 200) {
-                const options = response.data.list.map(item => { return { value: item.category.id, label: item.category.name } })
+                const options = response.data.list.map(item => { return { value: item.id, label: item.name } })
                 setDeviceCategoryOptions(options);
             } else {
                 throw new Error('Failed to fetch data');
