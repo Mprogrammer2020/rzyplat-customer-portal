@@ -1112,6 +1112,20 @@ hr {
     white-space: nowrap;
     padding-right: 12px;
 }
+
+.inventory-detail-top-right h6 {
+    background: #c0d9ff;
+    color: #01337c;
+    font-size: 15px;
+    font-weight: 600;
+    padding: 8px 12px;
+    border-radius: 6px;
+    cursor: pointer;
+    margin-right: 12px;
+}
+.inventory-detail-top-right h6 i {
+    margin-left: 4px;
+}
 /* media-query */
 @media (max-width: 1700px) {
     .property-section {
