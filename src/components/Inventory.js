@@ -189,7 +189,6 @@ const Inventory = () => {
                                         <ul>
                                             <li className={filter.orderBy == "name" ? 'active' : ""} onClick={() => sortByDevice("name", filter.direction)}>Name</li>
                                             <li className={filter.orderBy == "createdOn" ? 'active' : ""} onClick={() => sortByDevice("createdOn", filter.direction)}>Date</li>
-                                            {/* <li>Quantity</li> */}
                                             <hr></hr>
                                             <li className={filter.direction == "asc" ? 'active' : ""} onClick={() => sortByDevice(filter.orderBy, "asc")}>Ascending</li>
                                             <li className={filter.direction == "desc" ? 'active' : ""} onClick={() => sortByDevice(filter.orderBy, "desc")}>Descending</li>
@@ -219,7 +218,6 @@ const Inventory = () => {
                                             </Col>))}
                                     </>
                                     :
-
                                     categories?.list?.map((item, index) => {
                                         return (<Col md={6} lg={6} xl={4}>
                                             <div className='position-relative add-green-btn-outer-box'>
@@ -227,9 +225,9 @@ const Inventory = () => {
                                                 <div className='device-content-inner'>
                                                     <div className='position-relative'>
                                                         <img src={`data:${item?.imageContentType};base64,${item?.imageContent}`} alt="icons" />
-                                                        <div className='inner-img' >
+                                                        {/* <div className='inner-img' >
                                                             <img src={require("../assets/images/device1.png")} alt="icons" />
-                                                        </div>
+                                                        </div> */}
                                                     </div>
                                                     <div className='device-info'>
                                                         <p>{item?.name}</p>
@@ -258,7 +256,8 @@ const Inventory = () => {
             </section>
 
             {showAddNewDeviceModal && <AddNewDeviceType show={showAddNewDeviceModal} handleClose={handleNewDeviceClose} categoryId={categoryId} />}
-            {showCategoryModal && <AddDeviceCategory show={showCategoryModal} handleClose={handleCategoryClose} />}
+            {showCategoryModal && 
+<AddDeviceCategory show={showCategoryModal} handleClose={handleCategoryClose} />}
 
         </>
 
