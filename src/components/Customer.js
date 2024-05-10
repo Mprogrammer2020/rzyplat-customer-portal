@@ -5,6 +5,8 @@ import { APIServices } from '../services/APIServices';
 import { exceptionHandling } from '../Common/CommonComponents';
 import Skeleton from 'react-loading-skeleton';
 import swal from 'sweetalert';
+import "@testing-library/jest-dom";
+
 
 const Customer = () => {
     // State for customer data
@@ -226,7 +228,6 @@ const Customer = () => {
                             ))}
                             {/* </div> */}
                         </tbody>
-
                     </table>
                 </div>
 
