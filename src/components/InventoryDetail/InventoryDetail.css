@@ -1,0 +1,7 @@
+.customer-container-body .table td {
+    min-width: 261px;
+}
+.inventory-detail-top-right {
+    display: flex;
+    align-items: center;
+}
