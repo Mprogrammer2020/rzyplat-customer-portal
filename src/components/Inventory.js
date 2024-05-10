@@ -16,6 +16,7 @@ const Inventory = () => {
     const [categories, setCategories] = useState([]);
     const [filter, setFilter] = useState({ page: 0, size: 30, orderBy: "name", direction: "desc" });
     const inventoryRef = useRef();
+    // const navigate = useNavigate();
 
 
 
@@ -222,7 +223,7 @@ const Inventory = () => {
                                         return (<Col md={6} lg={6} xl={4}>
                                             <div className='position-relative add-green-btn-outer-box'>
                                                 <Button type='button' className='main-btn' variant='unset' onClick={() => addNewDevice(item?.id)}><i class="fa fa-plus" aria-hidden="true"></i> New Device Type</Button>
-                                                <div className='device-content-inner'>
+                                                <div className='device-content-inner' onClick={(e) => window.location.href =`/inventory-details?categoryId=${item.id}`}>
                                                     <div className='position-relative'>
                                                         <img src={`data:${item?.imageContentType};base64,${item?.imageContent}`} alt="icons" />
                                                         {/* <div className='inner-img' >
