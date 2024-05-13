@@ -140,7 +140,7 @@ const Inventory = () => {
                     </Row>
                 </header>
                 {/* header section ends */}
-                <div className='customer-outer-section' >
+                <div className='customer-outer-section inventory-contnet-area' >
                     <div className='new-conversation'>
                         <Row>
                             <Col md={12} lg={6}>

@@ -1225,6 +1225,12 @@ button.swal-button.swal-button--cancel {
     }
 }
 @media (max-width: 600px) {
+   .customer-mobile-outer {
+        margin-top: 0;
+    }
+    .customer-outer-section.inventory-contnet-area {
+        margin-top: 60px;
+    }
     .header-right-box .form-control {
         display: none;
     }
@@ -1331,6 +1337,10 @@ button.swal-button.swal-button--cancel {
 }
 
 @media (max-width: 575px) {
+    .customer-mobile-outer {
+        margin-top: 60px;
+        padding: 0 10px;
+    }
     .customer-outer-section {
         margin-top: 70px;
         padding: 10px;
@@ -1360,6 +1370,7 @@ button.swal-button.swal-button--cancel {
 }
 
 @media (max-width: 480px) {
+    
     .device-content-inner button {
         font-size: 14px;
     }
@@ -1391,7 +1402,7 @@ button.swal-button.swal-button--cancel {
     }
 
     .devices-area-top-right h6 {
-        margin: 0 0 0 12px;
+        margin: 0;
         font-size: 12px;
     }
 
@@ -1432,7 +1443,7 @@ button.swal-button.swal-button--cancel {
     }
 
     button.required-devices {
-        min-width: 165px;
+        min-width: 150px;
     }
 
     .new-conversation-right button {
@@ -1441,6 +1452,9 @@ button.swal-button.swal-button--cancel {
         display: flex;
         justify-content: center;
         align-items: center;
+    }
+    .mobile-side-customer .role, .number {
+        font-size: 13px;
     }
 }
 

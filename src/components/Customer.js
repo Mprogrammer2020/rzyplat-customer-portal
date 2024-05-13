@@ -222,7 +222,8 @@ const Customer = () => {
                 </div>
 
                 {/* mobile side cards */}
-                <div ref={customersRef} onScroll={onScroll} className="customer-scroll mobile">
+                <div className='customer-mobile-outer'>
+                <div ref={customersRef} onScroll={onScroll} className="customer-scroll mobile ">
                     {customers.length <= 0 ?
                         <>{
                             Array.from({ length: 5 }).map(() => (<div className='mobile-side-customer'>
@@ -255,7 +256,8 @@ const Customer = () => {
                                 </div>
                             </div>
                         ))}
-                </div>
+                    </div>
+                    </div>
             </div>
         </section>
     );

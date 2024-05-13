@@ -13,7 +13,7 @@
     padding: 20px;
 }
 .inventory-detail-columns .device-content-inner {
-    margin-bottom: 0;
+    margin: 0 0 10px;
 }
 .device-content-inner {
     box-shadow: 0px 12px 27.1px -16px rgba(5, 31, 68, 0.40);
@@ -46,4 +46,97 @@
     height: 100%;
     margin-bottom: 0;
     display: block;
+}
+.smoke-detector-mobile-outer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.smoke-detector-mobile-outer .action-div {
+    display: flex;
+    break-after: column;
+    padding: 0 !important;
+}
+.smoke-detector-mobile-outer-left p {
+    color: #01337C;
+    font-weight: 400;
+}
+.smoke-detector-mobile-outer-left h6 {
+    font-size: 17px;
+    margin-bottom: 4px;
+}
+.serial-sku {
+    display: flex;
+    align-items: center;
+}
+.smoke-detector-serial, .smoke-detector-sku {
+    background: #EDF1F7;
+    width: 50%;
+    margin: 10px 8px 10px 0;
+    padding: 10px;
+    border-radius: 5px;
+}
+.serial-sku h5 {
+    color: #5C626EB2;
+    font-size: 16px;
+    margin-bottom: 3px;
+}
+.serial-sku p {
+    color: #000;
+}
+p.added-date {
+    font-size: 14px;
+    font-weight: 500;
+    margin: 2px 0 0 0;
+}
+/* media-query */
+@media (max-width: 600px) { 
+    .device-info {
+        padding: 0 !important;
+    }
+    .inventory-detail-outer {
+        background: none;
+        border-radius: 10px;
+        margin: 0 10px;
+    }
+    .inventory-detail-columns {
+        padding: 0;
+    }
+}
+@media (max-width: 575px) {
+ 
+.customer-outer-section.inventory-outer-content-area {
+    margin-top: 140px;
+}
+
+h6.inventory-add {
+    display: none;
+}
+.inventory-detail-outer .heading-main img {
+    display: none;
+}
+}
+@media (max-width: 480px) {
+.inventory-detail-columns .device-content-inner img {
+    width: 100%;
+    height: 160px;
+    object-fit: cover;
+    border-radius: 6px;
+}
+
+}
+@media (max-width: 420px) {
+    .customer-outer-section.inventory-outer-content-area {
+        margin-top: 140px;
+    }
+    .inventory-detail-columns .device-content-inner img {
+        width: 100%;
+        height: 120px;
+        object-fit: cover;
+        border-radius: 6px;
+    }
+    .device-info {
+        padding: 0;
+    }
+  
 }

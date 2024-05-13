@@ -111,7 +111,7 @@ function InventoryDetail() {
     const onScroll = async () => {
         if (customersRef.current) {
             const { scrollTop, scrollHeight, clientHeight } = customersRef.current;
-            console.log("scrollTop + clientHeight === scrollHeight",scrollTop + clientHeight , scrollHeight);
+            console.log("scrollTop + clientHeight === scrollHeight", scrollTop + clientHeight, scrollHeight);
             if (scrollTop + clientHeight === scrollHeight) {
                 const totalPages = Math.ceil(customers?.totalElements / filter.size);
                 let filterTemp = { ...filter };
@@ -247,7 +247,7 @@ function InventoryDetail() {
                     </Row>
                 </header>
 
-                <div className='customer-outer-section' >
+                <div className='customer-outer-section inventory-outer-content-area' >
                     <div className="inventory-detail-outer">
                         <div className='customer-list-header-mobile'>
                             <div className='customer-list-header d-flex align-items-center justify-content-between'>
@@ -261,7 +261,7 @@ function InventoryDetail() {
                                             className="sort-by-top-right"
                                             controlId="exampleForm.ControlInput1"
                                         >
-                                            <h6 onClick={() => setShowSortBy(!showSortBy)}>SORT BY<img src={require("../../assets/images/filter.png")} alt="icons" className='sort-btn' /></h6>
+                                            <h6 onClick={() => setShowSortBy(!showSortBy)} className='inventory-detail-sortby'>SORT BY<img src={require("../../assets/images/filter.png")} alt="icons" className='sort-btn' /></h6>
                                             {showSortBy ? <div className='sort-bt-outer'>
                                                 <ul>
                                                     <li className={filter.orderBy == "name" ? 'active' : ""} onClick={() => sortByDevice("name", filter.direction)}>Name</li>
@@ -275,15 +275,15 @@ function InventoryDetail() {
                                         <img src={require("../../assets/images/mi_filter-blue.svg").default} className="ms-2" alt="icons" />
                                     </div>
 
-                                    <h6 onClick={addNewCategory}>ADD NEW <i class="fa fa-plus" aria-hidden="true"></i></h6>
+                                    <h6 className="inventory-add" onClick={addNewCategory}>ADD NEW <i class="fa fa-plus" aria-hidden="true"></i></h6>
                                     <p className='mobile-tab'>{deviceType?.list && deviceType?.list[0]?.count}</p>
                                 </div>
                             </div>
                         </div>
                         <div className="inventory-detail-columns">
                             <Row>
-                                {deviceType.length <= 0 ? Array.from({length:4}).map((item)=>(
-                                    <Col md={6} lg={6} xl={3}>
+                                {deviceType.length <= 0 ? Array.from({ length: 4 }).map((item) => (
+                                    <Col xs={6} md={6} lg={6} xl={3} >
                                         <div className='device-content-inner' >
                                             <div className='position-relative'>
                                                 <Skeleton className="" height={210} />
@@ -298,7 +298,7 @@ function InventoryDetail() {
                                     </Col>
                                 )) :
                                     deviceType?.list?.map((item, index) => {
-                                        return (<Col md={6} lg={6} xl={3} onClick={() => getDeviceById(item.id)} >
+                                        return (<Col xs={6} md={6} lg={6} xl={3} onClick={() => getDeviceById(item.id)} >
                                             <div className='device-content-inner' >
                                                 <div className='position-relative'>
                                                     <img src={require("../../assets/images/smoke-detector-image1.png")} alt="icons" />
@@ -364,40 +364,33 @@ function InventoryDetail() {
 
                         {/* mobile side cards */}
                         <div ref={customersRef} onScroll={onScroll} className="customer-scroll mobile">
-                            {customers.length <= 0 ?
-                                <>{
-                                    Array.from({ length: 5 }).map(() => (<div className='mobile-side-customer'>
 
-                                        <p className='d-flex align-items-center'><span className='customer-name'><Skeleton className="main-wallet-top mb-2" height={30} width={10} /></span><Skeleton className="main-wallet-top mb-2" height={30} width={200} /></p>
-                                        <hr></hr>
-                                        <p className='role'><span><img src={require("../../assets/images/call.svg").default} className="cursor-pointer me-2" alt="icons" />Phone</span> <span className='number'><Skeleton className="main-wallet-top mb-2" height={30} width={150} /></span></p>
-                                        <p className='role'><span><img src={require("../../assets/images/email.svg").default} className="cursor-pointer me-2" alt="icons" />Email</span> <span className='number'><Skeleton className="main-wallet-top mb-2" height={30} width={150} /></span></p>
-                                        <p className='role'><span><img src={require("../../assets/images/date.svg").default} className="cursor-pointer me-2" alt="icons" />Joined</span> <span className='number'><Skeleton className="main-wallet-top mb-2" height={30} width={150} /></span></p>
-                                        <p className='role'><span><img src={require("../../assets/images/building.svg").default} className="cursor-pointer me-2" alt="icons" />Property</span> <span className='number'><Skeleton className="main-wallet-top mb-2" height={30} width={150} /></span></p>
-                                        <div className='trash-section d-flex justify-content-between mt-2'>
-                                            <Skeleton className="main-wallet-top mb-2" height={30} width={150} />
-                                            <img src={require("../../assets/images/ic_round-delete.svg").default} className="cursor-pointer" alt="icons" />
+                            {deviceType?.list?.map((customer, index) => (
+                                <div className='mobile-side-customer'>
+                                    <div className="smoke-detector-mobile-outer">
+                                        <div className="smoke-detector-mobile-outer-left">
+                                            <h6>Device 1</h6>
+                                            <p>Manufacturer Name</p>
                                         </div>
-
-                                    </div>))
-                                }</>
-                                :
-                                customers?.list?.map((customer, index) => (
-                                    <div className='mobile-side-customer'>
-                                        <p className='d-flex align-items-center'><span className='customer-name'>{customer.name ? customer.name.charAt(0).toUpperCase() : ""}</span>{customer.name}</p>
-                                        <hr></hr>
-                                        <p className='role'><span><img src={require("../../assets/images/call.svg").default} className="cursor-pointer me-2" alt="icons" />Phone</span> <span className='number'>{customer.phone}</span></p>
-                                        <p className='role'><span><img src={require("../../assets/images/email.svg").default} className="cursor-pointer me-2" alt="icons" />Email</span> <span className='number'>{customer.email}</span></p>
-                                        <p className='role'><span><img src={require("../../assets/images/date.svg").default} className="cursor-pointer me-2" alt="icons" />Joined</span> <span className='number'>{createDateFromData(customer.createdDate)}</span></p>
-                                        <p className='role'><span><img src={require("../../assets/images/building.svg").default} className="cursor-pointer me-2" alt="icons" />Property</span> <span className='number'>{customer?.property.map((property, innerIndex) => { return innerIndex ? `, ${capitalizeFirstLetter(property)}` : capitalizeFirstLetter(property) })}</span></p>
-                                        <div className='trash-section d-flex justify-content-between mt-2'>
-                                            <Button className="blue-btn">{customer.role}</Button>
-                                            <img src={require("../../assets/images/ic_round-delete.svg").default} className="cursor-pointer" alt="icons"
-                                            // onClick={() => handleDelete(customer.id)}
-                                            />
+                                        <div className='action-div'>
+                                            <img src={require("../../assets/images/ic_round-delete.svg").default} className="cursor-pointer me-2" alt="icons" />
+                                            <img src={require("../../assets/images/edit-box.svg").default} className="cursor-pointer" alt="icons" />
                                         </div>
                                     </div>
-                                ))}
+                                    <div className="serial-sku">
+                                        <div className="smoke-detector-serial">
+                                            <h5>Serial</h5>
+                                            <p>ADyyu1276ahgasd</p>
+                                        </div>
+                                        <div className="smoke-detector-sku">
+                                            <h5>SKU</h5>
+                                            <p>KSUHUSDWQ</p>
+                                        </div>
+                                    </div>
+                                    <p className="added-date">Added on: 02-06-2024</p>
+                                </div>
+                            ))
+                            }
                         </div>
                     </div>
                 </div>
