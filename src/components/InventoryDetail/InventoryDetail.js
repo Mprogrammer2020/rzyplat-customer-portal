@@ -255,13 +255,14 @@ function InventoryDetail() {
                                     <img src={require("../../assets/images/back.svg").default} className="me-2" alt="icons" onClick={(e) => window.location.href = "/inventory"} />
                                     Smoke Detectors
                                     <span className='customer-mobile-text'>{10}</span></h5>
+                                <h3>1070 Devices</h3>
                                 <div className="inventory-detail-top-right">
                                     <div className='sort-box d-flex align-items-center'>
                                         <Form.Group
                                             className="sort-by-top-right"
                                             controlId="exampleForm.ControlInput1"
                                         >
-                                            <h6 onClick={() => setShowSortBy(!showSortBy)} className='inventory-detail-sortby'>SORT BY<img src={require("../../assets/images/filter.png")} alt="icons" className='sort-btn' /></h6>
+                                            <h6 onClick={() => setShowSortBy(!showSortBy)} className='inventory-detail-sortby inventory-detail-sort-mobile' >SORT BY<img src={require("../../assets/images/filter.png")} alt="icons" className='sort-btn' /></h6>
                                             {showSortBy ? <div className='sort-bt-outer'>
                                                 <ul>
                                                     <li className={filter.orderBy == "name" ? 'active' : ""} onClick={() => sortByDevice("name", filter.direction)}>Name</li>
@@ -274,6 +275,7 @@ function InventoryDetail() {
                                         </Form.Group>
                                         <img src={require("../../assets/images/mi_filter-blue.svg").default} className="ms-2" alt="icons" />
                                     </div>
+                                  
 
                                     <h6 className="inventory-add" onClick={addNewCategory}>ADD NEW <i class="fa fa-plus" aria-hidden="true"></i></h6>
                                     <p className='mobile-tab'>{deviceType?.list && deviceType?.list[0]?.count}</p>

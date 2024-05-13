@@ -89,8 +89,25 @@ p.added-date {
     font-weight: 500;
     margin: 2px 0 0 0;
 }
+.inventory-detail-outer .customer-list-header h3 {
+    color: #01337C;
+    font-size: 16px;
+    display: none;
+}
+.inventory-detail-top-right .sort-by-top-right h6.inventory-detail-sortby {
+    width: 108px;
+}
 /* media-query */
 @media (max-width: 600px) { 
+    .inventory-detail-outer .customer-list-header h3 {
+    display: block;
+    }
+h6.inventory-add {
+    display: none;
+}
+.inventory-detail-outer h5.heading-main {
+    display: none;
+}
     .device-info {
         padding: 0 !important;
     }
@@ -109,9 +126,6 @@ p.added-date {
     margin-top: 140px;
 }
 
-h6.inventory-add {
-    display: none;
-}
 .inventory-detail-outer .heading-main img {
     display: none;
 }
