@@ -365,12 +365,12 @@ function InventoryDetail() {
                         {/* mobile side cards */}
                         <div ref={customersRef} onScroll={onScroll} className="customer-scroll mobile">
 
-                            {deviceType?.list?.map((customer, index) => (
+                            {device?.list?.map((item, index) => (
                                 <div className='mobile-side-customer'>
                                     <div className="smoke-detector-mobile-outer">
                                         <div className="smoke-detector-mobile-outer-left">
-                                            <h6>Device 1</h6>
-                                            <p>Manufacturer Name</p>
+                                            <h6>{item?.deviceTypeLabel ? item?.deviceTypeLabel : "N/A"}</h6>
+                                            <p>{item?.manufacturer ? item?.manufacturer : "N/A"}</p>
                                         </div>
                                         <div className='action-div'>
                                             <img src={require("../../assets/images/ic_round-delete.svg").default} className="cursor-pointer me-2" alt="icons" />
@@ -380,14 +380,14 @@ function InventoryDetail() {
                                     <div className="serial-sku">
                                         <div className="smoke-detector-serial">
                                             <h5>Serial</h5>
-                                            <p>ADyyu1276ahgasd</p>
+                                            <p>{item?.serialNumber ? item?.serialNumber : "N/A"}</p>
                                         </div>
                                         <div className="smoke-detector-sku">
                                             <h5>SKU</h5>
-                                            <p>KSUHUSDWQ</p>
+                                            <p>{item?.sku ? item?.sku : "N/A"}</p>
                                         </div>
                                     </div>
-                                    <p className="added-date">Added on: 02-06-2024</p>
+                                    <p className="added-date">Added on: {moment(item?.createdDate).format("DD-MM-YYYY")}</p>
                                 </div>
                             ))
                             }
