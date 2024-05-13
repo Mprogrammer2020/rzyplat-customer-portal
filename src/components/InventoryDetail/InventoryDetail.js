@@ -9,10 +9,13 @@ import moment from 'moment';
 import swal from 'sweetalert';
 import AddDeviceCategory from "../modals/AddDeviceCategory";
 import AddNewDeviceType from "../modals/AddNewDeviceType";
+import { useLocation } from "react-use";
 
 function InventoryDetail() {
     const [customers, setCustomers] = useState([]);
-    // const [categoryId, setCategoryId] = useState();
+    const location = useLocation();
+    const inventory = location?.state.usr;
+    console.log("inventory=======", inventory)
     const [showCategoryModal, setShowCategoryModal] = useState(false);
     const [showAddNewDeviceModal, setShowAddNewDeviceModal] = useState(false);
     const [deviceType, setDeviceType] = useState([])
@@ -104,7 +107,6 @@ function InventoryDetail() {
     };
 
     function addNewDevice(categoryId) {
-        // setCategoryId(categoryId);
         setShowAddNewDeviceModal(true);
     }
 
@@ -148,7 +150,6 @@ function InventoryDetail() {
         return formattedDate;
     }
     // get device list
-
     async function getDevices(filter) {
         try {
             const response = await APIServices.getDevices(filter.page, filter.size, filter.direction, filter.orderBy, categoryId, filter?.deviceId);
@@ -198,7 +199,6 @@ function InventoryDetail() {
             }
         });
     };
-
     function sortByDevice(orderBy, direction) {
         const filterTemp = { ...filter };
         filterTemp.orderBy = orderBy;
@@ -212,13 +212,9 @@ function InventoryDetail() {
         getDevices(filterTemp);
     }
 
-
-
-
     return (
         <>
             <section className='customer-section'>
-
                 {/* header section statr */}
                 <header className='mobile-header'>
                     <Row className='align-items-center'>
@@ -253,9 +249,9 @@ function InventoryDetail() {
                             <div className='customer-list-header d-flex align-items-center justify-content-between'>
                                 <h5 className='heading-main'>
                                     <img src={require("../../assets/images/back.svg").default} className="me-2" alt="icons" onClick={(e) => window.location.href = "/inventory"} />
-                                    Smoke Detectors
+                                    {inventory?.name}
                                     <span className='customer-mobile-text'>{10}</span></h5>
-                                <h3>1070 Devices</h3>
+                                <h3> {inventory?.count} Devices</h3>
                                 <div className="inventory-detail-top-right">
                                     <div className='sort-box d-flex align-items-center'>
                                         <Form.Group
@@ -275,10 +271,10 @@ function InventoryDetail() {
                                         </Form.Group>
                                         <img src={require("../../assets/images/mi_filter-blue.svg").default} className="ms-2" alt="icons" />
                                     </div>
-                                  
+
 
                                     <h6 className="inventory-add" onClick={addNewCategory}>ADD NEW <i class="fa fa-plus" aria-hidden="true"></i></h6>
-                                    <p className='mobile-tab'>{deviceType?.list && deviceType?.list[0]?.count}</p>
+                                    <p className='mobile-tab'>{inventory?.count}</p>
                                 </div>
                             </div>
                         </div>
@@ -365,35 +361,38 @@ function InventoryDetail() {
                         </div>
 
                         {/* mobile side cards */}
-                        <div ref={customersRef} onScroll={onScroll} className="customer-scroll mobile">
+                        {/* { window.innerHeight <= 768 && */}
 
-                            {device?.list?.map((item, index) => (
-                                <div className='mobile-side-customer'>
-                                    <div className="smoke-detector-mobile-outer">
-                                        <div className="smoke-detector-mobile-outer-left">
-                                            <h6>{item?.deviceTypeLabel ? item?.deviceTypeLabel : "N/A"}</h6>
-                                            <p>{item?.manufacturer ? item?.manufacturer : "N/A"}</p>
+                            <div ref={customersRef} onScroll={onScroll} className="customer-scroll mobile">
+
+                                {device?.list?.map((item, index) => (
+                                    <div className='mobile-side-customer'>
+                                        <div className="smoke-detector-mobile-outer">
+                                            <div className="smoke-detector-mobile-outer-left">
+                                                <h6>{item?.deviceTypeLabel ? item?.deviceTypeLabel : "N/A"}</h6>
+                                                <p>{item?.manufacturer ? item?.manufacturer : "N/A"}</p>
+                                            </div>
+                                            <div className='action-div'>
+                                                <img src={require("../../assets/images/ic_round-delete.svg").default} className="cursor-pointer me-2" alt="icons" onClick={() => handleDelete(item.id)} />
+                                                <img src={require("../../assets/images/edit-box.svg").default} className="cursor-pointer" alt="icons" />
+                                            </div>
                                         </div>
-                                        <div className='action-div'>
-                                            <img src={require("../../assets/images/ic_round-delete.svg").default} className="cursor-pointer me-2" alt="icons" onClick={() => handleDelete(item.id)}/>
-                                            <img src={require("../../assets/images/edit-box.svg").default} className="cursor-pointer" alt="icons" />
+                                        <div className="serial-sku">
+                                            <div className="smoke-detector-serial">
+                                                <h5>Serial</h5>
+                                                <p>{item?.serialNumber ? item?.serialNumber : "N/A"}</p>
+                                            </div>
+                                            <div className="smoke-detector-sku">
+                                                <h5>SKU</h5>
+                                                <p>{item?.sku ? item?.sku : "N/A"}</p>
+                                            </div>
                                         </div>
+                                        <p className="added-date">Added on: {moment(item?.createdDate).format("DD-MM-YYYY")}</p>
                                     </div>
-                                    <div className="serial-sku">
-                                        <div className="smoke-detector-serial">
-                                            <h5>Serial</h5>
-                                            <p>{item?.serialNumber ? item?.serialNumber : "N/A"}</p>
-                                        </div>
-                                        <div className="smoke-detector-sku">
-                                            <h5>SKU</h5>
-                                            <p>{item?.sku ? item?.sku : "N/A"}</p>
-                                        </div>
-                                    </div>
-                                    <p className="added-date">Added on: {moment(item?.createdDate).format("DD-MM-YYYY")}</p>
-                                </div>
-                            ))
-                            }
-                        </div>
+                                ))
+                                }
+                            </div>
+                        {/* } */}
                     </div>
                 </div>
             </section >

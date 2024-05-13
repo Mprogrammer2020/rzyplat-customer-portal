@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Button, Col, Form, Modal, Row } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
+import { Link,useNavigate } from 'react-router-dom';
 import Select from "react-select";
 import AddNewDeviceType from './modals/AddNewDeviceType';
 import AddDeviceCategory from './modals/AddDeviceCategory';
@@ -8,7 +8,9 @@ import { APIServices } from '../services/APIServices';
 import { exceptionHandling, getFileURL } from '../Common/CommonComponents';
 import Skeleton from 'react-loading-skeleton';
 
+
 const Inventory = () => {
+    const navigate = useNavigate();
     const [categoryId, setCategoryId] = useState();
     const [showAddNewDeviceModal, setShowAddNewDeviceModal] = useState(false);
     const [showCategoryModal, setShowCategoryModal] = useState(false);
@@ -223,7 +225,8 @@ const Inventory = () => {
                                         return (<Col md={6} lg={6} xl={4}>
                                             <div className='position-relative add-green-btn-outer-box'>
                                                 <Button type='button' className='main-btn' variant='unset' onClick={() => addNewDevice(item?.id)}><i class="fa fa-plus" aria-hidden="true"></i> New Device Type</Button>
-                                                <div className='device-content-inner' onClick={(e) => window.location.href =`/inventory-details?categoryId=${item.id}`}>
+                                                <div className='device-content-inner' onClick={(e) => navigate(`/inventory-details?categoryId=${item.id}`, { state: item })}>
+                                                
                                                     <div className='position-relative'>
                                                         <img src={`data:${item?.imageContentType};base64,${item?.imageContent}`} alt="icons" />
                                                     </div>
