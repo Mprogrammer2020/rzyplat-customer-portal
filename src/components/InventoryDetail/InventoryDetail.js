@@ -373,7 +373,7 @@ function InventoryDetail() {
                                             <p>{item?.manufacturer ? item?.manufacturer : "N/A"}</p>
                                         </div>
                                         <div className='action-div'>
-                                            <img src={require("../../assets/images/ic_round-delete.svg").default} className="cursor-pointer me-2" alt="icons" />
+                                            <img src={require("../../assets/images/ic_round-delete.svg").default} className="cursor-pointer me-2" alt="icons" onClick={() => handleDelete(item.id)}/>
                                             <img src={require("../../assets/images/edit-box.svg").default} className="cursor-pointer" alt="icons" />
                                         </div>
                                     </div>
