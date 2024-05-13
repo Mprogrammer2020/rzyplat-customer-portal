@@ -28,10 +28,16 @@ export const APIServices = {
     deleteCustomer,
     getDevices,
     deleteDevices,
+    getDeviceCategories,
+    getDeviceTypeByCategoryIdDeviceDropdown
 }
 
 function getCategories(page, size = 10, orderBy, direction) {
     return axios.get(`${config.apiUrl}/categories?pageNumber=${page}&pageSize=${size}&orderBy=${orderBy}&direction=${direction}`, configJsonHeaders());
+}
+
+function getDeviceCategories() {
+    return axios.get(`${config.apiUrl}/categories/basic`, configJsonHeaders());
 }
 
 function getDevices(page, size = 10, orderBy, direction,category_id, device_typeId) {
@@ -43,6 +49,10 @@ function deleteDevices(deviceId) {
 
 function getDeviceTypeByCategoryId(categoryId, page, size = 10) {
     return axios.get(`${config.apiUrl}/device-type/${categoryId}?pageNumber=${page}&pageSize=${size}`, configJsonHeaders());
+}
+
+function getDeviceTypeByCategoryIdDeviceDropdown(categoryId) {
+    return axios.get(`${config.apiUrl}/device-type/basic/${categoryId}`, configJsonHeaders());
 }
 
 function addCategory(params) {

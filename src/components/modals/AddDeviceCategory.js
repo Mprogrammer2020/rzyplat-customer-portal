@@ -20,23 +20,14 @@ const AddDeviceCategory = ({ show, handleClose }) => {
     });
 
     useEffect(() => {
-        getCategories(0, 30);
+        getDeviceCategories()
     }, [])
 
-    // useEffect(() => {
-    //     setDeviceDetail({
-    //         ...deviceDetail,
-    //         deviceImage: "", deviceName: "",
-    //         sku: "", serialNumber: "", deviceCategory: "",
-    //         errors: { deviceImage: "", deviceName: "", sku: "", serialNumber: "", deviceCategory: "", }
-    //     })
-    // }, [deviceDetail.showBulkUpload])
-
-    async function getCategories(page, size) {
+    async function getDeviceCategories() {
         try {
-            const response = await APIServices.getCategories(page, size,"name","desc");
+            const response = await APIServices.getDeviceCategories();
             if (response.status === 200) {
-                const options = response.data.list.map(item => { return { value: item.id, label: item.name } })
+                const options = response.data.map(item => { return { value: item.id, label: item.name } })
                 setDeviceCategoryOptions(options);
             } else {
                 throw new Error('Failed to fetch data');
@@ -47,11 +38,12 @@ const AddDeviceCategory = ({ show, handleClose }) => {
         }
     }
 
-    async function getDeviceTypeByCategoryId(categoryId, page, size) {
+    // getDeviceTypeByCategoryIdDeviceDropdown
+    async function getDeviceTypeByCategoryIdDeviceDropdown(categoryId) {
         try {
-            const response = await APIServices.getDeviceTypeByCategoryId(categoryId, page, size);
+            const response = await APIServices.getDeviceTypeByCategoryIdDeviceDropdown(categoryId);
             if (response.status === 200) {
-                setDeviceOptions(response.data.list.map(item => { return { value: item.id, label: item.type } }))
+                setDeviceOptions(response.data.map(item => { return { value: item.id, label: item.type } }))
             } else {
                 throw new Error('Failed to fetch data');
             }
@@ -62,10 +54,9 @@ const AddDeviceCategory = ({ show, handleClose }) => {
     }
 
     function selectDeviceCategory(e) {
-        getDeviceTypeByCategoryId(e.value, 0, 30);
+        getDeviceTypeByCategoryIdDeviceDropdown(e.value)
         setDeviceDetail({ ...deviceDetail, deviceCategory: e, deviceName: "", errors: {} });
     }
-
 
     function selectDeviceImage() {
         if (deviceImageRef.current) {

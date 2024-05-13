@@ -35,12 +35,11 @@ const Inventory = () => {
     }, []);
 
     function addNewDevice(categoryId) {
-        setCategoryId(categoryId);
         setShowAddNewDeviceModal(true);
     }
 
     const handleNewDeviceClose = () => {
-        getCategories(filter);
+        // getCategories(filter);
         setShowAddNewDeviceModal(false);
     };
 
@@ -79,6 +78,8 @@ const Inventory = () => {
             console.error('Error fetching data:', error);
         }
     }
+
+   
 
     const onScroll = async () => {
         if (inventoryRef.current) {
@@ -125,7 +126,6 @@ const Inventory = () => {
                                     <Form.Group className="position-relative w-50" controlId="exampleForm.ControlInput1">
                                         <img src={require("../assets/images/iconamoon_search.svg").default} className="search-icon" alt="icons" />
                                         <Form.Control type="email" placeholder="Search" />
-                                        {/* <span className='cutomer-text'>CUSTOMERS</span> */}
                                         <img src={require("../assets/images/mi_filter.svg").default} className="filter-icon" alt="icons" />
                                     </Form.Group>
                                     <Link>
@@ -226,9 +226,6 @@ const Inventory = () => {
                                                 <div className='device-content-inner' onClick={(e) => window.location.href =`/inventory-details?categoryId=${item.id}`}>
                                                     <div className='position-relative'>
                                                         <img src={`data:${item?.imageContentType};base64,${item?.imageContent}`} alt="icons" />
-                                                        {/* <div className='inner-img' >
-                                                            <img src={require("../assets/images/device1.png")} alt="icons" />
-                                                        </div> */}
                                                     </div>
                                                     <div className='device-info'>
                                                         <p>{item?.name}</p>
