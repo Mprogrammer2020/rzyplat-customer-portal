@@ -25,6 +25,7 @@
     object-fit: cover;
     border-radius: 6px;
 }
+
 .inventory-detail-columns .device-content-inner:hover .device-info {
     background: none;
 }
@@ -36,4 +37,13 @@
 }
 .sort-box img {
     right: 27px !important;
+}
+.inventory-detail-outer .customer-scroll {
+    overflow-y: scroll;
+    top: 10px !important;
+    position: relative;
+    max-height: 642px;
+    height: 100%;
+    margin-bottom: 0;
+    display: block;
 }
