@@ -29,7 +29,12 @@ export const APIServices = {
     getDevices,
     deleteDevices,
     getDeviceCategories,
-    getDeviceTypeByCategoryIdDeviceDropdown
+    getDeviceTypeByCategoryIdDeviceDropdown,
+    updateDevice
+}
+
+function updateDevice(params) {
+    return axios.put(`${config.apiUrl}/devices/${params?.deviceId}`, params, configJsonHeaders());
 }
 
 function getCategories(page, size = 10, orderBy, direction) {
@@ -58,6 +63,8 @@ function getDeviceTypeByCategoryIdDeviceDropdown(categoryId) {
 function addCategory(params) {
     return axios.post(`${config.apiUrl}/categories`, params, configMultipartHeaders());
 }
+
+
 
 function addDevice(params) {
     return axios.post(`${config.apiUrl}/devices`, params, configJsonHeaders());

@@ -190,7 +190,8 @@ const AddDeviceCategory = ({ show, handleClose, editDevice }) => {
                 setShowLoader(false);
                 console.error('Error fetching data:', error);
             }
-        } else {
+        } 
+        else {
             setDeviceDetail({ ...deviceDetail, errors });
         }
     };
@@ -198,6 +199,38 @@ const AddDeviceCategory = ({ show, handleClose, editDevice }) => {
     // edit device category
     const editDeviceCategory = async () => {
         console.log("editDeviceCategory")
+        const errors = checkValidation();
+        if (Object.keys(errors).length === 0) {
+            try{
+                let response;
+                // showLoader(true)
+                const params = {
+                    categoryId: deviceDetail.deviceCategory.value,
+                    deviceTypeId: deviceDetail.deviceName.value,
+                    serialNumber: deviceDetail.serialNumber,
+                    deviceId: editDevice.id
+                }
+                console.log("params",params)
+                response = await APIServices.updateDevice(params);
+                if (response.status === 201) {
+                    handleClose();
+                    console.log("updateDevice=========",response)
+                    // setShowLoader(false);
+                    swal("Success", "Device has been successfully updated.", "success").then(() => { });
+                } else {
+                    throw new Error('Failed to fetch data');
+                }
+            }
+            catch (error) {
+                exceptionHandling(error);
+                setShowLoader(false);
+                console.error('Error fetching data:', error);
+            }
+        }
+        else {
+            setDeviceDetail({ ...deviceDetail, errors });
+        }
+  
 
     }
     return (<>
@@ -296,7 +329,7 @@ const AddDeviceCategory = ({ show, handleClose, editDevice }) => {
                     {!deviceDetail.showBulkUpload && deviceDetail.errors.deviceImage && <span className="error">{deviceDetail.errors.deviceImage}</span>}
                 </div>}
                 <div className='footer-btns-bottom-right'>
-                    <Button variant="secondary" onClick={handleClose} disabled={showLoader}>
+                    <Button variant="secondary" onClick={(e) => {handleClose(); editDevice = false}} disabled={showLoader}>
                         CANCEL
                     </Button>
                     {editDevice ?  

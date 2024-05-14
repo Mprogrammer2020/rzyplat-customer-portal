@@ -100,6 +100,7 @@ const Customer = () => {
     const onScroll = async () => {
         if (customersRef.current) {
             const { scrollTop, scrollHeight, clientHeight } = customersRef.current;
+            // console.log("scrollTop + clientHeight === scrollHeight", scrollTop + clientHeight, scrollHeight, scrollTop, clientHeight);
             if (scrollTop + clientHeight === scrollHeight) {
                 const totalPages = Math.ceil(customers?.totalElements / filter.size);
                 let filterTemp = { ...filter };

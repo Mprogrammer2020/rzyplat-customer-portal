@@ -86,7 +86,7 @@ const Inventory = () => {
     const onScroll = async () => {
         if (inventoryRef.current) {
             const { scrollTop, scrollHeight, clientHeight } = inventoryRef.current;
-            console.log("scrollTop + clientHeight === scrollHeight",scrollTop + clientHeight , scrollHeight);
+            // console.log("scrollTop + clientHeight === scrollHeight",scrollTop + clientHeight , scrollHeight);
             if (scrollTop + clientHeight === scrollHeight) {
                 const totalPages = Math.ceil(categories.totalElements / filter.size);
                 console.log("totalPages",totalPages);

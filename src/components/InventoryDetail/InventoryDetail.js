@@ -18,9 +18,9 @@ function InventoryDetail() {
     const handleShow = () => {
         setShow(true);
     }
+    const [deviceStatus, setdeviceStatus]=useState(false)
     const [showsuccess, setShowSuccess] = useState(false)
     const handleCloseSuccess = () => setShowSuccess(false);
-    const [customers, setCustomers] = useState([]);
     const [deviceId, setdeviceId] = useState("")
     const location = useLocation();
     const inventory = location?.state.usr;
@@ -29,7 +29,10 @@ function InventoryDetail() {
     const [deviceType, setDeviceType] = useState([])
     const [device, setDevice] = useState([])
     const [filter, setFilter] = useState({ page: 0, size: 15, sortBy: "name", orderBy: "DESC" });
-    const customersRef = useRef();
+    const inventoryDetailMobileRef = useRef();
+    const inventoryDetailRef = useRef();
+
+    const deviceRef = useRef();
     const loadingResponse = useRef(false);
     const [showSortBy, setShowSortBy] = useState(false);
     const queryParams = new URLSearchParams(window.location.search);
@@ -55,33 +58,6 @@ function InventoryDetail() {
 
     function addNewCategory() {
         setShowCategoryModal(true);
-    }
-
-    // Define function to fetch Customers
-    async function getCustomers(params) {
-        try {
-            const response = await APIServices.getCustomers(params.page, params.size, params.sortBy, params.orderBy);
-            if (response.status === 200) {
-                let responseData = response.data;
-                let tempList;
-                if (params.page == 0) {
-                    tempList = [];
-                } else {
-                    tempList = [...customers.list];
-                }
-                tempList.push(...responseData.list);
-                responseData.list = tempList;
-                setCustomers(responseData);
-                loadingResponse.current = false;
-
-            } else {
-                throw new Error('Failed to fetch data');
-            }
-        } catch (error) {
-            loadingResponse.current = false;
-            exceptionHandling(error);
-            console.error('Error fetching data:', error);
-        }
     }
 
     // get Device Type
@@ -117,18 +93,20 @@ function InventoryDetail() {
         setShowAddNewDeviceModal(true);
     }
 
-    const onScroll = async () => {
-        if (customersRef.current) {
-            const { scrollTop, scrollHeight, clientHeight } = customersRef.current;
-            console.log("scrollTop + clientHeight === scrollHeight", scrollTop + clientHeight, scrollHeight);
+    /// not responsive
+
+    const onScroll = async (scrollData) => {
+        if (scrollData) {
+            const { scrollTop, scrollHeight, clientHeight } = scrollData;
+            // console.log("scrollTop + clientHeight === scrollHeight", scrollTop + clientHeight, scrollHeight,);
             if (scrollTop + clientHeight === scrollHeight) {
-                const totalPages = Math.ceil(customers?.totalElements / filter.size);
+                const totalPages = Math.ceil(device?.totalElements / filter.size);
                 let filterTemp = { ...filter };
                 filterTemp.page = filterTemp.page + 1
                 if (filterTemp.page < totalPages && !loadingResponse.current) {
                     loadingResponse.current = true;
                     setFilter(filterTemp);
-                    getCustomers(filterTemp);
+                    getDevices(filterTemp);
                 }
             }
         }
@@ -139,17 +117,7 @@ function InventoryDetail() {
         return string.charAt(0).toUpperCase() + string.slice(1);
     }
 
-    // Function to sort customer data
-    const sortCustomers = (sortOrder) => {
-        let filterTemp = { ...filter };
-        const parts = sortOrder.split(" ");
-        filterTemp.sortBy = parts[0].toLowerCase();
-        filterTemp.orderBy = parts[1];
-        filterTemp.page = 0;
-        setFilter(filterTemp);
-        getCustomers(filterTemp);
-
-    };
+   
 
     function createDateFromData(createdDate) {
         const [year, month, day, hours, minutes, seconds, milliseconds] = createdDate;
@@ -306,8 +274,8 @@ function InventoryDetail() {
                                     </Col>
                                 )) :
                                     deviceType?.list?.map((item, index) => {
-                                        return (<Col xs={6} md={6} lg={6} xl={3} onClick={() => getDeviceById(item.id)} >
-                                            <div className='device-content-inner' >
+                                        return (<Col xs={6} md={6} lg={6} xl={3} onClick={() => {getDeviceById(item.id); setdeviceStatus(true)}} >
+                                            <div className='device-content-inner ${deviceStatus  ? `active` :"'>
                                                 <div className='position-relative'>
                                                     <img src={require("../../assets/images/smoke-detector-image1.png")} alt="icons" />
                                                 </div>
@@ -335,7 +303,7 @@ function InventoryDetail() {
                                         <th className="action-div" >ACTION</th>
                                     </tr>
                                 </thead>
-                                <tbody ref={customersRef} onScroll={onScroll} className="customer-scroll">
+                                <tbody ref={inventoryDetailRef} onScroll={()=>onScroll(inventoryDetailRef.current)} className="customer-scroll">
                                     {device?.list?.length <= 0 ? <div className='border-radius'>
                                         <tr>
                                             <td><Skeleton className="main-wallet-top mb-2" height={30} width={150} count={20} /></td>
@@ -372,8 +340,8 @@ function InventoryDetail() {
 
                         {/* mobile side cards */}
                         {/* { window.innerHeight <= 768 && */}
-
-                        <div ref={customersRef} onScroll={onScroll} className="customer-scroll mobile">
+                        <div className='customer-mobile-outer'>
+                        <div ref={inventoryDetailMobileRef} onScroll={()=> onScroll(inventoryDetailMobileRef.current)} className="customer-scroll mobile">
 
                             {device?.list?.map((item, index) => (
                                 <div className='mobile-side-customer'>
@@ -405,6 +373,7 @@ function InventoryDetail() {
                                 </div>
                             ))
                             }
+                        </div>
                         </div>
                         {/* } */}
                     </div>
