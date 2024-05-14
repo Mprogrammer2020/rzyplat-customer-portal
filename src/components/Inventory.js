@@ -11,7 +11,7 @@ import Skeleton from 'react-loading-skeleton';
 
 const Inventory = () => {
     const navigate = useNavigate();
-    const [categoryId, setCategoryId] = useState();
+    const [categoryId, setCategoryId] = useState("");
     const [showAddNewDeviceModal, setShowAddNewDeviceModal] = useState(false);
     const [showCategoryModal, setShowCategoryModal] = useState(false);
     const [showSortBy, setShowSortBy] = useState(false);
@@ -37,6 +37,7 @@ const Inventory = () => {
     }, []);
 
     function addNewDevice(categoryId) {
+        setCategoryId(categoryId)
         setShowAddNewDeviceModal(true);
     }
 
@@ -62,6 +63,7 @@ const Inventory = () => {
             const response = await APIServices.getCategories(filter.page, filter.size, filter.orderBy, filter.direction);
             if (response.status === 200) {
                 let responseData = response.data;
+                console.log("responseData=====",responseData)
                 let tempList;
                 if (filter.page == 0) {
                     tempList = [];

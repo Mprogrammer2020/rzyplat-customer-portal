@@ -99,7 +99,7 @@ function InventoryDetail() {
     const onScroll = async (scrollData) => {
         if (scrollData) {
             const { scrollTop, scrollHeight, clientHeight } = scrollData;
-            // console.log("scrollTop + clientHeight === scrollHeight", scrollTop + clientHeight, scrollHeight,);
+            console.log("scrollTop + clientHeight === scrollHeight", scrollTop + clientHeight, scrollHeight,);
             if (scrollTop + clientHeight === scrollHeight) {
                 const totalPages = Math.ceil(device?.totalElements / filter.size);
                 let filterTemp = { ...filter };
@@ -304,7 +304,7 @@ function InventoryDetail() {
                                         <th className="action-div" >ACTION</th>
                                     </tr>
                                 </thead>
-                                <tbody ref={inventoryDetailRef} onScroll={()=>onScroll(inventoryDetailRef.current)} className="customer-scroll">
+                                <tbody ref={inventoryDetailRef} onScroll={()=>onScroll(inventoryDetailRef.current)} className="customer-scroll-main">
                                     {device?.list?.length <= 0 ? <div className='border-radius'>
                                         <tr>
                                             <td><Skeleton className="main-wallet-top mb-2" height={30} width={150} count={20} /></td>

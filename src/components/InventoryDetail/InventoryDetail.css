@@ -38,11 +38,11 @@
 .sort-box img {
     right: 27px !important;
 }
-.inventory-detail-outer .customer-scroll {
+ .customer-scroll-main {
     overflow-y: scroll;
     top: 10px !important;
     position: relative;
-    max-height: 682px;
+    max-height: 642px;
     height: 100%;
     margin-bottom: 0;
     display: block;
@@ -97,9 +97,14 @@ p.added-date {
 .inventory-detail-top-right .sort-by-top-right h6.inventory-detail-sortby {
     width: 108px;
 }
-.inventory-outer-content-area .customer-container-body .table tbody tr{
+/* .inventory-outer-content-area .customer-container-body .table tbody tr{
     margin-bottom: 14px;
+} */
+
+.customer-scroll-main tr {
+    margin-bottom: 14px !important;
 }
+
 .delete-img {
     width: 72px;
 }
