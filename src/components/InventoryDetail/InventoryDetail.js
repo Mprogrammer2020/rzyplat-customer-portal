@@ -18,7 +18,7 @@ function InventoryDetail() {
     const handleShow = () => {
         setShow(true);
     }
-    const [deviceStatus, setdeviceStatus]=useState(false)
+    const [deviceStatus, setdeviceStatus] = useState(false)
     const [showsuccess, setShowSuccess] = useState(false)
     const handleCloseSuccess = () => setShowSuccess(false);
     const [deviceId, setdeviceId] = useState("")
@@ -118,7 +118,7 @@ function InventoryDetail() {
         return string.charAt(0).toUpperCase() + string.slice(1);
     }
 
-   
+
 
     function createDateFromData(createdDate) {
         const [year, month, day, hours, minutes, seconds, milliseconds] = createdDate;
@@ -275,7 +275,7 @@ function InventoryDetail() {
                                     </Col>
                                 )) :
                                     deviceType?.list?.map((item, index) => {
-                                        return (<Col xs={6} md={6} lg={6} xl={3} onClick={() => {getDeviceById(item.id); setdeviceStatus(true)}} >
+                                        return (<Col xs={6} md={6} lg={6} xl={3} onClick={() => { getDeviceById(item.id); setdeviceStatus(true) }} >
                                             <div className='device-content-inner ${deviceStatus  ? `active` :"'>
                                                 <div className='position-relative'>
                                                     <img src={require("../../assets/images/smoke-detector-image1.png")} alt="icons" />
@@ -304,8 +304,8 @@ function InventoryDetail() {
                                         <th className="action-div" >ACTION</th>
                                     </tr>
                                 </thead>
-                                <tbody ref={inventoryDetailRef} onScroll={()=>onScroll(inventoryDetailRef.current)} className="customer-scroll-main">
-                                    {device?.list?.length <= 0 ? <div className='border-radius'>
+                                <tbody ref={inventoryDetailRef} onScroll={() => onScroll(inventoryDetailRef.current)} className="customer-scroll-main">
+                                    {device?.length <= 0 ? <div className='border-radius'>
                                         <tr>
                                             <td><Skeleton className="main-wallet-top mb-2" height={30} width={150} count={20} /></td>
                                             <td><Skeleton className="main-wallet-top mb-2" height={30} width={150} count={20} /></td>
@@ -313,28 +313,32 @@ function InventoryDetail() {
                                             <td><Skeleton className="main-wallet-top mb-2" height={30} width={150} count={20} /></td>
                                             <td><Skeleton className="main-wallet-top mb-2" height={30} width={150} count={20} /></td>
                                             <td><Skeleton className="main-wallet-top mb-2" height={30} width={150} count={20} /></td>
-                                            <td><Skeleton className="main-wallet-top mb-2" height={30} width={150} count={20} /></td>
-
                                         </tr>
                                     </div> :
-                                        device?.list?.map((item, index) => (
-                                            <tr>
-                                                <td>{item?.deviceTypeLabel ? item?.deviceTypeLabel : "N/A"}</td>
-                                                <td>{item?.manufacturer ? item?.manufacturer : "N/A"}</td>
-                                                <td>{item?.serialNumber ? item?.serialNumber : "N/A"}</td>
-                                                <td>{moment(item?.createdDate).format("DD-MM-YYYY")}</td>
-                                                <td>{item?.sku ? item?.sku : "N/A"}</td>
+                                        device?.list?.length >0 ?
+                                            device?.list?.map((item, index) => (
+                                                <tr>
+                                                    <td>{item?.deviceTypeLabel ? item?.deviceTypeLabel : "N/A"}</td>
+                                                    <td>{item?.manufacturer ? item?.manufacturer : "N/A"}</td>
+                                                    <td>{item?.serialNumber ? item?.serialNumber : "N/A"}</td>
+                                                    <td>{moment(item?.createdDate).format("DD-MM-YYYY")}</td>
+                                                    <td>{item?.sku ? item?.sku : "N/A"}</td>
 
-                                                <td className='action-div'>
+                                                    <td className='action-div'>
 
-                                                    <img onClick={(e) => { handleShow(); setdeviceId(item.id) }} src={require("../../assets/images/ic_round-delete.svg").default} className="cursor-pointer me-2" alt="icons" />
-                                                    <img src={require("../../assets/images/edit-box.svg").default} className="cursor-pointer" alt="icons"
-                                                        onClick={(e) => handleEditDevice(item)}
-                                                    />
-                                                </td>
-                                            </tr>
+                                                        <img onClick={(e) => { handleShow(); setdeviceId(item.id) }} src={require("../../assets/images/ic_round-delete.svg").default} className="cursor-pointer me-2" alt="icons" />
+                                                        <img src={require("../../assets/images/edit-box.svg").default} className="cursor-pointer" alt="icons"
+                                                            onClick={(e) => handleEditDevice(item)}
+                                                        />
+                                                    </td>
+                                                </tr>
 
-                                        ))}
+                                            ))
+                                            :
+                                            <td className='action-div'>
+                                                <span>No Data Found.</span>
+                                            </td>
+                                    }
                                 </tbody>
                             </table>
                         </div>
@@ -342,39 +346,39 @@ function InventoryDetail() {
                         {/* mobile side cards */}
                         {/* { window.innerHeight <= 768 && */}
                         <div className='customer-mobile-outer'>
-                        <div ref={inventoryDetailMobileRef} onScroll={()=> onScroll(inventoryDetailMobileRef.current)} className="customer-scroll mobile">
+                            <div ref={inventoryDetailMobileRef} onScroll={() => onScroll(inventoryDetailMobileRef.current)} className="customer-scroll mobile">
 
-                            {device?.list?.map((item, index) => (
-                                <div className='mobile-side-customer'>
-                                    <div className="smoke-detector-mobile-outer">
-                                        <div className="smoke-detector-mobile-outer-left">
-                                            <h6>{item?.deviceTypeLabel ? item?.deviceTypeLabel : "N/A"}</h6>
-                                            <p>{item?.manufacturer ? item?.manufacturer : "N/A"}</p>
+                                {device?.list?.map((item, index) => (
+                                    <div className='mobile-side-customer'>
+                                        <div className="smoke-detector-mobile-outer">
+                                            <div className="smoke-detector-mobile-outer-left">
+                                                <h6>{item?.deviceTypeLabel ? item?.deviceTypeLabel : "N/A"}</h6>
+                                                <p>{item?.manufacturer ? item?.manufacturer : "N/A"}</p>
+                                            </div>
+                                            <td className='action-div'>
+
+                                                <img onClick={(e) => { handleShow(); setdeviceId(item.id) }} src={require("../../assets/images/ic_round-delete.svg").default} className="cursor-pointer me-2" alt="icons" />
+                                                <img src={require("../../assets/images/edit-box.svg").default} className="cursor-pointer" alt="icons"
+                                                    onClick={(e) => handleEditDevice(item)}
+                                                />
+                                            </td>
+
                                         </div>
-                                        <td className='action-div'>
-
-                                            <img onClick={(e) => { handleShow(); setdeviceId(item.id) }} src={require("../../assets/images/ic_round-delete.svg").default} className="cursor-pointer me-2" alt="icons" />
-                                            <img src={require("../../assets/images/edit-box.svg").default} className="cursor-pointer" alt="icons"
-                                                onClick={(e) => handleEditDevice(item)}
-                                            />
-                                        </td>
-
+                                        <div className="serial-sku">
+                                            <div className="smoke-detector-serial">
+                                                <h5>Serial</h5>
+                                                <p>{item?.serialNumber ? item?.serialNumber : "N/A"}</p>
+                                            </div>
+                                            <div className="smoke-detector-sku">
+                                                <h5>SKU</h5>
+                                                <p>{item?.sku ? item?.sku : "N/A"}</p>
+                                            </div>
+                                        </div>
+                                        <p className="added-date">Added on: {moment(item?.createdDate).format("DD-MM-YYYY")}</p>
                                     </div>
-                                    <div className="serial-sku">
-                                        <div className="smoke-detector-serial">
-                                            <h5>Serial</h5>
-                                            <p>{item?.serialNumber ? item?.serialNumber : "N/A"}</p>
-                                        </div>
-                                        <div className="smoke-detector-sku">
-                                            <h5>SKU</h5>
-                                            <p>{item?.sku ? item?.sku : "N/A"}</p>
-                                        </div>
-                                    </div>
-                                    <p className="added-date">Added on: {moment(item?.createdDate).format("DD-MM-YYYY")}</p>
-                                </div>
-                            ))
-                            }
-                        </div>
+                                ))
+                                }
+                            </div>
                         </div>
                         {/* } */}
                     </div>
