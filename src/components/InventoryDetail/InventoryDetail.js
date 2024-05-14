@@ -109,6 +109,7 @@ function InventoryDetail() {
 
     const handleCategoryClose = () => {
         getDevices(filter);
+        getDeviceCategoryCount(categoryId)
         setShowCategoryModal(false);
         setEditDevice("");
     };
@@ -190,6 +191,8 @@ function InventoryDetail() {
             if (response.status === 200) {
                 setShow(false)
                 setShowSuccess(true)
+                getDevices(filter);
+                getDeviceCategoryCount(categoryId)
             } else {
                 throw new Error('Failed to fetch data');
             }
