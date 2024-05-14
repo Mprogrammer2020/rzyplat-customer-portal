@@ -23,11 +23,13 @@ const AddDeviceCategory = ({ show, handleClose, editDevice }) => {
     useEffect(() => {
         getDeviceCategories()
         if (editDevice) {
+        getDeviceTypeByCategoryIdDeviceDropdown(editDevice.categoryId)
+
             setDeviceDetail({
                 ...deviceDetail,
                 serialNumber:editDevice.serialNumber,
-                deviceCategory:editDevice.categoryId,
-                deviceName:editDevice.deviceTypeLabel,
+                deviceCategory:{value:editDevice.categoryId,label:editDevice.categoryName},
+                deviceName:{value:editDevice.deviceTypeId,label:editDevice.deviceTypeLabel},
                 sku:editDevice.sku,
                 
 
@@ -36,8 +38,6 @@ const AddDeviceCategory = ({ show, handleClose, editDevice }) => {
 
         }
     }, [editDevice])
-
-    console.log("deviceDetail",deviceDetail);
 
     async function getDeviceCategories() {
         try {
@@ -196,11 +196,10 @@ const AddDeviceCategory = ({ show, handleClose, editDevice }) => {
     };
 
     // edit device category
-
     const editDeviceCategory = async () => {
+        console.log("editDeviceCategory")
 
     }
-
     return (<>
         <Form.Control ref={deviceImageRef} type="file" name="deviceImage" accept="image/*" style={{ display: "none" }} onChange={handleImageChange} />
         <Modal show={show} onHide={() => handleClose()} centered className='add-new-device-popup add-new-popup' size='lg' backdrop="static">

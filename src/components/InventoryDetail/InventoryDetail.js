@@ -18,8 +18,10 @@ function InventoryDetail() {
     const handleShow = () => {
         setShow(true);
     }
+    const [showsuccess, setShowSuccess] = useState(false)
+    const handleCloseSuccess = () => setShowSuccess(false);
     const [customers, setCustomers] = useState([]);
-    const [deviceId, setdeviceId]=useState("")
+    const [deviceId, setdeviceId] = useState("")
     const location = useLocation();
     const inventory = location?.state.usr;
     const [showCategoryModal, setShowCategoryModal] = useState(false);
@@ -181,25 +183,23 @@ function InventoryDetail() {
 
     // Function to handle delete action
     const handleDelete = async (customerId) => {
-       
-                try {
-                    setDevice(prevCustomers => ({
-                        ...prevCustomers,
-                        totalRecords: Number(prevCustomers.totalRecords) - 1,
-                        list: prevCustomers.list.filter(customer => customer.id !== customerId)
-                    }));
-                    const response = await APIServices.deleteDevices(customerId);
-                    if (response.status === 200) {
-                        setShow(false)
-                        swal("Success", "Device has been delete from Inventory", "success")
-
-                    } else {
-                        throw new Error('Failed to fetch data');
-                    }
-                } catch (error) {
-                    exceptionHandling(error);
-                    console.error('Error fetching data:', error);
-                }
+        try {
+            setDevice(prevCustomers => ({
+                ...prevCustomers,
+                totalRecords: Number(prevCustomers.totalRecords) - 1,
+                list: prevCustomers.list.filter(customer => customer.id !== customerId)
+            }));
+            const response = await APIServices.deleteDevices(customerId);
+            if (response.status === 200) {
+                setShow(false)
+                setShowSuccess(true)
+            } else {
+                throw new Error('Failed to fetch data');
+            }
+        } catch (error) {
+            exceptionHandling(error);
+            console.error('Error fetching data:', error);
+        }
     };
     function sortByDevice(orderBy, direction) {
         const filterTemp = { ...filter };
@@ -213,12 +213,12 @@ function InventoryDetail() {
         const filterTemp = { ...filter, deviceId };
         getDevices(filterTemp);
     }
-    const [editDevice, setEditDevice]=useState(false)
-    function handleEditDevice(item){
+    const [editDevice, setEditDevice] = useState(false)
+    function handleEditDevice(item) {
         setEditDevice(item)
         setShowCategoryModal(true)
     }
-    function handleCloseEditDevice(){
+    function handleCloseEditDevice() {
         setEditDevice(false)
     }
 
@@ -358,10 +358,9 @@ function InventoryDetail() {
 
                                                 <td className='action-div'>
 
-                                                    <img onClick={(e) => {handleShow(); setdeviceId(item.id)}} src={require("../../assets/images/ic_round-delete.svg").default} className="cursor-pointer me-2" alt="icons" />
-                                                    {/* <img onClick={handleShow} src={require("../../assets/images/ic_round-delete.svg").default} className="cursor-pointer me-2" alt="icons" onClick={() => handleDelete(item.id)} /> */}
+                                                    <img onClick={(e) => { handleShow(); setdeviceId(item.id) }} src={require("../../assets/images/ic_round-delete.svg").default} className="cursor-pointer me-2" alt="icons" />
                                                     <img src={require("../../assets/images/edit-box.svg").default} className="cursor-pointer" alt="icons"
-                                                        onClick={(e) =>handleEditDevice(item)}
+                                                        onClick={(e) => handleEditDevice(item)}
                                                     />
                                                 </td>
                                             </tr>
@@ -374,64 +373,91 @@ function InventoryDetail() {
                         {/* mobile side cards */}
                         {/* { window.innerHeight <= 768 && */}
 
-                            <div ref={customersRef} onScroll={onScroll} className="customer-scroll mobile">
+                        <div ref={customersRef} onScroll={onScroll} className="customer-scroll mobile">
 
-                                {device?.list?.map((item, index) => (
-                                    <div className='mobile-side-customer'>
-                                        <div className="smoke-detector-mobile-outer">
-                                            <div className="smoke-detector-mobile-outer-left">
-                                                <h6>{item?.deviceTypeLabel ? item?.deviceTypeLabel : "N/A"}</h6>
-                                                <p>{item?.manufacturer ? item?.manufacturer : "N/A"}</p>
-                                            </div>
-                                            <div className='action-div'>
-                                                <img src={require("../../assets/images/ic_round-delete.svg").default} className="cursor-pointer me-2" alt="icons" onClick={() => handleDelete(item.id)} />
-                                                <img src={require("../../assets/images/edit-box.svg").default} className="cursor-pointer" alt="icons" />
-                                            </div>
+                            {device?.list?.map((item, index) => (
+                                <div className='mobile-side-customer'>
+                                    <div className="smoke-detector-mobile-outer">
+                                        <div className="smoke-detector-mobile-outer-left">
+                                            <h6>{item?.deviceTypeLabel ? item?.deviceTypeLabel : "N/A"}</h6>
+                                            <p>{item?.manufacturer ? item?.manufacturer : "N/A"}</p>
                                         </div>
-                                        <div className="serial-sku">
-                                            <div className="smoke-detector-serial">
-                                                <h5>Serial</h5>
-                                                <p>{item?.serialNumber ? item?.serialNumber : "N/A"}</p>
-                                            </div>
-                                            <div className="smoke-detector-sku">
-                                                <h5>SKU</h5>
-                                                <p>{item?.sku ? item?.sku : "N/A"}</p>
-                                            </div>
-                                        </div>
-                                        <p className="added-date">Added on: {moment(item?.createdDate).format("DD-MM-YYYY")}</p>
+                                        <td className='action-div'>
+
+                                            <img onClick={(e) => { handleShow(); setdeviceId(item.id) }} src={require("../../assets/images/ic_round-delete.svg").default} className="cursor-pointer me-2" alt="icons" />
+                                            <img src={require("../../assets/images/edit-box.svg").default} className="cursor-pointer" alt="icons"
+                                                onClick={(e) => handleEditDevice(item)}
+                                            />
+                                        </td>
+
                                     </div>
-                                ))
-                                }
-                            </div>
+                                    <div className="serial-sku">
+                                        <div className="smoke-detector-serial">
+                                            <h5>Serial</h5>
+                                            <p>{item?.serialNumber ? item?.serialNumber : "N/A"}</p>
+                                        </div>
+                                        <div className="smoke-detector-sku">
+                                            <h5>SKU</h5>
+                                            <p>{item?.sku ? item?.sku : "N/A"}</p>
+                                        </div>
+                                    </div>
+                                    <p className="added-date">Added on: {moment(item?.createdDate).format("DD-MM-YYYY")}</p>
+                                </div>
+                            ))
+                            }
+                        </div>
                         {/* } */}
                     </div>
                 </div>
             </section >
             {showAddNewDeviceModal && <AddNewDeviceType show={showAddNewDeviceModal} handleClose={handleNewDeviceClose} categoryId={categoryId} />}
-          
+
             {showCategoryModal &&
                 <AddDeviceCategory show={showCategoryModal} handleClose={handleCategoryClose} editDevice={editDevice} />}
 
-            <Modal show={show} onHide={() => handleClose()} centered className='add-new-device-popup' >
-            <Modal.Body>
-            <div className="successfull-section text-center">
-                <img class="delete-img" src={require("../../assets/images/delete.svg").default} className="" alt="icons" />
-                <h4 className="succefull-txt">Are you sure want to delete</h4>
-            </div>
-            </Modal.Body>
-            <Modal.Footer>
-                <div className='footer-btns-bottom-right mx-auto'>
-                    <Button variant="secondary" onClick={handleClose}>
-                        CANCEL
-                    </Button>
-                    <Button className="add-btn delete-btn" onClick={() => handleDelete(deviceId)} >
-                       DELETE
-                    </Button>
-                </div>
-            </Modal.Footer>
+            {/* show warning custom model */}
 
-          
-        </Modal>
+            <Modal show={show} onHide={() => handleClose()} centered className='add-new-device-popup' >
+                <Modal.Body>
+                    <div className="successfull-section text-center">
+                        <img class="delete-img" src={require("../../assets/images/delete.svg").default} className="" alt="icons" />
+                        <h4 className="succefull-txt">Are you sure want to delete</h4>
+                    </div>
+                </Modal.Body>
+                <Modal.Footer>
+                    <div className='footer-btns-bottom-right mx-auto'>
+                        <Button variant="secondary" onClick={handleClose}>
+                            CANCEL
+                        </Button>
+                        <Button className="add-btn delete-btn" onClick={() => handleDelete(deviceId)} >
+                            DELETE
+                        </Button>
+                    </div>
+                </Modal.Footer>
+
+
+            </Modal>
+
+            {/* show success custom model */}
+            <Modal show={showsuccess} onHide={() => handleCloseSuccess()} centered className='add-new-device-popup' >
+                <Modal.Body>
+                    <div className="successfull-section text-center ">
+                        <img src={require("../../assets/images/check.svg").default} className="" alt="icons" />
+                        <h4 className="succefull-txt">New Device Type has been deleted</h4>
+                    </div>
+                </Modal.Body>
+                <Modal.Footer>
+                    <div className='footer-btns-bottom-right mx-auto'>
+
+
+                        <Button className="add-btn delete-btn" onClick={handleCloseSuccess} >
+                            OK
+                        </Button>
+                    </div>
+                </Modal.Footer>
+
+
+            </Modal>
         </>
     );
 }
