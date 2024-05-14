@@ -166,8 +166,8 @@ header {
     display: flex;
     align-items: center;
     cursor: pointer;
+    white-space: nowrap;
 }
-
 .header-right-box .form-control {
     border: 1px solid #6791D0;
     background: #ffffff1c;
@@ -338,6 +338,7 @@ header {
     padding: 12px;
     /* min-width: 261px; */
     width: inherit;
+    white-space: nowrap;
 }
 
 .customer-container-body .table td {
@@ -1087,7 +1088,7 @@ hr {
 .footer-btns-bottom-right .add-btn {
     background: #01337c !important;
     border: 1px solid #01337c !important;
-    padding: 8px 30px;
+    padding: 6px 22px;
 }
 .succefull-txt {
     color:  #01337C;
@@ -1176,6 +1177,10 @@ img.forward-arrow {
 .heading-main span {
     color: #fff;
 }
+td.action-div img {
+    width: 24px;
+    min-width: 24px;
+}
 /* media-query */
 @media (max-width: 1700px) {
     .property-section {
@@ -1217,6 +1222,9 @@ img.forward-arrow {
 }
 
 @media (max-width: 991px) {
+    .customer-container-body .table td {
+        font-size: 14px;
+    }
     .new-conversation-right {
         display: flex;
         align-items: center;
@@ -1368,6 +1376,14 @@ img.forward-arrow {
 }
 
 @media (max-width: 575px) {
+    .customer-list-header-mobile {
+        position: fixed;
+        width: 100%;
+        left: 0;
+        padding: 21px;
+        top: 80px;
+        z-index: 9;
+    }
     .customer-mobile-outer.inventory-detail-mobile-outer {
         margin-top: 0;
         padding: 0;
@@ -1405,7 +1421,9 @@ img.forward-arrow {
 }
 
 @media (max-width: 480px) {
-    
+    img.delete-icons {
+        width: 50px;
+    }
     .device-content-inner button {
         font-size: 14px;
     }
@@ -1494,7 +1512,12 @@ img.forward-arrow {
 }
 
 @media (max-width: 420px) {
-
+    .heading-main {
+        margin-bottom: 3px;
+    }
+    .footer-btns-bottom-right .add-btn {
+        padding: 5px 22px;
+    }
     .inner-hover-divice.first-child-section button {
         margin-top: 4px;
         font-size: 12px;

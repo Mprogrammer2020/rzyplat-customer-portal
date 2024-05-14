@@ -228,12 +228,12 @@ function InventoryDetail() {
                 {/* header section statr */}
                 <header className='mobile-header'>
                     <Row className='align-items-center'>
-                        <Col xs={6} md={6}>
+                        <Col xs={12} sm={6} md={6}>
                             <div className='header-left-box'>
                                 <h5 className='heading-main'><img src={require("../../assets/images/ci_building-04.svg").default} className="me-2" alt="icons" /><span className="active"> Inventory</span> <img className="forward-arrow" src={require("../../assets/images/forward.svg").default} alt="img"/> <span>{categorydata?.name}</span></h5>
                             </div>
                         </Col>
-                        <Col xs={6} md={6}>
+                        <Col xs={12} sm={6} md={6}>
                             <div className='header-right-box'>
                                 <Form>
                                     <Form.Group className="position-relative w-50" controlId="exampleForm.ControlInput1">
