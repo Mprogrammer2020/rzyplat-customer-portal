@@ -318,7 +318,7 @@ function InventoryDetail() {
                                         device?.list?.length >0 ?
                                             device?.list?.map((item, index) => (
                                                 <tr>
-                                                    <td>{item?.deviceTypeLabel ? item?.deviceTypeLabel : "N/A"}</td>
+                                                    <td><img className="me-1" src={require("../../assets/images/device-icon.svg").default} alt="device"/>{item?.deviceTypeLabel ? item?.deviceTypeLabel : "N/A"}</td>
                                                     <td>{item?.manufacturer ? item?.manufacturer : "N/A"}</td>
                                                     <td>{item?.serialNumber ? item?.serialNumber : "N/A"}</td>
                                                     <td>{moment(item?.createdDate).format("DD-MM-YYYY")}</td>
@@ -345,7 +345,7 @@ function InventoryDetail() {
 
                         {/* mobile side cards */}
                         {/* { window.innerHeight <= 768 && */}
-                        <div className='customer-mobile-outer'>
+                        <div className='customer-mobile-outer inventory-detail-mobile-outer'>
                             <div ref={inventoryDetailMobileRef} onScroll={() => onScroll(inventoryDetailMobileRef.current)} className="customer-scroll mobile">
 
                                 {device?.list?.map((item, index) => (
@@ -394,7 +394,7 @@ function InventoryDetail() {
             <Modal show={show} onHide={() => handleClose()} centered className='add-new-device-popup' >
                 <Modal.Body>
                     <div className="successfull-section text-center">
-                        <img class="delete-img" src={require("../../assets/images/delete.svg").default} className="" alt="icons" />
+                        <img class="delete-img" src={require("../../assets/images/delete.svg").default} className="delete-icons" alt="icons" />
                         <h4 className="succefull-txt">Are you sure want to delete</h4>
                     </div>
                 </Modal.Body>

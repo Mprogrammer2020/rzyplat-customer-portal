@@ -1086,6 +1086,7 @@ hr {
 .footer-btns-bottom-right .add-btn {
     background: #01337c !important;
     border: 1px solid #01337c !important;
+    padding: 8px 30px;
 }
 .succefull-txt {
     color:  #01337C;
@@ -1144,6 +1145,12 @@ button.swal-button.swal-button--cancel {
 }
 .swal-button:focus {
     box-shadow: unset !important;
+}
+img.delete-icons {
+    width: 70px;
+}
+h5.heading-main img {
+    cursor: pointer;
 }
 /* media-query */
 @media (max-width: 1700px) {
@@ -1265,8 +1272,8 @@ button.swal-button.swal-button--cancel {
         left: 0;
         padding: 21px;
         top: 53px;
+        z-index: 9;
     }
-
     header {
         border-radius: 0 0 12px 12px;
         position: fixed;
@@ -1337,6 +1344,10 @@ button.swal-button.swal-button--cancel {
 }
 
 @media (max-width: 575px) {
+    .customer-mobile-outer.inventory-detail-mobile-outer {
+        margin-top: 0;
+        padding: 0;
+    }
     .customer-mobile-outer {
         margin-top: 60px;
         padding: 0 10px;

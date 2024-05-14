@@ -83,6 +83,7 @@
 }
 .serial-sku p {
     color: #000;
+    font-size: 15px;
 }
 p.added-date {
     font-size: 14px;
