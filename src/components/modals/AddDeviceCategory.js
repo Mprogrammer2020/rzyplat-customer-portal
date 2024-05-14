@@ -203,7 +203,7 @@ const AddDeviceCategory = ({ show, handleClose, editDevice }) => {
         if (Object.keys(errors).length === 0) {
             try{
                 let response;
-                // showLoader(true)
+                setShowLoader(true)
                 const params = {
                     categoryId: deviceDetail.deviceCategory.value,
                     deviceTypeId: deviceDetail.deviceName.value,
@@ -212,10 +212,10 @@ const AddDeviceCategory = ({ show, handleClose, editDevice }) => {
                 }
                 console.log("params",params)
                 response = await APIServices.updateDevice(params);
-                if (response.status === 201) {
+                if (response.status === 200) {
                     handleClose();
                     console.log("updateDevice=========",response)
-                    // setShowLoader(false);
+                    setShowLoader(false);
                     swal("Success", "Device has been successfully updated.", "success").then(() => { });
                 } else {
                     throw new Error('Failed to fetch data');
