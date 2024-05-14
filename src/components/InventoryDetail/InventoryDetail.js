@@ -82,6 +82,7 @@ function InventoryDetail() {
     const handleCategoryClose = () => {
         getDevices(filter);
         setShowCategoryModal(false);
+        setEditDevice("");
     };
 
     const handleNewDeviceClose = () => {
