@@ -97,6 +97,12 @@ p.added-date {
 .inventory-detail-top-right .sort-by-top-right h6.inventory-detail-sortby {
     width: 108px;
 }
+.inventory-outer-content-area .customer-container-body .table tbody tr{
+    margin-bottom: 14px;
+}
+.delete-img {
+    width: 72px;
+}
 /* media-query */
 @media (max-width: 600px) { 
     

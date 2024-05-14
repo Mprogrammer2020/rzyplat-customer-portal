@@ -6,7 +6,8 @@ import Select from "react-select";
 import Loader from "../../Common/Loader";
 import swal from "sweetalert";
 
-const AddDeviceCategory = ({ show, handleClose }) => {
+const AddDeviceCategory = ({ show, handleClose, editDevice }) => {
+    console.log("show, editDevice ", show, editDevice)
     const deviceImageRef = useRef(null);
     const [deviceCategoryOptions, setDeviceCategoryOptions] = useState([]);
     const [deviceOptions, setDeviceOptions] = useState([]);
@@ -21,7 +22,22 @@ const AddDeviceCategory = ({ show, handleClose }) => {
 
     useEffect(() => {
         getDeviceCategories()
-    }, [])
+        if (editDevice) {
+            setDeviceDetail({
+                ...deviceDetail,
+                serialNumber:editDevice.serialNumber,
+                deviceCategory:editDevice.categoryId,
+                deviceName:editDevice.deviceTypeLabel,
+                sku:editDevice.sku,
+                
+
+
+            })
+
+        }
+    }, [editDevice])
+
+    console.log("deviceDetail",deviceDetail);
 
     async function getDeviceCategories() {
         try {
@@ -129,12 +145,13 @@ const AddDeviceCategory = ({ show, handleClose }) => {
                 sku: "", serialNumber: "", deviceCategory: "",
                 errors: { deviceImage: "", deviceName: "", sku: "", serialNumber: "", deviceCategory: "", }
             });
-        }else{
-            swal("",  `File type "${fileName.split('.').pop()}" is not supported. Please upload a CSV or xls file.`, "error");
+        } else {
+            swal("", `File type "${fileName.split('.').pop()}" is not supported. Please upload a CSV or xls file.`, "error");
 
         }
     }
 
+    // add device category
     const addDeviceCategory = async () => {
         const errors = checkValidation();
         if (Object.keys(errors).length === 0) {
@@ -178,11 +195,17 @@ const AddDeviceCategory = ({ show, handleClose }) => {
         }
     };
 
+    // edit device category
+
+    const editDeviceCategory = async () => {
+
+    }
+
     return (<>
         <Form.Control ref={deviceImageRef} type="file" name="deviceImage" accept="image/*" style={{ display: "none" }} onChange={handleImageChange} />
         <Modal show={show} onHide={() => handleClose()} centered className='add-new-device-popup add-new-popup' size='lg' backdrop="static">
             <Modal.Header>
-                <Modal.Title>Add New {deviceDetail.showBulkUpload ? "Device" : "Category"}</Modal.Title>
+                <Modal.Title>{editDevice ? "Edit" : "Add"} New {deviceDetail.showBulkUpload ? "Device" : "Category"}</Modal.Title>
             </Modal.Header>
             <Modal.Body>
                 <Form>
@@ -232,7 +255,7 @@ const AddDeviceCategory = ({ show, handleClose }) => {
                                             })
                                         }}
                                     /> :
-                                        <Form.Control type="text" placeholder="Enter Device Name" maxLength={50} name="deviceName" onChange={handleInputChange} />}
+                                        <Form.Control type="text" placeholder="Enter Device Name" maxLength={50} value={deviceDetail?.deviceName} name="deviceName" onChange={handleInputChange} />}
 
                                 </Form.Group>
                                 {deviceDetail.errors.deviceName && <span className="error">{deviceDetail.errors.deviceName}</span>}
@@ -240,21 +263,21 @@ const AddDeviceCategory = ({ show, handleClose }) => {
                             <Col md={12} lg={6}>
                                 <Form.Group className="mb-2" controlId="formBasicEmail">
                                     <Form.Label>Serial Number</Form.Label>
-                                    <Form.Control type="text" maxLength={50} placeholder="Enter Serial Number" name="serialNumber" onChange={handleInputChange} />
+                                    <Form.Control type="text" maxLength={50} value={deviceDetail?.serialNumber}  placeholder="Enter Serial Number" name="serialNumber" onChange={handleInputChange} />
                                 </Form.Group>
                                 {deviceDetail.errors.serialNumber && <span className="error">{deviceDetail.errors.serialNumber}</span>}
                             </Col>
                             <Col md={12} lg={6}>
                                 <Form.Group className="mb-2" controlId="formBasicEmail">
                                     <Form.Label>SKU</Form.Label>
-                                    <Form.Control type="text" maxLength={50} name="sku" onChange={handleInputChange} />
+                                    <Form.Control type="text" maxLength={50} value={deviceDetail?.sku} readOnly={editDevice ? true : false} name="sku" onChange={handleInputChange} />
                                 </Form.Group>
                                 {deviceDetail.errors.sku && <span className="error">{deviceDetail.errors.sku}</span>}
                             </Col>
                         </> : ""}
                     </Row>
                 </Form>
-                {deviceDetail.showBulkUpload && <>
+                {editDevice ? <></> : deviceDetail.showBulkUpload && <>
                     <p>or bulk upload</p>
                     <div className='upload-file'>
                         <img src={require("../../assets/images/upload-file.png")} alt='upload-img' />
@@ -264,7 +287,7 @@ const AddDeviceCategory = ({ show, handleClose }) => {
                 </>}
             </Modal.Body>
             <Modal.Footer>
-                <div className='footer-btns-bottom-left'>
+                {editDevice ? "" : <div className='footer-btns-bottom-left'>
                     {deviceDetail.showBulkUpload ? <Button type='button' variant='unset' onClick={() => setDeviceDetail({
                         ...deviceDetail, showBulkUpload: false, deviceImage: "", deviceName: "",
                         sku: "", serialNumber: "", deviceCategory: "",
@@ -272,14 +295,19 @@ const AddDeviceCategory = ({ show, handleClose }) => {
                     })}> NEW CATEGORY</Button> :
                         <Button type='button' variant='unset' onClick={() => selectDeviceImage()}><i class="fa fa-upload" aria-hidden="true"></i> {deviceDetail.deviceImage && deviceDetail.deviceImage?.name ? deviceDetail.deviceImage.name : "Upload Image"}</Button>}
                     {!deviceDetail.showBulkUpload && deviceDetail.errors.deviceImage && <span className="error">{deviceDetail.errors.deviceImage}</span>}
-                </div>
+                </div>}
                 <div className='footer-btns-bottom-right'>
                     <Button variant="secondary" onClick={handleClose} disabled={showLoader}>
                         CANCEL
                     </Button>
+                    {editDevice ?  
+                    <Button variant="primary" className={Object.keys(checkValidation()).length === 0 ? "add-btn" : ""} onClick={editDeviceCategory} disabled={showLoader || Object.keys(checkValidation()).length !== 0 ? true : false}>
+                    {showLoader ? <Loader loaderType={"COLOR_RING"} width={25} height={25} /> : "EDIT"}
+                </Button>
+                    :
                     <Button variant="primary" className={Object.keys(checkValidation()).length === 0 ? "add-btn" : ""} onClick={addDeviceCategory} disabled={showLoader || Object.keys(checkValidation()).length !== 0 ? true : false}>
                         {showLoader ? <Loader loaderType={"COLOR_RING"} width={25} height={25} /> : "ADD"}
-                    </Button>
+                    </Button>}
                 </div>
 
             </Modal.Footer>

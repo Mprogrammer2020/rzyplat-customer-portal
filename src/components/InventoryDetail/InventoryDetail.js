@@ -1,4 +1,4 @@
-import { Button, Col, Form, Row } from "react-bootstrap";
+import { Button, Col, Form, Modal, Row } from "react-bootstrap";
 import "./InventoryDetail.css"
 import { Link } from "react-router-dom";
 import Skeleton from "react-loading-skeleton";
@@ -12,10 +12,16 @@ import AddNewDeviceType from "../modals/AddNewDeviceType";
 import { useLocation } from "react-use";
 
 function InventoryDetail() {
+    const [show, setShow] = useState(false);
+
+    const handleClose = () => setShow(false);
+    const handleShow = () => {
+        setShow(true);
+    }
     const [customers, setCustomers] = useState([]);
+    const [deviceId, setdeviceId]=useState("")
     const location = useLocation();
     const inventory = location?.state.usr;
-    console.log("inventory=======", inventory)
     const [showCategoryModal, setShowCategoryModal] = useState(false);
     const [showAddNewDeviceModal, setShowAddNewDeviceModal] = useState(false);
     const [deviceType, setDeviceType] = useState([])
@@ -81,7 +87,6 @@ function InventoryDetail() {
         try {
             const response = await APIServices.getDeviceTypeByCategoryId(categoryId, page, size);
             if (response.status === 200) {
-                console.log("getDeviceTypeByCategoryId=====", response?.data)
                 setDeviceType(response.data)
             } else {
                 throw new Error('Failed to fetch data');
@@ -176,9 +181,7 @@ function InventoryDetail() {
 
     // Function to handle delete action
     const handleDelete = async (customerId) => {
-        // Implement delete action logic here
-        swal({ title: "", text: "Are you sure you want to delete this devices?", icon: "warning", buttons: ["No", "Yes"] }).then(async (res) => {
-            if (res) {
+       
                 try {
                     setDevice(prevCustomers => ({
                         ...prevCustomers,
@@ -187,6 +190,7 @@ function InventoryDetail() {
                     }));
                     const response = await APIServices.deleteDevices(customerId);
                     if (response.status === 200) {
+                        setShow(false)
                         swal("Success", "Device has been delete from Inventory", "success")
 
                     } else {
@@ -196,8 +200,6 @@ function InventoryDetail() {
                     exceptionHandling(error);
                     console.error('Error fetching data:', error);
                 }
-            }
-        });
     };
     function sortByDevice(orderBy, direction) {
         const filterTemp = { ...filter };
@@ -210,6 +212,14 @@ function InventoryDetail() {
     function getDeviceById(deviceId) {
         const filterTemp = { ...filter, deviceId };
         getDevices(filterTemp);
+    }
+    const [editDevice, setEditDevice]=useState(false)
+    function handleEditDevice(item){
+        setEditDevice(item)
+        setShowCategoryModal(true)
+    }
+    function handleCloseEditDevice(){
+        setEditDevice(false)
     }
 
     return (
@@ -348,9 +358,10 @@ function InventoryDetail() {
 
                                                 <td className='action-div'>
 
-                                                    <img src={require("../../assets/images/ic_round-delete.svg").default} className="cursor-pointer me-2" alt="icons" onClick={() => handleDelete(item.id)} />
+                                                    <img onClick={(e) => {handleShow(); setdeviceId(item.id)}} src={require("../../assets/images/ic_round-delete.svg").default} className="cursor-pointer me-2" alt="icons" />
+                                                    {/* <img onClick={handleShow} src={require("../../assets/images/ic_round-delete.svg").default} className="cursor-pointer me-2" alt="icons" onClick={() => handleDelete(item.id)} /> */}
                                                     <img src={require("../../assets/images/edit-box.svg").default} className="cursor-pointer" alt="icons"
-
+                                                        onClick={(e) =>handleEditDevice(item)}
                                                     />
                                                 </td>
                                             </tr>
@@ -397,8 +408,30 @@ function InventoryDetail() {
                 </div>
             </section >
             {showAddNewDeviceModal && <AddNewDeviceType show={showAddNewDeviceModal} handleClose={handleNewDeviceClose} categoryId={categoryId} />}
+          
             {showCategoryModal &&
-                <AddDeviceCategory show={showCategoryModal} handleClose={handleCategoryClose} />}
+                <AddDeviceCategory show={showCategoryModal} handleClose={handleCategoryClose} editDevice={editDevice} />}
+
+            <Modal show={show} onHide={() => handleClose()} centered className='add-new-device-popup' >
+            <Modal.Body>
+            <div className="successfull-section text-center">
+                <img class="delete-img" src={require("../../assets/images/delete.svg").default} className="" alt="icons" />
+                <h4 className="succefull-txt">Are you sure want to delete</h4>
+            </div>
+            </Modal.Body>
+            <Modal.Footer>
+                <div className='footer-btns-bottom-right mx-auto'>
+                    <Button variant="secondary" onClick={handleClose}>
+                        CANCEL
+                    </Button>
+                    <Button className="add-btn delete-btn" onClick={() => handleDelete(deviceId)} >
+                       DELETE
+                    </Button>
+                </div>
+            </Modal.Footer>
+
+          
+        </Modal>
         </>
     );
 }
