@@ -18,6 +18,13 @@ function InventoryDetail() {
     const handleShow = () => {
         setShow(true);
     }
+    const [activeIndex, setActiveIndex] = useState(null);
+
+// Function to handle item click
+const handleItemClick = (index) => {
+    getDeviceById(deviceType.list[index].id);
+    setActiveIndex(index);
+};
     const [deviceStatus, setdeviceStatus] = useState(false)
     const [showsuccess, setShowSuccess] = useState(false)
     const handleCloseSuccess = () => setShowSuccess(false);
@@ -41,6 +48,7 @@ function InventoryDetail() {
         const queryParams = new URLSearchParams(window.location.search);
         const categoryId = queryParams.get('categoryId');
         getDeviceTypeByCategoryId(categoryId, 0, 4)
+        getDeviceCategoryCount(categoryId)
     }, []);
 
     useEffect(() => {
@@ -66,6 +74,26 @@ function InventoryDetail() {
             const response = await APIServices.getDeviceTypeByCategoryId(categoryId, page, size);
             if (response.status === 200) {
                 setDeviceType(response.data)
+            } else {
+                throw new Error('Failed to fetch data');
+            }
+        } catch (error) {
+            exceptionHandling(error);
+            console.error('Error fetching data:', error);
+        }
+    }
+
+    // get category name and count
+
+const [categorydata, setCategoryData]=useState("")
+    async function getDeviceCategoryCount(id) {
+        try {
+            const response = await APIServices.getDeviceCategoryCount(id);
+            if (response.status === 200) {
+                console.log("getDeviceCategoryCount",response?.data)
+                setCategoryData(response?.data)
+                // const options = response.data.map(item => { return { value: item.id, label: item.name } })
+                // setDeviceCategoryOptions(options);
             } else {
                 throw new Error('Failed to fetch data');
             }
@@ -199,7 +227,7 @@ function InventoryDetail() {
                     <Row className='align-items-center'>
                         <Col xs={6} md={6}>
                             <div className='header-left-box'>
-                                <h5 className='heading-main'><img src={require("../../assets/images/ci_building-04.svg").default} className="me-2" alt="icons" /> Inventory</h5>
+                                <h5 className='heading-main'><img src={require("../../assets/images/ci_building-04.svg").default} className="me-2" alt="icons" /> Inventory {">"} {categorydata?.name}</h5>
                             </div>
                         </Col>
                         <Col xs={6} md={6}>
@@ -228,7 +256,7 @@ function InventoryDetail() {
                             <div className='customer-list-header d-flex align-items-center justify-content-between'>
                                 <h5 className='heading-main'>
                                     <img src={require("../../assets/images/back.svg").default} className="me-2" alt="icons" onClick={(e) => window.location.href = "/inventory"} />
-                                    {inventory?.name}
+                                    {categorydata?.name}
                                     <span className='customer-mobile-text'>{10}</span></h5>
                                 <h3> {inventory?.count} Devices</h3>
                                 <div className="inventory-detail-top-right">
@@ -253,7 +281,7 @@ function InventoryDetail() {
 
 
                                     <h6 className="inventory-add" onClick={addNewCategory}>ADD NEW <i class="fa fa-plus" aria-hidden="true"></i></h6>
-                                    <p className='mobile-tab'>{inventory?.count}</p>
+                                    <p className='mobile-tab'>{categorydata?.count}</p>
                                 </div>
                             </div>
                         </div>
@@ -274,22 +302,40 @@ function InventoryDetail() {
                                         </div>
                                     </Col>
                                 )) :
+                                    // deviceType?.list?.map((item, index) => {
+                                    //     return (<Col xs={6} md={6} lg={6} xl={3} onClick={() => { getDeviceById(item.id); setdeviceStatus(true) }} >
+                                    //         <div className='device-content-inner ${deviceStatus  ? `active` :"'>
+                                    //              <div className='position-relative'>
+                                    //                     <img src={`data:${item?.imageContentType};base64,${item?.imageContent}`} alt="icons" />
+                                    //                 </div>
+                                    //             <div className='device-info'>
+                                    //                 <p>{item?.type ? item?.type : "N/A"}</p>
+                                    //                 <span className='d-flex align-items-center arrow-icon'>
+                                    //                     <h6>{item?.count ? item?.count : "0"}</h6>
+                                    //                 </span>
+                                    //             </div>
+                                    //         </div>
+                                    //     </Col>
+                                    //     )
+                                    // })}
                                     deviceType?.list?.map((item, index) => {
-                                        return (<Col xs={6} md={6} lg={6} xl={3} onClick={() => { getDeviceById(item.id); setdeviceStatus(true) }} >
-                                            <div className='device-content-inner ${deviceStatus  ? `active` :"'>
-                                                <div className='position-relative'>
-                                                    <img src={require("../../assets/images/smoke-detector-image1.png")} alt="icons" />
+                                        return (
+                                            <Col xs={6} md={6} lg={6} xl={3} key={index} onClick={() => handleItemClick(index)}>
+                                                <div className={`device-content-inner ${activeIndex === index ? 'active' : ''}`}>
+                                                    <div className='position-relative'>
+                                                        <img src={`data:${item?.imageContentType};base64,${item?.imageContent}`} alt="icons" />
+                                                    </div>
+                                                    <div className='device-info'>
+                                                        <p>{item?.type ? item?.type : "N/A"}</p>
+                                                        <span className='d-flex align-items-center arrow-icon'>
+                                                            <h6>{item?.count ? item?.count : "0"}</h6>
+                                                        </span>
+                                                    </div>
                                                 </div>
-                                                <div className='device-info'>
-                                                    <p>{item?.type ? item?.type : "N/A"}</p>
-                                                    <span className='d-flex align-items-center arrow-icon'>
-                                                        <h6>{item?.count ? item?.count : "0"}</h6>
-                                                    </span>
-                                                </div>
-                                            </div>
-                                        </Col>
-                                        )
+                                            </Col>
+                                        );
                                     })}
+                                    
                             </Row>
                         </div>
                         <div className="customer-container-body">

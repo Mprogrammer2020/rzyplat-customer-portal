@@ -30,7 +30,8 @@ export const APIServices = {
     deleteDevices,
     getDeviceCategories,
     getDeviceTypeByCategoryIdDeviceDropdown,
-    updateDevice
+    updateDevice,
+    getDeviceCategoryCount
 }
 
 function updateDevice(params) {
@@ -55,6 +56,13 @@ function deleteDevices(deviceId) {
 function getDeviceTypeByCategoryId(categoryId, page, size = 10) {
     return axios.get(`${config.apiUrl}/device-type/${categoryId}?pageNumber=${page}&pageSize=${size}`, configJsonHeaders());
 }
+
+//getDeviceCategoryCount
+
+function getDeviceCategoryCount(categoryId) {
+    return axios.get(`${config.apiUrl}/categories/${categoryId}`, configJsonHeaders());
+}
+
 
 function getDeviceTypeByCategoryIdDeviceDropdown(categoryId) {
     return axios.get(`${config.apiUrl}/device-type/basic/${categoryId}`, configJsonHeaders());

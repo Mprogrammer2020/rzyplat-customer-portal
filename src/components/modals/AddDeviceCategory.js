@@ -295,14 +295,14 @@ const AddDeviceCategory = ({ show, handleClose, editDevice }) => {
                             <Col md={12} lg={6}>
                                 <Form.Group className="mb-2" controlId="formBasicEmail">
                                     <Form.Label>Serial Number</Form.Label>
-                                    <Form.Control type="text" maxLength={50} value={deviceDetail?.serialNumber}  placeholder="Enter Serial Number" name="serialNumber" onChange={handleInputChange} />
+                                    <Form.Control type="text" maxLength={15} value={deviceDetail?.serialNumber}  placeholder="Enter Serial Number" name="serialNumber" onChange={handleInputChange} />
                                 </Form.Group>
                                 {deviceDetail.errors.serialNumber && <span className="error">{deviceDetail.errors.serialNumber}</span>}
                             </Col>
                             <Col md={12} lg={6}>
                                 <Form.Group className="mb-2" controlId="formBasicEmail">
                                     <Form.Label>SKU</Form.Label>
-                                    <Form.Control type="text" maxLength={50} value={deviceDetail?.sku} readOnly={editDevice ? true : false} name="sku" onChange={handleInputChange} />
+                                    <Form.Control type="text" maxLength={12} value={deviceDetail?.sku} readOnly={editDevice ? true : false} name="sku" onChange={handleInputChange} />
                                 </Form.Group>
                                 {deviceDetail.errors.sku && <span className="error">{deviceDetail.errors.sku}</span>}
                             </Col>
