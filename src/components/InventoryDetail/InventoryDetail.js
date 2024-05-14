@@ -20,11 +20,11 @@ function InventoryDetail() {
     }
     const [activeIndex, setActiveIndex] = useState(null);
 
-// Function to handle item click
-const handleItemClick = (index) => {
-    getDeviceById(deviceType.list[index].id);
-    setActiveIndex(index);
-};
+    // Function to handle item click
+    const handleItemClick = (index) => {
+        getDeviceById(deviceType.list[index].id);
+        setActiveIndex(index);
+    };
     const [deviceStatus, setdeviceStatus] = useState(false)
     const [showsuccess, setShowSuccess] = useState(false)
     const handleCloseSuccess = () => setShowSuccess(false);
@@ -85,12 +85,12 @@ const handleItemClick = (index) => {
 
     // get category name and count
 
-const [categorydata, setCategoryData]=useState("")
+    const [categorydata, setCategoryData] = useState("")
     async function getDeviceCategoryCount(id) {
         try {
             const response = await APIServices.getDeviceCategoryCount(id);
             if (response.status === 200) {
-                console.log("getDeviceCategoryCount",response?.data)
+                console.log("getDeviceCategoryCount", response?.data)
                 setCategoryData(response?.data)
                 // const options = response.data.map(item => { return { value: item.id, label: item.name } })
                 // setDeviceCategoryOptions(options);
@@ -227,7 +227,7 @@ const [categorydata, setCategoryData]=useState("")
                     <Row className='align-items-center'>
                         <Col xs={6} md={6}>
                             <div className='header-left-box'>
-                                <h5 className='heading-main'><img src={require("../../assets/images/ci_building-04.svg").default} className="me-2" alt="icons" /> Inventory {">"} {categorydata?.name}</h5>
+                                <h5 className='heading-main'><img src={require("../../assets/images/ci_building-04.svg").default} className="me-2" alt="icons" /><span className="active"> Inventory</span> <img className="forward-arrow" src={require("../../assets/images/forward.svg").default} alt="img"/> <span>{categorydata?.name}</span></h5>
                             </div>
                         </Col>
                         <Col xs={6} md={6}>
@@ -335,7 +335,7 @@ const [categorydata, setCategoryData]=useState("")
                                             </Col>
                                         );
                                     })}
-                                    
+
                             </Row>
                         </div>
                         <div className="customer-container-body">
@@ -361,10 +361,10 @@ const [categorydata, setCategoryData]=useState("")
                                             <td><Skeleton className="main-wallet-top mb-2" height={30} width={150} count={20} /></td>
                                         </tr>
                                     </div> :
-                                        device?.list?.length >0 ?
+                                        device?.list?.length > 0 ?
                                             device?.list?.map((item, index) => (
                                                 <tr>
-                                                    <td><img className="me-1" src={require("../../assets/images/device-icon.svg").default} alt="device"/>{item?.deviceTypeLabel ? item?.deviceTypeLabel : "N/A"}</td>
+                                                    <td><img className="me-2" src={require("../../assets/images/device-icon.svg").default} alt="device" />{item?.deviceTypeLabel ? item?.deviceTypeLabel : "N/A"}</td>
                                                     <td>{item?.manufacturer ? item?.manufacturer : "N/A"}</td>
                                                     <td>{item?.serialNumber ? item?.serialNumber : "N/A"}</td>
                                                     <td>{moment(item?.createdDate).format("DD-MM-YYYY")}</td>
@@ -381,9 +381,12 @@ const [categorydata, setCategoryData]=useState("")
 
                                             ))
                                             :
-                                            <td className='action-div'>
-                                                <span>No Data Found.</span>
-                                            </td>
+                                           
+                                                <div className="no-data-area">
+                                                    <img src={require("../../assets/images/no-data.gif")} alt="img" />
+                                                    <h6>No Data Found.</h6>
+                                                </div>
+                                          
                                     }
                                 </tbody>
                             </table>

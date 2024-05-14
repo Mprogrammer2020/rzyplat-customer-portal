@@ -165,6 +165,7 @@ header {
     color: #fff;
     display: flex;
     align-items: center;
+    cursor: pointer;
 }
 
 .header-right-box .form-control {
@@ -1151,6 +1152,29 @@ img.delete-icons {
 }
 h5.heading-main img {
     cursor: pointer;
+}
+.no-data-area {
+    min-height: 400px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    text-align: center;
+}
+.no-data-area img {
+    mix-blend-mode: multiply;
+}
+.no-data-area h6 {
+    background: #edf1f7;
+}
+img.forward-arrow {
+    margin: 0 8px;
+}
+.heading-main span.active {
+    color: #ffffffa6;
+}
+.heading-main span {
+    color: #fff;
 }
 /* media-query */
 @media (max-width: 1700px) {
