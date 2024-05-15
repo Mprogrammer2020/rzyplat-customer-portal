@@ -111,6 +111,7 @@ function InventoryDetail() {
         getDevices(filter);
         getDeviceCategoryCount(categoryId)
         setShowCategoryModal(false);
+        getDeviceTypeByCategoryId(categoryId, 0, 4)
         setEditDevice("");
     };
 
@@ -189,10 +190,11 @@ function InventoryDetail() {
             }));
             const response = await APIServices.deleteDevices(customerId);
             if (response.status === 200) {
-                setShow(false)
-                setShowSuccess(true)
+                getDeviceTypeByCategoryId(categoryId, 0, 4)
                 getDevices(filter);
                 getDeviceCategoryCount(categoryId)
+                setShow(false)
+                setShowSuccess(true)
             } else {
                 throw new Error('Failed to fetch data');
             }

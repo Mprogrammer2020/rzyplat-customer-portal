@@ -31,8 +31,6 @@ const AddDeviceCategory = ({ show, handleClose, editDevice }) => {
                 deviceCategory:{value:editDevice.categoryId,label:editDevice.categoryName},
                 deviceName:{value:editDevice.deviceTypeId,label:editDevice.deviceTypeLabel},
                 sku:editDevice.sku,
-                
-
 
             })
 
