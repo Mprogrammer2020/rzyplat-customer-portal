@@ -25,6 +25,10 @@ export const APIServices = {
     uploadBulkDevice,
     addDeviceType,
     getCustomers,
+    getcontactList,
+    AddContact,
+    updateContact,
+    deleteContact,
     deleteCustomer,
     getDevices,
     deleteDevices,
@@ -92,4 +96,20 @@ function getCustomers(page, size, orderBy, direction) {
 
 function deleteCustomer(customerId) {
     return axios.delete(`${config.apiUrl}/customers/${customerId}`, configJsonHeaders());
+}
+
+function getcontactList(page, size, orderBy, direction) {
+    return axios.get(`${config.apiUrl}/contacts/search?pageNumber=${page}&pageSize=${size}&orderBy=${orderBy}&direction=${direction}`, configJsonHeaders());
+}
+
+function deleteContact(contactId) {
+    return axios.delete(`${config.apiUrl}/contacts/${contactId}`, configJsonHeaders());
+}
+
+function AddContact(params) {
+    return axios.post(`${config.apiUrl}/contacts`, params, configJsonHeaders());
+}
+
+function updateContact(params) {
+    return axios.put(`${config.apiUrl}/contacts/${params.id}`, params, configMultipartHeaders());
 }

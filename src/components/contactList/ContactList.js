@@ -5,38 +5,41 @@ import { APIServices } from '../../services/APIServices';
 import { exceptionHandling } from '../../Common/CommonComponents';
 import Skeleton from 'react-loading-skeleton';
 import swal from 'sweetalert';
+import AddDeviceCategory from '../modals/AddDeviceCategory';
+import AddNewContact from '../modals/AddNewContact';
 // import "@testing-library/jest-dom";
 
 
 const ContactList = () => {
     // State for customer data
-    const [customers, setCustomers] = useState([]);
+    const [contactList, setContactList] = useState([]);
     const [filter, setFilter] = useState({ page: 0, size: 10, sortBy: "name", orderBy: "DESC" });
-    const customersRef = useRef();
+    const contactListRef = useRef();
     const loadingResponse = useRef(false);
 
     useEffect(() => {
 
-        // Call getCustomers function
-        getCustomers(filter);
+        // Call getcontactList function
+        getcontactList(filter);
     }, []);
 
-    // Define function to fetch Customers
+    // Define function to fetch contactList
 
-    async function getCustomers(params) {
+    async function getcontactList(params) {
         try {
-            const response = await APIServices.getCustomers(params.page, params.size, params.sortBy, params.orderBy);
+            const response = await APIServices.getcontactList(params.page, params.size, params.sortBy, params.orderBy);
             if (response.status === 200) {
                 let responseData = response.data;
+                console.log("responseData==========",responseData);
                 let tempList;
                 if (params.page == 0) {
                     tempList = [];
                 } else {
-                    tempList = [...customers.list];
+                    tempList = [...contactList.list];
                 }
                 tempList.push(...responseData.list);
                 responseData.list = tempList;
-                setCustomers(responseData);
+                setContactList(responseData);
                 loadingResponse.current = false;
 
             } else {
@@ -45,34 +48,34 @@ const ContactList = () => {
         } catch (error) {
             loadingResponse.current = false;
             exceptionHandling(error);
-            console.error('Error fetching data:', error);
+            // console.error('Error fetching data:', error);
         }
     }
 
     // Function to sort customer data
-    const sortCustomers = (sortOrder) => {
+    const sortcontactList = (sortOrder) => {
         let filterTemp = { ...filter };
         const parts = sortOrder.split(" ");
         filterTemp.sortBy = parts[0].toLowerCase();
         filterTemp.orderBy = parts[1];
         filterTemp.page = 0;
         setFilter(filterTemp);
-        getCustomers(filterTemp);
+        getcontactList(filterTemp);
 
     };
 
     // Function to handle delete action
     const handleDelete = async (customerId) => {
         // Implement delete action logic here
-        swal({title:"", text:"Are you sure you want to delete this customer?", icon:"warning",  buttons: ["No","Yes"]}).then(async (res) => {
+        swal({title:"", text:"Are you sure you want to delete this Contact list?", icon:"warning",  buttons: ["No","Yes"]}).then(async (res) => {
             if (res) {
                 try {
-                    setCustomers(prevCustomers => ({
-                        ...prevCustomers,
-                        totalRecords: Number(prevCustomers.totalRecords) - 1,
-                        list: prevCustomers.list.filter(customer => customer.id !== customerId)
+                    setContactList(prevcontactList => ({
+                        ...prevcontactList,
+                        totalRecords: Number(prevcontactList.totalRecords) - 1,
+                        list: prevcontactList.list.filter(customer => customer.id !== customerId)
                     }));
-                    const response = await APIServices.deleteCustomer(customerId);
+                    const response = await APIServices.deleteContact(customerId);
                     if (response.status === 200) {
 
                     } else {
@@ -90,7 +93,7 @@ const ContactList = () => {
         // Extract date components from data
         const [year, month, day, hours, minutes, seconds, milliseconds] = createdDate;
         // createdDate = new Date(year, month - 1, day, hours, minutes, seconds, milliseconds);
-        const formattedDate = `${String(day).padStart(2, '0')}-${String(month).padStart(2, '0')}-${year}`;
+        const formattedDate = `${String(day)?.padStart(2, '0')}-${String(month)?.padStart(2, '0')}-${year}`;
         return formattedDate;
     }
 
@@ -98,20 +101,34 @@ const ContactList = () => {
 
 
     const onScroll = async () => {
-        if (customersRef.current) {
-            const { scrollTop, scrollHeight, clientHeight } = customersRef.current;
+        if (contactListRef.current) {
+            const { scrollTop, scrollHeight, clientHeight } = contactListRef.current;
             // console.log("scrollTop + clientHeight === scrollHeight", scrollTop + clientHeight, scrollHeight, scrollTop, clientHeight);
             if (scrollTop + clientHeight === scrollHeight) {
-                const totalPages = Math.ceil(customers?.totalElements / filter.size);
+                const totalPages = Math.ceil(contactList?.totalElements / filter.size);
                 let filterTemp = { ...filter };
                 filterTemp.page = filterTemp.page + 1
                 if (filterTemp.page < totalPages && !loadingResponse.current) {
                     loadingResponse.current = true;
                     setFilter(filterTemp);
-                    getCustomers(filterTemp);
+                    getcontactList(filterTemp);
                 }
             }
         }
+    };
+    const [showCategoryModal, setShowCategoryModal] = useState(false);
+    const [editDevice, setEditDevice] = useState(false)
+   
+    function addNewCategory() {
+        setShowCategoryModal(true);
+    }
+
+    const handleCategoryClose = () => {
+        // getDevices(filter);
+        // getDeviceCategoryCount(categoryId)
+        setShowCategoryModal(false);
+        // getDeviceTypeByCategoryId(categoryId, 0, 4)
+        // setEditDevice("");
     };
 
     function capitalizeFirstLetter(string) {
@@ -127,7 +144,7 @@ const ContactList = () => {
                 <Row className='align-items-center'>
                     <Col xs={6} md={6}>
                         <div className='header-left-box'>
-                            <h5 className='heading-main'><img src={require("../../assets/images/ci_building-04.svg").default} className="me-2" alt="icons" /> Customers</h5>
+                            <h5 className='heading-main'><img src={require("../../assets/images/ci_building-04.svg").default} className="me-2" alt="icons" /> contactList</h5>
                         </div>
                     </Col>
                     <Col xs={6} md={6}>
@@ -136,7 +153,7 @@ const ContactList = () => {
                                 <Form.Group className="position-relative w-50" controlId="exampleForm.ControlInput1">
                                     <img src={require("../../assets/images/iconamoon_search.svg").default} className="search-icon" alt="icons" />
                                     <Form.Control type="email" placeholder="Search" />
-                                    <span className='cutomer-text'>CUSTOMERS</span>
+                                    <span className='cutomer-text'>contactList</span>
                                     <img src={require("../../assets/images/mi_filter.svg").default} className="filter-icon" alt="icons" />
                                 </Form.Group>
                                 <Link>
@@ -156,18 +173,19 @@ const ContactList = () => {
                     <div className='customer-list-header d-flex align-items-center justify-content-between'>
                         <h5 className='heading-main'>
                             <img src={require("../../assets/images/ci_building-04 (1).svg").default} className="me-2" alt="icons" />
-                            Customers <span className='mobile-tab'>List</span>
-                            <span className='customer-mobile-text'>{customers?.totalRecords}</span></h5>
+                            Contact List 
+                            <span className='customer-mobile-text'>{contactList?.totalElements}</span></h5>
                         <div className='sort-box d-flex align-items-center'>
-                            <Form.Select aria-label="Default select example" className='mobile-tab inner-mobile-tab cursor-pointer' value={`${capitalizeFirstLetter(filter.sortBy)} ${filter.orderBy}`} onChange={(e) => sortCustomers(e.target.value)}>
+                            <Form.Select aria-label="Default select example" className='mobile-tab inner-mobile-tab cursor-pointer' value={`${capitalizeFirstLetter(filter.sortBy)} ${filter.orderBy}`} onChange={(e) => sortcontactList(e.target.value)}>
                                 <option value={"Name DESC"}>SORT BY</option>
                                 {sortByOption.map((option, index) => {
                                     return (<option value={option}>{option.replace("ASC", "Assending").replace("DESC", "Desending")}</option>)
                                 })}
                             </Form.Select>
                             <img src={require("../../assets/images/mi_filter-blue.svg").default} className="ms-2" alt="icons" />
-                            <p className='mobile-tab'>{customers?.totalRecords}</p>
+                            <p className='mobile-tab'>{contactList?.totalElements}</p>
                         </div>
+                        <h6 className="inventory-add" onClick={addNewCategory}>ADD NEW <i class="fa fa-plus" aria-hidden="true"></i></h6>
                     </div>
                 </div>
                 <div className="customer-container-body">
@@ -179,12 +197,11 @@ const ContactList = () => {
                                 <th>Joined</th>
                                 <th>Phone</th>
                                 <th className='email-section'>Email</th>
-                                <th className='property-section'>Property</th>
                                 <th className='action-div'>Action</th>
                             </tr>
                         </thead>
-                        <tbody ref={customersRef} onScroll={onScroll} className="customer-scroll">
-                            {customers.length <= 0 ? <div className='border-radius'>
+                        <tbody ref={contactListRef} onScroll={onScroll} className="customer-scroll">
+                            {contactList.length <= 0 ? <div className='border-radius'>
                                 <tr>
                                     <td><Skeleton className="main-wallet-top mb-2" height={30} width={150} count={20} /></td>
                                     <td><Skeleton className="main-wallet-top mb-2" height={30} width={150} count={20} /></td>
@@ -192,40 +209,32 @@ const ContactList = () => {
                                     <td><Skeleton className="main-wallet-top mb-2" height={30} width={150} count={20} /></td>
                                     <td><Skeleton className="main-wallet-top mb-2" height={30} width={150} count={20} /></td>
                                     <td><Skeleton className="main-wallet-top mb-2" height={30} width={150} count={20} /></td>
-                                    <td><Skeleton className="main-wallet-top mb-2" height={30} width={150} count={20} /></td>
                                 </tr>
-                            </div> : customers?.list?.map((customer, index) => (
-                                <tr key={index}>
-                                    <td><p className='d-flex align-items-center'><span className='customer-name'>{customer.name ? customer.name.charAt(0).toUpperCase() : ""}</span>{customer.name}</p></td>
-                                    <td><p className='role'>{customer.role}</p></td>
-                                    <td>{createDateFromData(customer.createdDate)}</td>
-                                    <td>{customer.phone}</td>
-                                    <td className='email-section'>{customer.email}</td>
-                                    <td className='property-section'><p className='property'>
-                                        {customer?.property.map((property, innerIndex) => {
-                                            return (<>
-                                                {innerIndex % 2 == 0 ?
-                                                    <><img src={require("../../assets/images/ph_door-light.svg").default} className="me-2" alt="icons" /> {capitalizeFirstLetter(property)}</> :
-                                                    <><span className='space-maker'>|</span> <img src={require("../../assets/images/ph_door-light (1).svg").default} className="me-2" alt="icons" /> {capitalizeFirstLetter(property)}
-                                                    </>
-                                                }
-                                            </>)
-                                        })}
-                                    </p>
-                                    </td>
+                            </div> : contactList?.list?.map((contact, index) => {
+                                console.log("contact------->",contact)
+                               return(
+                               <tr key={index}>
+                                    <td><p className='d-flex align-items-center'><span className='customer-name'>{contact.name ? contact.name.charAt(0).toUpperCase() : ""}</span>{contact.name}</p></td>
+                                    <td><p className='role'>{contact.role}</p></td>
+                                    <td>{contact?.joiningDate ? createDateFromData(contact.joiningDate):"-"}</td>
+                                    <td>{contact.phone}</td>
+                                    <td className='email-section'>{contact.email}</td>
                                     <td className='action-div'>
-                                        <img src={require("../../assets/images/ic_round-delete.svg").default} className="cursor-pointer" alt="icons" onClick={() => handleDelete(customer.id)} />
+                                        <img src={require("../../assets/images/ic_round-delete.svg").default} className="cursor-pointer" alt="icons" onClick={() => handleDelete(contact.id)} />
+                                        <img src={require("../../assets/images/ic_round-delete.svg").default} className="cursor-pointer" alt="icons" onClick={() => handleDelete(contact.id)} />
+                                        <i class="fa-solid fa-pen-to-square"></i>
+                                      
                                     </td>
-                                </tr>
-                            ))}
+                                </tr>)
+})}
                         </tbody>
                     </table>
                 </div>
 
                 {/* mobile side cards */}
                 <div className='customer-mobile-outer'>
-                <div ref={customersRef} onScroll={onScroll} className="customer-scroll mobile ">
-                    {customers.length <= 0 ?
+                <div ref={contactListRef} onScroll={onScroll} className="customer-scroll mobile ">
+                    {contactList.length <= 0 ?
                         <>{
                             Array.from({ length: 5 }).map(() => (<div className='mobile-side-customer'>
 
@@ -243,26 +252,27 @@ const ContactList = () => {
                             </div>))
                         }</>
                         :
-                        customers?.list?.map((customer, index) => (
+                        contactList?.list?.map((contact, index) => (
                             <div className='mobile-side-customer'>
-                                <p className='d-flex align-items-center'><span className='customer-name'>{customer.name ? customer.name.charAt(0).toUpperCase() : ""}</span>{customer.name}</p>
+                                <p className='d-flex align-items-center'><span className='customer-name'>{contact.name ? contact.name.charAt(0).toUpperCase() : ""}</span>{contact.name}</p>
                                 <hr></hr>
-                                <p className='role'><span><img src={require("../../assets/images/call.svg").default} className="cursor-pointer me-2" alt="icons" />Phone</span> <span className='number'>{customer.phone}</span></p>
-                                <p className='role'><span><img src={require("../../assets/images/email.svg").default} className="cursor-pointer me-2" alt="icons" />Email</span> <span className='number'>{customer.email}</span></p>
+                                <p className='role'><span><img src={require("../../assets/images/call.svg").default} className="cursor-pointer me-2" alt="icons" />Phone</span> <span className='number'>{contact.phone}</span></p>
+                                <p className='role'><span><img src={require("../../assets/images/email.svg").default} className="cursor-pointer me-2" alt="icons" />Email</span> <span className='number'>{contact.email}</span></p>
                                 <p className='role'>
                                     <span>
-                                        {/* <img src={require("..././assets/images/date.svg").default} className="cursor-pointer me-2" alt="icons" /> */}
-                                        Joined</span> <span className='number'>{createDateFromData(customer.createdDate)}</span></p>
-                                <p className='role'><span><img src={require("../../assets/images/building.svg").default} className="cursor-pointer me-2" alt="icons" />Property</span> <span className='number'>{customer?.property.map((property, innerIndex) => { return innerIndex ? `, ${capitalizeFirstLetter(property)}` : capitalizeFirstLetter(property) })}</span></p>
+                                        Joined</span> <span className='number'>{contact?.joiningDate ? createDateFromData(contact.joiningDate):"-"}</span></p>
+                                {/* <p className='role'><span><img src={require("../../assets/images/building.svg").default} className="cursor-pointer me-2" alt="icons" />Property</span> <span className='number'>{customer?.property.map((property, innerIndex) => { return innerIndex ? `, ${capitalizeFirstLetter(property)}` : capitalizeFirstLetter(property) })}</span></p> */}
                                 <div className='trash-section d-flex justify-content-between mt-2'>
-                                    <Button className="blue-btn">{customer.role}</Button>
-                                    <img src={require("../../assets/images/ic_round-delete.svg").default} className="cursor-pointer" alt="icons" onClick={() => handleDelete(customer.id)} />
+                                    <Button className="blue-btn">{contact.role}</Button>
+                                    <img src={require("../../assets/images/ic_round-delete.svg").default} className="cursor-pointer" alt="icons" onClick={() => handleDelete(contact.id)} />
                                 </div>
                             </div>
                         ))}
                     </div>
                     </div>
             </div>
+            {showCategoryModal &&
+                <AddNewContact show={showCategoryModal} handleClose={handleCategoryClose} editDevice={editDevice} />}
         </section>
     );
 };

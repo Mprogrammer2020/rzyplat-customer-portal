@@ -231,7 +231,8 @@ const AddDeviceCategory = ({ show, handleClose, editDevice }) => {
   
 
     }
-    return (<>
+    return (
+    <>
         <Form.Control ref={deviceImageRef} type="file" name="deviceImage" accept="image/*" style={{ display: "none" }} onChange={handleImageChange} />
         <Modal show={show} onHide={() => handleClose()} centered className='add-new-device-popup add-new-popup' size='lg' backdrop="static">
             <Modal.Header>
