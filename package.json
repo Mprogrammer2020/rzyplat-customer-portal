@@ -19,6 +19,7 @@
     "react-use": "^17.5.0",
     "select": "^1.1.2",
     "sweetalert": "^2.1.2",
+    "swiper": "^11.1.4",
     "web-vitals": "^2.1.4"
   },
   "scripts": {
