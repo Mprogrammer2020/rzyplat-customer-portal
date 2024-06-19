@@ -13,7 +13,7 @@ function WeatherDetail() {
     const [currentWather, setcurrentWather] = useState()
     const [currentHourlyWather, setcurrentHourlyWather] = useState()
     const [currentTenDaysWather, setcurrentTenDaysWather] = useState()
-    const [currentPropertyWather, setcurrentPropertyWather]=useState()
+    const [currentPropertyWather, setcurrentPropertyWather] = useState()
 
     useEffect(() => {
         getWarningWeather()
@@ -105,7 +105,7 @@ function WeatherDetail() {
     const formatDate = (dateString) => {
         const inputDate = moment(dateString);
         const today = moment();
-    
+
         if (inputDate.isSame(today, 'day')) {
             return 'Today';
         } else {
@@ -184,7 +184,7 @@ function WeatherDetail() {
                                                             <h6>{currentWather?.airQuality ? currentWather?.airQuality : "-"}</h6>
                                                         </div>
                                                     </div>
-                                                    <div className="air-quality-box">
+                                                    <div className="air-quality-box active">
                                                         <span>
                                                             <img src={require("../../assets/images/air-16.svg").default} className="" alt="icons" />
                                                         </span>
@@ -278,115 +278,121 @@ function WeatherDetail() {
                                     <hr className="line"></hr>
                                     <div className="forecast-weather mt-3">
                                         <h5 className='heading-main text-dark mb-3'> 10 Days Forecast</h5>
-                                        <Swiper
-                                            slidesPerView={5}
-                                            spaceBetween={10}
-                                            className="mySwiper ten-day-forecast"
-                                        >
-                                            <SwiperSlide>
-                                                <div className="forecast-box ten-day-forecast-box">
-                                                    <h5 className='heading-main text-dark'>{currentTenDaysWather && currentTenDaysWather[0]?.weatherDate ? formatDate(currentTenDaysWather[0]?.weatherDate) : "-"}</h5>
-                                                    <div className="temparature-box-outer">
-                                                        <div className="temparature-box-inner">
-                                                            <img src={require("../../assets/images/air-1.png")} className="me-2" alt="icons" />
-                                                            <div className="temparature-box-outer-text">
-                                                                <h5 className="temp-text">{currentTenDaysWather && currentTenDaysWather[0]?.maxTempratureInFarenheit ? currentTenDaysWather[0]?.maxTempratureInFarenheit: "-"}<span className="tem-icon">&#x2109;</span></h5>
-                                                                <h5 className="temp-text">{currentTenDaysWather && currentTenDaysWather[0]?.minTempratureInFarenheit ? currentTenDaysWather[0]?.minTempratureInFarenheit: "-"}<span className="tem-icon">&#x2109;</span></h5>
-                                                            </div>
-                                                        </div>
-                                                        <div className="temparature-box-content">
-                                                            <p>{currentTenDaysWather && currentTenDaysWather[0]?.tempratureDescription ? currentTenDaysWather[0]?.tempratureDescription : "-"}</p>
-                                                            <p className="mt-2"><span className="main-temp-shadow me-2"><img src={require("../../assets/images/drop.svg").default} className="" alt="icons" /></span>Humidity {currentTenDaysWather && currentTenDaysWather[0]?.tempratureFeelsLike ? currentTenDaysWather[0]?.tempratureFeelsLike +"%" : "-"}</p>
+                                        <Row>
+                                            <Col md={4}>
+                                            <div className="forecast-box ten-day-forecast-box">
+                                                <h5 className='heading-main text-dark'>{currentTenDaysWather && currentTenDaysWather[0]?.weatherDate ? formatDate(currentTenDaysWather[0]?.weatherDate) : "-"}</h5>
+                                                <div className="temparature-box-outer">
+                                                    <div className="temparature-box-inner">
+                                                        <img src={require("../../assets/images/air-1.png")} className="me-2" alt="icons" />
+                                                        <div className="temparature-box-outer-text">
+                                                            <h5 className="temp-text">{currentTenDaysWather && currentTenDaysWather[0]?.maxTempratureInFarenheit ? currentTenDaysWather[0]?.maxTempratureInFarenheit : "-"}<span className="tem-icon">&#x2109;</span></h5>
+                                                            <h5 className="temp-text">{currentTenDaysWather && currentTenDaysWather[0]?.minTempratureInFarenheit ? currentTenDaysWather[0]?.minTempratureInFarenheit : "-"}<span className="tem-icon">&#x2109;</span></h5>
                                                         </div>
                                                     </div>
+                                                    <div className="temparature-box-content">
+                                                        <p>{currentTenDaysWather && currentTenDaysWather[0]?.tempratureDescription ? currentTenDaysWather[0]?.tempratureDescription : "-"}</p>
+                                                        <p className="mt-2"><span className="main-temp-shadow me-2"><img src={require("../../assets/images/drop.svg").default} className="" alt="icons" /></span>Humidity {currentTenDaysWather && currentTenDaysWather[0]?.tempratureFeelsLike ? currentTenDaysWather[0]?.tempratureFeelsLike + "%" : "-"}</p>
+                                                    </div>
                                                 </div>
-                                            </SwiperSlide>
-                                          
-                                            {currentTenDaysWather?.length > 0 ?
-                                                currentTenDaysWather?.map((item, index) => {
-                                                    return (
-                                                        <SwiperSlide>
-                                                        <div className="forecast-box ten-day-forecast-box">
-                                                            <h5 className='heading-main text-dark'>{item?.weatherDate ? moment(item?.weatherDate).format('ddd DD'):"-"}</h5>
-                                                            <div className="temparature-box-outer">
-                                                                <div className="temparature-box-inner">
-                                                                    <img src={require("../../assets/images/air-1.png")} className="me-2" alt="icons" />
-                                                                    <div className="temparature-box-outer-text">
-                                                                        <h5 className="temp-text">{item?.maxTempratureInFarenheit || "-"}<span className="tem-icon">&#x2109;</span></h5>
-                                                                        <h5 className="temp-text">{item?.minTempratureInFarenheit || "-"}<span className="tem-icon">&#x2109;</span></h5>
+                                            </div>
+                                            </Col>
+                                            <Col md={8}>
+                                            <Swiper
+                                                slidesPerView={4}
+                                                spaceBetween={10}
+                                                className="mySwiper ten-day-forecast"
+                                            >
+                                                {currentTenDaysWather?.length > 0 ?
+                                                    currentTenDaysWather?.map((item, index) => {
+                                                        return (
+                                                            <SwiperSlide>
+                                                                <div className="forecast-box ten-day-forecast-box">
+                                                                    <h5 className='heading-main text-dark'>{item?.weatherDate ? moment(item?.weatherDate).format('ddd DD') : "-"}</h5>
+                                                                    <div className="temparature-box-outer">
+                                                                        <div className="temparature-box-inner">
+                                                                            <img src={require("../../assets/images/air-1.png")} className="me-2" alt="icons" />
+                                                                            <div className="temparature-box-outer-text">
+                                                                                <h5 className="temp-text">{item?.maxTempratureInFarenheit || "-"}<span className="tem-icon">&#x2109;</span></h5>
+                                                                                <h5 className="temp-text">{item?.minTempratureInFarenheit || "-"}<span className="tem-icon">&#x2109;</span></h5>
+                                                                            </div>
+                                                                        </div>
                                                                     </div>
                                                                 </div>
-                                                            </div>
-                                                        </div>
-                                                    </SwiperSlide>
-                                                    )
-                                                })
-                                                :
-                                                <p> No 10 days Forecast</p>
-                                            }
-                                        </Swiper>
+                                                            </SwiperSlide>
+                                                        )
+                                                    })
+                                                    :
+                                                    <p> No 10 days Forecast</p>
+                                                }
+                                            </Swiper>
+                                            </Col>
+                                        </Row>
                                     </div>
                                 </div>
                             </div>
                         </Col>
                         <Col md={4}>
-                           {currentPropertyWather?.length >0 ?
-                           currentPropertyWather?.map((propti, index) =>{
-                            console.log("propti------->",propti)
-                            return(
-                                <div className="weather-outer-section">
-                                <div className="property-weather-box">
-                                    <div className="d-flex justify-content-between align-items-center">
-                                        <p><img src={require("../../assets/images/property-icon.svg").default} className="" alt="icons" /> Property Name</p>
-                                        <p><b>{propti?.propertyName || "-"}</b></p>
-                                    </div>
-                                    <div className="temparature-box-outer">
-                                        <div className="temparature-box-inner">
-                                            <img src={require("../../assets/images/scattered-1.png")} className="me-2" alt="icons" />
-                                            <div className="temparature-box-outer-text">
-                                                <h5 className="temp-text">{propti?.tempratureFarenheit || "-"}<span className="tem-icon">&#x2109;</span></h5>
+                            <div className="weather-outer-section">
+                                {currentPropertyWather?.length > 0 ?
+                                    currentPropertyWather?.map((propti, index) => {
+                                        console.log("propti------->", propti)
+                                        return (
+                                            <div>
+                                                <div className="property-weather-box">
+                                                    <div className="d-flex justify-content-between align-items-center">
+                                                        <p><img src={require("../../assets/images/property-icon.svg").default} className="" alt="icons" /> Property Name</p>
+                                                        <p><b>{propti?.propertyName || "-"}</b></p>
+                                                    </div>
+                                                    <div className="temparature-box-outer">
+                                                        <div className="temparature-box-inner">
+                                                            <img src={require("../../assets/images/scattered-1.png")} className="me-2" alt="icons" />
+                                                            <div className="temparature-box-outer-text">
+                                                                <h5 className="temp-text">{propti?.tempratureFarenheit || "-"}<span className="tem-icon">&#x2109;</span></h5>
+                                                            </div>
+                                                        </div>
+                                                        <div className="temparature-box-content">
+                                                            <p>{propti?.tempratureDescription || "-"}</p>
+                                                            <p className="mt-2">Feels like {propti?.tempratureFeelsLike + "°" || "-"}</p>
+                                                        </div>
+                                                    </div>
+                                                    <div className="air-quality-outer">
+                                                        <div className="air-quality-box">
+                                                            <span>
+                                                                <img src={require("../../assets/images/air-main-1.svg").default} className="" alt="icons" />
+                                                            </span>
+                                                            <div className="air-content">
+                                                                <p>Air Quality</p>
+                                                                <h6>{propti?.airQuality || "-"}</h6>
+                                                            </div>
+                                                        </div>
+                                                        <div className="air-quality-box active">
+                                                            <span>
+                                                                <img src={require("../../assets/images/air-16.svg").default} className="" alt="icons" />
+                                                            </span>
+                                                            <div className="air-content">
+                                                                <p>Wind</p>
+                                                                <h6>{propti?.windSpeed + "mp/h" || "-"}</h6>
+                                                            </div>
+                                                        </div>
+                                                        <div className="air-quality-box">
+                                                            <span>
+                                                                <img src={require("../../assets/images/air-5.svg").default} className="" alt="icons" />
+                                                            </span>
+                                                            <div className="air-content">
+                                                                <p>Humidity</p>
+                                                                <h6>{propti?.humidity + "%" || "-"}</h6>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <hr className="line"></hr>
                                             </div>
-                                        </div>
-                                        <div className="temparature-box-content">
-                                            <p>{propti?.tempratureDescription ||"-"}</p>
-                                            <p className="mt-2">Feels like {propti?.tempratureFeelsLike +"°" || "-"}</p>
-                                        </div>
-                                    </div>
-                                    <div className="air-quality-outer">
-                                        <div className="air-quality-box">
-                                            <span>
-                                                <img src={require("../../assets/images/air-main-1.svg").default} className="" alt="icons" />
-                                            </span>
-                                            <div className="air-content">
-                                                <p>Air Quality</p>
-                                                <h6>{propti?.airQuality || "-"}</h6>
-                                            </div>
-                                        </div>
-                                        <div className="air-quality-box">
-                                            <span>
-                                                <img src={require("../../assets/images/air-16.svg").default} className="" alt="icons" />
-                                            </span>
-                                            <div className="air-content">
-                                                <p>Wind</p>
-                                                <h6>{propti?.windSpeed +"mp/h" ||"-"}</h6>
-                                            </div>
-                                        </div>
-                                        <div className="air-quality-box">
-                                            <span>
-                                                <img src={require("../../assets/images/air-5.svg").default} className="" alt="icons" />
-                                            </span>
-                                            <div className="air-content">
-                                                <p>Humidity</p>
-                                                <h6>{propti?.humidity +"%" ||"-"}</h6>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+                                        )
+                                    })
+                                    :
+                                    <>No Property Data available</>}
                             </div>
-                            )
-                           })
-                        :
-                        <>No Property Data available</>}
                         </Col>
                     </Row>
                 </div>

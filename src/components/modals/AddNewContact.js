@@ -12,6 +12,7 @@ const AddNewContact = ({ show, handleClose, editContact }) => {
     const [deviceCategoryOptions, setDeviceCategoryOptions] = useState([]);
     const [deviceOptions, setDeviceOptions] = useState([]);
     const [showLoader, setShowLoader] = useState(false);
+    const [showsuccess, setShowSuccess] = useState(false)
 
     const [deviceDetail, setDeviceDetail] = useState({
         email: "", name: "", phone: "", role: "",
@@ -76,9 +77,10 @@ const AddNewContact = ({ show, handleClose, editContact }) => {
                 };
                 const response = await APIServices.AddContact(params);
                 if (response.status === 201) {
-                    handleClose();
+                    // setShowSuccess(true)
+                        handleClose()
                     setShowLoader(false);
-                    swal("Success", "Contact list has been successfully added.", "success").then(() => { });
+
                 } else {
                     throw new Error('Failed to add contact');
                 }
@@ -119,9 +121,10 @@ const AddNewContact = ({ show, handleClose, editContact }) => {
                 console.log("params", params)
                 response = await APIServices.updateContact(params);
                 if (response.status === 200) {
-                    handleClose();
+                        handleClose()
                     setShowLoader(false);
-                    swal("Success", "contact list has been successfully updated.", "success").then(() => { });
+                    // setShowSuccess(true)
+                    // swal("Success", "contact list has been successfully updated.", "success").then(() => { });
                 } else {
                     throw new Error('Failed to fetch data');
                 }
@@ -139,31 +142,31 @@ const AddNewContact = ({ show, handleClose, editContact }) => {
 
     return (
         <>
-            <Modal show={show} onHide={() => handleClose()} centered className='add-new-device-popup add-new-popup' size='lg' backdrop="static">
+            <Modal show={show} onHide={() => handleClose()} centered className='add-new-device-popup add-new-popup contact-section-modal' size='lg' backdrop="static">
                 <Modal.Header>
-                    <Modal.Title>{editContact ? "Edit" : "Add"} New User</Modal.Title>
+                    <Modal.Title>{editContact ? "Edit" : "Add"} New Contact</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     <Form>
                         <Row>
                             <Col md={12} lg={6}>
-                                <Form.Group className="mb-2" controlId="formBasicEmail">
-                                    <Form.Label>Email</Form.Label>
-                                    <Form.Control type="email" maxLength={50} placeholder="Enter Email" name="email" value={deviceDetail?.email} onChange={handleInputChange} />
-                                    {deviceDetail.errors.email && <span className="error">{deviceDetail.errors.email}</span>}
+                                <Form.Group className="mb-2" controlId="formBasicName">
+                                    <Form.Label>User Name</Form.Label>
+                                    <Form.Control type="text" maxLength={50} placeholder="Enter User Name" name="name" value={deviceDetail?.name} onChange={handleInputChange} />
+                                    {deviceDetail.errors.name && <span className="error">{deviceDetail.errors.name}</span>}
                                 </Form.Group>
                             </Col>
                             <Col md={12} lg={6}>
-                                <Form.Group className="mb-2" controlId="formBasicName">
-                                    <Form.Label>Name</Form.Label>
-                                    <Form.Control type="text" maxLength={50} placeholder="Enter Name" name="name" value={deviceDetail?.name} onChange={handleInputChange} />
-                                    {deviceDetail.errors.name && <span className="error">{deviceDetail.errors.name}</span>}
+                                <Form.Group className="mb-2" controlId="formBasicEmail">
+                                    <Form.Label>Email ID</Form.Label>
+                                    <Form.Control type="email" maxLength={50} placeholder="Enter User Emal ID" name="email" value={deviceDetail?.email} onChange={handleInputChange} />
+                                    {deviceDetail.errors.email && <span className="error">{deviceDetail.errors.email}</span>}
                                 </Form.Group>
                             </Col>
                             <Col md={12} lg={6}>
                                 <Form.Group className="mb-2" controlId="formBasicPhone">
                                     <Form.Label>Phone</Form.Label>
-                                    <Form.Control type="text" maxLength={15} placeholder="Enter Phone Number" name="phone" value={deviceDetail?.phone} onChange={handleInputChange} />
+                                    <Form.Control type="text" maxLength={15} placeholder="Enter User Phone" name="phone" value={deviceDetail?.phone} onChange={handleInputChange} />
                                     {deviceDetail.errors.phone && <span className="error">{deviceDetail.errors.phone}</span>}
                                 </Form.Group>
                             </Col>
@@ -193,7 +196,7 @@ const AddNewContact = ({ show, handleClose, editContact }) => {
                         /> */}
                                     <Select
                                         options={roleOptions}
-                                        placeholder="Select Role"
+                                        placeholder="Select User Role"
                                         name="role"
                                         value={roleOptions.find(option => option.value === deviceDetail.role) || null}
                                         onChange={(e) => {
@@ -242,6 +245,17 @@ const AddNewContact = ({ show, handleClose, editContact }) => {
                 </Modal.Footer>
             </Modal>
 
+            <Modal show={showsuccess} onHide={() => setShowSuccess(false)} centered className='add-new-device-popup' >
+                <Modal.Body>
+                    <div className="successfull-section text-center ">
+                        <img src={require("../../assets/images/check.svg").default} className="" alt="icons" />
+                        <h4 className="succefull-txt">{editContact ? "Contact list has been successfully updated." : "Contact list has been successfully Added."}</h4>
+                    </div>
+                </Modal.Body>
+                
+
+
+            </Modal>
         </>
 
     )

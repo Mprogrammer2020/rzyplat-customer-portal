@@ -51,9 +51,9 @@
 .temp-text {
     color: #31353B;
     font-family: Inter;
-    font-size: 35px;
+    font-size: 25px;
     font-style: normal;
-    font-weight: 300;
+    font-weight: 500;
     line-height: normal;
     margin: 7px 0;
 }
@@ -146,7 +146,7 @@
 
 .line {
     color: #A5B0C4 !important;
-    margin: 22px 0;
+    margin: 14px 0;
 }
 
 .forecast-box {
@@ -172,11 +172,6 @@
     width: 100%;
     height: 100%;
 }
-
-.ten-day-forecast .swiper-slide:first-child {
-    width: 30% !important;
-}
-
 .temparature-box-outer {
     display: flex;
     align-items: center;
@@ -219,4 +214,13 @@
 .form-select:focus {
     border-color: transparent !important;
     box-shadow: unset !important;
+}
+.air-quality-box.active {
+    border: 1px solid #f05348;
+}   
+.air-quality-box.active span{
+    background-color: #f05348;
+}
+.air-quality-box.active span img{
+    filter: brightness(0) invert(1);
 }

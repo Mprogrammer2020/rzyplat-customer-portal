@@ -1,10 +1,11 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { Button, Col, Form, Row } from 'react-bootstrap';
+import { Button, Col, Form, Modal, Row } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { APIServices } from '../../services/APIServices';
 import { exceptionHandling } from '../../Common/CommonComponents';
 import Skeleton from 'react-loading-skeleton';
 import swal from 'sweetalert';
+import "./ContactList.css";
 import AddDeviceCategory from '../modals/AddDeviceCategory';
 import AddNewContact from '../modals/AddNewContact';
 // import "@testing-library/jest-dom";
@@ -16,6 +17,10 @@ const ContactList = () => {
     const [filter, setFilter] = useState({ page: 0, size: 10, sortBy: "name", orderBy: "DESC" });
     const contactListRef = useRef();
     const loadingResponse = useRef(false);
+    const [showsuccess, setShowSuccess]=useState(false)
+    const [showsuccessStatus, setShowEditStatus]=useState(false)
+    const [showwarning, setshowwarning]=useState(false)
+    const [contactID, setContactId]=useState("")
 
     useEffect(() => {
 
@@ -65,9 +70,6 @@ const ContactList = () => {
 
     // Function to handle delete action
     const handleDelete = async (customerId) => {
-        // Implement delete action logic here
-        swal({ title: "", text: "Are you sure you want to delete this Contact list?", icon: "warning", buttons: ["No", "Yes"] }).then(async (res) => {
-            if (res) {
                 try {
                     setContactList(prevcontactList => ({
                         ...prevcontactList,
@@ -76,7 +78,7 @@ const ContactList = () => {
                     }));
                     const response = await APIServices.deleteContact(customerId);
                     if (response.status === 200) {
-
+                        setshowwarning(false)
                     } else {
                         throw new Error('Failed to fetch data');
                     }
@@ -84,8 +86,7 @@ const ContactList = () => {
                     exceptionHandling(error);
                     console.error('Error fetching data:', error);
                 }
-            }
-        });
+            
     };
 
     function createDateFromData(createdDate) {
@@ -121,14 +122,17 @@ const ContactList = () => {
     function addNewCategory() {
         setShowCategoryModal(true);
         setEditContact("")
+        setShowEditStatus(false)
     }
 
     const handleCategoryClose = () => {
         getcontactList(filter);
         setShowCategoryModal(false);
+        setShowSuccess(true)
     };
 
     function handleEditContact(item) {
+        setShowEditStatus(true)
         setEditContact(item)
         setShowCategoryModal(true)
     }
@@ -146,7 +150,7 @@ const ContactList = () => {
                 <Row className='align-items-center'>
                     <Col xs={6} md={6}>
                         <div className='header-left-box'>
-                            <h5 className='heading-main'><img src={require("../../assets/images/ci_building-04.svg").default} className="me-2" alt="icons" /> contactList</h5>
+                            <h5 className='heading-main'><img src={require("../../assets/images/administarotor.svg").default} className="me-2" alt="icons" /> Administrator</h5>
                         </div>
                     </Col>
                     <Col xs={6} md={6}>
@@ -155,7 +159,7 @@ const ContactList = () => {
                                 <Form.Group className="position-relative w-50" controlId="exampleForm.ControlInput1">
                                     <img src={require("../../assets/images/iconamoon_search.svg").default} className="search-icon" alt="icons" />
                                     <Form.Control type="email" placeholder="Search" />
-                                    <span className='cutomer-text'>contactList</span>
+                                    <span className='cutomer-text'>ALL</span>
                                     <img src={require("../../assets/images/mi_filter.svg").default} className="filter-icon" alt="icons" />
                                 </Form.Group>
                                 <Link>
@@ -176,18 +180,21 @@ const ContactList = () => {
                         <h5 className='heading-main'>
                             <img src={require("../../assets/images/ci_building-04 (1).svg").default} className="me-2" alt="icons" />
                             Contact List
-                            <span className='customer-mobile-text'>{contactList?.totalElements}</span></h5>
-                        <div className='sort-box d-flex align-items-center'>
-                            <Form.Select aria-label="Default select example" className='mobile-tab inner-mobile-tab cursor-pointer' value={`${capitalizeFirstLetter(filter.sortBy)} ${filter.orderBy}`} onChange={(e) => sortcontactList(e.target.value)}>
-                                <option value={"Name DESC"}>SORT BY</option>
-                                {sortByOption.map((option, index) => {
-                                    return (<option value={option}>{option.replace("ASC", "Assending").replace("DESC", "Desending")}</option>)
-                                })}
-                            </Form.Select>
-                            <img src={require("../../assets/images/mi_filter-blue.svg").default} className="ms-2" alt="icons" />
-                            <p className='mobile-tab'>{contactList?.totalElements}</p>
+                            <span className='customer-mobile-text'>{contactList?.totalElements}</span>
+                        </h5>
+                        <div className='d-flex align-items-center'>
+                            <div className='sort-box d-flex align-items-center'>
+                                <p className='mobile-tab mobile-tab-contact'>{contactList?.totalElements}</p>
+                                <Form.Select aria-label="Default select example" className='mobile-tab inner-mobile-tab cursor-pointer' value={`${capitalizeFirstLetter(filter.sortBy)} ${filter.orderBy}`} onChange={(e) => sortcontactList(e.target.value)}>
+                                    <option value={"Name DESC"}>SORT BY</option>
+                                    {sortByOption.map((option, index) => {
+                                        return (<option value={option}>{option.replace("ASC", "Assending").replace("DESC", "Desending")}</option>)
+                                    })}
+                                </Form.Select>
+                                <img src={require("../../assets/images/mi_filter-blue.svg").default} className="ms-2" alt="icons" />
+                            </div>
+                            <h6 className="inventory-add contact-add-new-btn" onClick={addNewCategory}>ADD NEW <i class="fa fa-plus" aria-hidden="true"></i></h6>
                         </div>
-                        <h6 className="inventory-add" onClick={addNewCategory}>ADD NEW <i class="fa fa-plus" aria-hidden="true"></i></h6>
                     </div>
                 </div>
                 <div className="customer-container-body">
@@ -221,9 +228,12 @@ const ContactList = () => {
                                         <td>{contact.phone}</td>
                                         <td className='email-section'>{contact.email}</td>
                                         <td className='action-div'>
-                                            <img src={require("../../assets/images/ic_round-delete.svg").default} className="cursor-pointer" alt="icons" onClick={() => handleDelete(contact.id)} />
-                                            <i class="fa-solid fa-pen-to-square" onClick={() => handleEditContact(contact)} ></i>
-
+                                            <img src={require("../../assets/images/ic_round-delete.svg").default} className="cursor-pointer" alt="icons" onClick={() =>{ 
+                                                setContactId(contact.id);
+                                                setshowwarning(true)
+                                                // handleDelete(contact.id)
+                                                }} />
+                                            <img src={require("../../assets/images/edit-icon.svg").default} className="cursor-pointer ms-2" alt="icons"onClick={() => handleEditContact(contact)}/>
                                         </td>
                                     </tr>)
                             })}
@@ -263,7 +273,10 @@ const ContactList = () => {
                                             Joined</span> <span className='number'>{contact?.joiningDate ? (contact.joiningDate) : "-"}</span></p>
                                     <div className='trash-section d-flex justify-content-between mt-2'>
                                         <Button className="blue-btn">{contact.role}</Button>
-                                        <img src={require("../../assets/images/ic_round-delete.svg").default} className="cursor-pointer" alt="icons" onClick={() => handleDelete(contact.id)} />
+                                        <img src={require("../../assets/images/ic_round-delete.svg").default} className="cursor-pointer" alt="icons" onClick={() => { setContactId(contact.id);
+                                            // handleDelete(contact.id)
+                                            setshowwarning(true)
+                                            }} />
                                         <i class="fa-solid fa-pen-to-square" onClick={() => handleEditContact(contact)} ></i>
                                     </div>
                                 </div>
@@ -271,6 +284,38 @@ const ContactList = () => {
                     </div>
                 </div>
             </div>
+
+            
+            <Modal show={showsuccess} onHide={() => setShowSuccess(false)} centered className='add-new-device-popup' >
+                <Modal.Body>
+                    <div className="successfull-section text-center ">
+                        <img src={require("../../assets/images/check.svg").default} className="" alt="icons" />
+                        <h4 className="succefull-txt">{showsuccessStatus ?  "Contact list has been successfully updated." : "Contact list has been successfully added."}</h4>
+                    </div>
+                </Modal.Body>
+            </Modal>
+
+            <Modal show={showwarning} onHide={() => setshowwarning(false)} centered className='add-new-device-popup' >
+                <Modal.Body>
+                    <div className="successfull-section text-center">
+                        <img class="delete-img" src={require("../../assets/images/delete.svg").default} className="delete-icons" alt="icons" />
+                        <h4 className="succefull-txt">Are you sure want to delete this conatct list?</h4>
+                    </div>
+                </Modal.Body>
+                <Modal.Footer>
+                    <div className='footer-btns-bottom-right mx-auto'>
+                        <Button variant="secondary" onClick={(e) =>setshowwarning(false)}>
+                            CANCEL
+                        </Button>
+                        <Button className="add-btn delete-btn" onClick={() => handleDelete(contactID)} >
+                            DELETE
+                        </Button>
+                    </div>
+                </Modal.Footer>
+
+
+            </Modal>
+
             {showCategoryModal &&
                 <AddNewContact show={showCategoryModal} handleClose={handleCategoryClose} editContact={editContact} />}
         </section>
