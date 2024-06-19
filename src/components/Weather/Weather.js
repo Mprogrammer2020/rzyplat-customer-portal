@@ -257,7 +257,6 @@ function WeatherDetail() {
                                         >
                                             {currentHourlyWather?.length > 0 ?
                                                 currentHourlyWather?.map((item, index) => {
-                                                    console.log("item------->",item)
                                                     return (
 
                                                         <SwiperSlide>
