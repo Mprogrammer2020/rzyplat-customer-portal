@@ -51,7 +51,7 @@
 .temp-text {
     color: #31353B;
     font-family: Inter;
-    font-size: 25px;
+    font-size: 20px;
     font-style: normal;
     font-weight: 500;
     line-height: normal;
@@ -89,7 +89,7 @@
 .air-quality-box {
     border-radius: 6px;
     background: var(--Shades-25, #EDF1F7);
-    padding: 12px;
+    padding: 7px;
     display: flex;
     align-items: center;
     width: 100%;
@@ -154,6 +154,8 @@
     background: var(--Shades-0, #FFF);
     text-align: center;
     padding: 13px;
+    height: 100%;
+    width: 100%;
 }
 
 .forecast-box .heading-main {
@@ -189,14 +191,17 @@
     margin: 0 0 0 22px;
 }
 .tem-icon {
-    color: var(--Shades-75, #5C626E);
-    text-align: center;
-    font-family: Inter;
-    font-size: 26px;
-    font-style: normal;
-    font-weight: 400;
-    line-height: normal;
-    vertical-align: middle;
+    color: var(--Shades-75, #5C626E) !important;
+    text-align: center !important;
+    font-family: Inter !important;
+    font-size: 12px !important;
+    font-style: normal !important;
+    font-weight: 400 !important;
+    line-height: normal !important;
+    vertical-align: middle !important;
+}
+.forecast-box p {
+    font-size: 14px;
 }
 .main-temp-shadow {
     background: #C0D9FF;
@@ -223,4 +228,45 @@
 }
 .air-quality-box.active span img{
     filter: brightness(0) invert(1);
+}
+.temparature-box-content p {
+    color:  #31353B;
+    font-family: Inter;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+}
+.air-quality-box.active {
+    border: 1px solid #f05348;
+}   
+.air-quality-box.active span{
+    background-color: #f05348;
+}
+.air-quality-box.active span img{
+    filter: brightness(0) invert(1);
+}
+.temparature-box-content p {
+    color:  #31353B;
+    font-family: Inter;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+}
+.under-swiper .forecast-box {
+    height: 218px;
+}
+.ten-day-forecast .swiper-slide:first-child {
+    width: 26% !important;
+}
+@media (max-width: 1700px) {
+    .ten-day-forecast .swiper-slide:first-child {
+        width: 30% !important;
+    }
+}
+@media (max-width: 160px) {
+    .ten-day-forecast .swiper-slide:first-child {
+        width: 30% !important;
+    }
 }
