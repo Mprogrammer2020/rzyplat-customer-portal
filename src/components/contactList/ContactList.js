@@ -117,7 +117,7 @@ const ContactList = () => {
     const handleCategoryClose = () => {
         getcontactList(filter);
         setShowCategoryModal(false);
-        setShowSuccess(true)
+        // setShowSuccess(true)
     };
 
     function handleEditContact(item) {

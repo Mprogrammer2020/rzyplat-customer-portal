@@ -11,6 +11,8 @@ const AddNewContact = ({ show, handleClose, editContact }) => {
     const deviceImageRef = useRef(null);
     const [deviceCategoryOptions, setDeviceCategoryOptions] = useState([]);
     const [deviceOptions, setDeviceOptions] = useState([]);
+    const [showModal, setShowModal] = useState(show)
+
     const [showLoader, setShowLoader] = useState(false);
     const [showsuccess, setShowSuccess] = useState(false)
 
@@ -77,8 +79,10 @@ const AddNewContact = ({ show, handleClose, editContact }) => {
                 };
                 const response = await APIServices.AddContact(params);
                 if (response.status === 201) {
-                    handleClose()
+                    // handleClose()
+                    setShowSuccess(true)
                     setShowLoader(false);
+                    setShowModal(false)
 
                 } else {
                     throw new Error('Failed to add contact');
@@ -118,7 +122,11 @@ const AddNewContact = ({ show, handleClose, editContact }) => {
                 console.log("params", params)
                 response = await APIServices.updateContact(params);
                 if (response.status === 200) {
-                    handleClose()
+                    setShowSuccess(true)
+                    // setTimeout(() =>{
+                    //     handleClose()
+                    // },2000)
+                    setShowModal(false)
                     setShowLoader(false);
                 } else {
                     throw new Error('Failed to fetch data');
@@ -137,7 +145,7 @@ const AddNewContact = ({ show, handleClose, editContact }) => {
 
     return (
         <>
-            <Modal show={show} onHide={() => handleClose()} centered className='add-new-device-popup add-new-popup contact-section-modal' size='lg' backdrop="static">
+            <Modal show={showModal} onHide={() => handleClose()} centered className='add-new-device-popup add-new-popup contact-section-modal' size='lg' backdrop="static">
                 <Modal.Header>
                     <Modal.Title>{editContact ? "Edit" : "Add"} New Contact</Modal.Title>
                 </Modal.Header>
@@ -217,7 +225,7 @@ const AddNewContact = ({ show, handleClose, editContact }) => {
                     }
                 </Modal.Footer>
             </Modal>
-            <Modal show={showsuccess} onHide={() => setShowSuccess(false)} centered className='add-new-device-popup' >
+            <Modal show={showsuccess} onHide={() => {handleClose();setShowSuccess(false)}} centered className='add-new-device-popup' >
                 <Modal.Body>
                     <div className="successfull-section text-center ">
                         <img src={require("../../assets/images/check.svg").default} className="" alt="icons" />

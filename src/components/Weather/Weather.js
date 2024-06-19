@@ -111,8 +111,6 @@ function WeatherDetail() {
             return inputDate.format('ddd DD');
         }
     };
-
-    console.log("currentWather----->",currentWather)
     return (
         <div>
             <section className='customer-section'>
