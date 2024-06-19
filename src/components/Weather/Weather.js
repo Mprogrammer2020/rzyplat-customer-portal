@@ -257,12 +257,13 @@ function WeatherDetail() {
                                         >
                                             {currentHourlyWather?.length > 0 ?
                                                 currentHourlyWather?.map((item, index) => {
+                                                    console.log("item------->",item)
                                                     return (
 
                                                         <SwiperSlide>
 
                                                             <div className="forecast-box">
-                                                                <h5 className='heading-main text-dark'> Now</h5>
+                                                                <h5 className='heading-main text-dark'> {item?.weatherTime ? moment(item?.weatherTime).format('LT'):"-"}</h5>
                                                                 <img src={item?.tempratureDescription == "Hail Storm" ? require("../../assets/images/heal-Strom-2.png") : item?.tempratureDescription == "Scattered Thunderstorm" ? require("../../assets/images/scatteredthunder.png") : item?.tempratureDescription == "Partly Sunny" ? require("../../assets/images/weather-2.png") : item?.tempratureDescription == "Sunny" ? require("../../assets/images/weather-3.png") : require("../../assets/images/cloud-1.png")} className="" alt="icons" />
                                                                 <h5 className="temp-text">{item?.tempratureFarenheit ? item?.tempratureFarenheit : "-"}&deg;</h5>
                                                                 <p><img src={require("../../assets/images/drop.svg").default} className="me-2" alt="icons" />{item?.tempratureFeelsLike ? item?.tempratureFeelsLike + "%" : "-"}</p>
