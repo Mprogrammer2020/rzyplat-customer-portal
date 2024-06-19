@@ -61,14 +61,20 @@ const ContactList = () => {
     };
     const handleDelete = async (customerId) => {
                 try {
-                    setContactList(prevcontactList => ({
-                        ...prevcontactList,
-                        totalRecords: Number(prevcontactList.totalRecords) - 1,
-                        list: prevcontactList.list.filter(customer => customer.id !== customerId)
-                    }));
+                    // setContactList(prevcontactList => ({
+                    //     ...prevcontactList,
+                    //     totalRecords: Number(prevcontactList.totalRecords) - 1,
+                    //     list: prevcontactList.list.filter(customer => customer.id !== customerId)
+                    // }));
                     const response = await APIServices.deleteContact(customerId);
                     if (response.status === 200) {
                         setshowwarning(false)
+                        setContactList(prevcontactList => ({
+                            ...prevcontactList,
+                            totalRecords: Number(prevcontactList.totalRecords) - 1,
+                            list: prevcontactList.list.filter(customer => customer.id !== customerId)
+                        }));
+                        setShowSuccess(true)
                     } else {
                         throw new Error('Failed to fetch data');
                     }
@@ -278,7 +284,7 @@ const ContactList = () => {
                 <Modal.Body>
                     <div className="successfull-section text-center ">
                         <img src={require("../../assets/images/check.svg").default} className="" alt="icons" />
-                        <h4 className="succefull-txt">{showsuccessStatus ?  "Contact list has been successfully updated." : "Contact list has been successfully added."}</h4>
+                        <h4 className="succefull-txt">Conatct list has been deleted</h4>
                     </div>
                 </Modal.Body>
             </Modal>
