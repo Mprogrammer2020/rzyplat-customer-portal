@@ -93,7 +93,6 @@ function WeatherDetail() {
             const response = await APIServices.currentPropertyWather();
             if (response.status === 200) {
                 let responseData = response.data;
-                setpropertyWeather(responseData.shift())
                 setcurrentPropertyWather(responseData);
             } else {
                 throw new Error('Failed to fetch data');
@@ -116,7 +115,6 @@ function WeatherDetail() {
     return (
         <div>
             <section className='customer-section'>
-                {/* header section statr */}
                 <header className='mobile-header'>
                     <Row className='align-items-center'>
                         <Col xs={6} md={6}>
@@ -144,8 +142,6 @@ function WeatherDetail() {
                         </Col>
                     </Row>
                 </header>
-                {/* header section ends */}
-                {/* weather summary section start */}
                 <div className="customer-outer-section">
                     <Row>
                         <Col md={8}>
@@ -169,7 +165,6 @@ function WeatherDetail() {
                                                 <h5 className='heading-main text-dark'>Current Weather <span>{currentWather?.weatherTime ? moment(currentWather?.weatherTime).format("LT") : "-"}</span></h5>
                                                 <div className="outer-weather-main-box">
                                                 <img src={currentWather?.tempratureDescription =="Rainy" ? require("../../assets/images/scattered-1.png"): currentWather?.tempratureDescription =="Scattered Thunderstorm"? require("../../assets/images/scattered-3.png") : currentWather?.tempratureDescription =="Hail Storm"? require("../../assets/images/scattered-2.png") : require("../../assets/images/air-1.png") } className="me-2" alt="icons" />
-                                                    {/* <h5 className="temp-text"><img src={require("../../assets/images/air-1.png")} className="me-2" alt="icons" />{currentWather?.tempratureFarenheit ? currentWather?.tempratureFarenheit : "-"} <span> &#x2109;</span></h5> */}
                                                     <div className="weather-main-txt">
                                                         <p>{currentWather?.tempratureDescription ? currentWather?.tempratureDescription : "-"}</p>
                                                         <span className="small-text">Feels like {currentWather?.tempratureFeelsLike ? currentWather?.tempratureFeelsLike + "°" : "-"}</span>
@@ -304,8 +299,6 @@ function WeatherDetail() {
                                             spaceBetween={10}
                                             className="mySwiper ten-day-forecast"
                                         >
-                                            
-                                          
                                             {currentTenDaysWather?.length > 0 ?
                                                 currentTenDaysWather?.map((item, index) => {
                                                     return (

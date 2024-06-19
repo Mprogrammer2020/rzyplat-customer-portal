@@ -77,8 +77,7 @@ const AddNewContact = ({ show, handleClose, editContact }) => {
                 };
                 const response = await APIServices.AddContact(params);
                 if (response.status === 201) {
-                    // setShowSuccess(true)
-                        handleClose()
+                    handleClose()
                     setShowLoader(false);
 
                 } else {
@@ -104,8 +103,6 @@ const AddNewContact = ({ show, handleClose, editContact }) => {
 
     // edit device category
     const editContactListData = async () => {
-        console.log("editContactListData")
-        // const errors = checkValidation();
         const errors = checkValidation() || {};
         if (Object.keys(errors).length === 0) {
             try {
@@ -121,10 +118,8 @@ const AddNewContact = ({ show, handleClose, editContact }) => {
                 console.log("params", params)
                 response = await APIServices.updateContact(params);
                 if (response.status === 200) {
-                        handleClose()
+                    handleClose()
                     setShowLoader(false);
-                    // setShowSuccess(true)
-                    // swal("Success", "contact list has been successfully updated.", "success").then(() => { });
                 } else {
                     throw new Error('Failed to fetch data');
                 }
@@ -173,34 +168,12 @@ const AddNewContact = ({ show, handleClose, editContact }) => {
                             <Col md={12} lg={6}>
                                 <Form.Group className="mb-2" controlId="formBasicRole">
                                     <Form.Label>Role</Form.Label>
-                                    {/* <Select options={roleOptions} placeholder="Select Role" name="role" value={deviceDetail.role} 
-                            onChange={(e) => { 
-                                console.log("role---->", e); 
-                                setDeviceDetail({ ...deviceDetail, role: e.value, errors: {} });
-                            }}
-                            styles={{
-                                control: (base, state) => ({
-                                    ...base,
-                                    background: "#EDF1F7",
-                                    borderRadius: "5px",
-                                }),
-                                placeholder: (base, state) => ({
-                                    ...base,
-                                    color: "#fff",
-                                }),
-                                input: (base, state) => ({
-                                    ...base,
-                                    color: "white"
-                                })
-                            }}
-                        /> */}
                                     <Select
                                         options={roleOptions}
                                         placeholder="Select User Role"
                                         name="role"
                                         value={roleOptions.find(option => option.value === deviceDetail.role) || null}
                                         onChange={(e) => {
-                                            console.log("role---->", e);
                                             setDeviceDetail({
                                                 ...deviceDetail,
                                                 role: e ? e.value : "",
@@ -252,7 +225,7 @@ const AddNewContact = ({ show, handleClose, editContact }) => {
                         <h4 className="succefull-txt">{editContact ? "Contact list has been successfully updated." : "Contact list has been successfully Added."}</h4>
                     </div>
                 </Modal.Body>
-                
+
 
 
             </Modal>
