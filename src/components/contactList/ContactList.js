@@ -30,7 +30,6 @@ const ContactList = () => {
             const response = await APIServices.getcontactList(params.page, params.size, params.sortBy, params.orderBy);
             if (response.status === 200) {
                 let responseData = response.data;
-                console.log("responseData==========",responseData);
                 let tempList;
                 if (params.page == 0) {
                     tempList = [];
@@ -67,7 +66,7 @@ const ContactList = () => {
     // Function to handle delete action
     const handleDelete = async (customerId) => {
         // Implement delete action logic here
-        swal({title:"", text:"Are you sure you want to delete this Contact list?", icon:"warning",  buttons: ["No","Yes"]}).then(async (res) => {
+        swal({ title: "", text: "Are you sure you want to delete this Contact list?", icon: "warning", buttons: ["No", "Yes"] }).then(async (res) => {
             if (res) {
                 try {
                     setContactList(prevcontactList => ({
@@ -117,19 +116,22 @@ const ContactList = () => {
         }
     };
     const [showCategoryModal, setShowCategoryModal] = useState(false);
-    const [editDevice, setEditDevice] = useState(false)
-   
+    const [editContact, setEditContact] = useState(false)
+
     function addNewCategory() {
         setShowCategoryModal(true);
+        setEditContact("")
     }
 
     const handleCategoryClose = () => {
-        // getDevices(filter);
-        // getDeviceCategoryCount(categoryId)
+        getcontactList(filter);
         setShowCategoryModal(false);
-        // getDeviceTypeByCategoryId(categoryId, 0, 4)
-        // setEditDevice("");
     };
+
+    function handleEditContact(item) {
+        setEditContact(item)
+        setShowCategoryModal(true)
+    }
 
     function capitalizeFirstLetter(string) {
         return string.charAt(0).toUpperCase() + string.slice(1);
@@ -173,7 +175,7 @@ const ContactList = () => {
                     <div className='customer-list-header d-flex align-items-center justify-content-between'>
                         <h5 className='heading-main'>
                             <img src={require("../../assets/images/ci_building-04 (1).svg").default} className="me-2" alt="icons" />
-                            Contact List 
+                            Contact List
                             <span className='customer-mobile-text'>{contactList?.totalElements}</span></h5>
                         <div className='sort-box d-flex align-items-center'>
                             <Form.Select aria-label="Default select example" className='mobile-tab inner-mobile-tab cursor-pointer' value={`${capitalizeFirstLetter(filter.sortBy)} ${filter.orderBy}`} onChange={(e) => sortcontactList(e.target.value)}>
@@ -211,68 +213,66 @@ const ContactList = () => {
                                     <td><Skeleton className="main-wallet-top mb-2" height={30} width={150} count={20} /></td>
                                 </tr>
                             </div> : contactList?.list?.map((contact, index) => {
-                                console.log("contact------->",contact)
-                               return(
-                               <tr key={index}>
-                                    <td><p className='d-flex align-items-center'><span className='customer-name'>{contact.name ? contact.name.charAt(0).toUpperCase() : ""}</span>{contact.name}</p></td>
-                                    <td><p className='role'>{contact.role}</p></td>
-                                    <td>{contact?.joiningDate ? createDateFromData(contact.joiningDate):"-"}</td>
-                                    <td>{contact.phone}</td>
-                                    <td className='email-section'>{contact.email}</td>
-                                    <td className='action-div'>
-                                        <img src={require("../../assets/images/ic_round-delete.svg").default} className="cursor-pointer" alt="icons" onClick={() => handleDelete(contact.id)} />
-                                        <img src={require("../../assets/images/ic_round-delete.svg").default} className="cursor-pointer" alt="icons" onClick={() => handleDelete(contact.id)} />
-                                        <i class="fa-solid fa-pen-to-square"></i>
-                                      
-                                    </td>
-                                </tr>)
-})}
+                                return (
+                                    <tr key={index}>
+                                        <td><p className='d-flex align-items-center'><span className='customer-name'>{contact.name ? contact.name.charAt(0).toUpperCase() : ""}</span>{contact.name}</p></td>
+                                        <td><p className='role'>{contact.role}</p></td>
+                                        <td>{contact?.joiningDate ? (contact.joiningDate) : "-"}</td>
+                                        <td>{contact.phone}</td>
+                                        <td className='email-section'>{contact.email}</td>
+                                        <td className='action-div'>
+                                            <img src={require("../../assets/images/ic_round-delete.svg").default} className="cursor-pointer" alt="icons" onClick={() => handleDelete(contact.id)} />
+                                            <i class="fa-solid fa-pen-to-square" onClick={() => handleEditContact(contact)} ></i>
+
+                                        </td>
+                                    </tr>)
+                            })}
                         </tbody>
                     </table>
                 </div>
 
                 {/* mobile side cards */}
                 <div className='customer-mobile-outer'>
-                <div ref={contactListRef} onScroll={onScroll} className="customer-scroll mobile ">
-                    {contactList.length <= 0 ?
-                        <>{
-                            Array.from({ length: 5 }).map(() => (<div className='mobile-side-customer'>
+                    <div ref={contactListRef} onScroll={onScroll} className="customer-scroll mobile ">
+                        {contactList.length <= 0 ?
+                            <>{
+                                Array.from({ length: 5 }).map(() => (<div className='mobile-side-customer'>
 
-                                <p className='d-flex align-items-center'><span className='customer-name'><Skeleton className="main-wallet-top mb-2" height={30} width={10} /></span><Skeleton className="main-wallet-top mb-2" height={30} width={200} /></p>
-                                <hr></hr>
-                                <p className='role'><span><img src={require("../../assets/images/call.svg").default} className="cursor-pointer me-2" alt="icons" />Phone</span> <span className='number'><Skeleton className="main-wallet-top mb-2" height={30} width={150} /></span></p>
-                                <p className='role'><span><img src={require("../../assets/images/email.svg").default} className="cursor-pointer me-2" alt="icons" />Email</span> <span className='number'><Skeleton className="main-wallet-top mb-2" height={30} width={150} /></span></p>
-                                <p className='role'><span><img src={require("../../assets/images/date.svg").default} className="cursor-pointer me-2" alt="icons" />Joined</span> <span className='number'><Skeleton className="main-wallet-top mb-2" height={30} width={150} /></span></p>
-                                <p className='role'><span><img src={require("../../assets/images/building.svg").default} className="cursor-pointer me-2" alt="icons" />Property</span> <span className='number'><Skeleton className="main-wallet-top mb-2" height={30} width={150} /></span></p>
-                                <div className='trash-section d-flex justify-content-between mt-2'>
-                                    <Skeleton className="main-wallet-top mb-2" height={30} width={150} />
-                                    <img src={require("../../assets/images/ic_round-delete.svg").default} className="cursor-pointer" alt="icons" />
-                                </div>
+                                    <p className='d-flex align-items-center'><span className='customer-name'><Skeleton className="main-wallet-top mb-2" height={30} width={10} /></span><Skeleton className="main-wallet-top mb-2" height={30} width={200} /></p>
+                                    <hr></hr>
+                                    <p className='role'><span><img src={require("../../assets/images/call.svg").default} className="cursor-pointer me-2" alt="icons" />Phone</span> <span className='number'><Skeleton className="main-wallet-top mb-2" height={30} width={150} /></span></p>
+                                    <p className='role'><span><img src={require("../../assets/images/email.svg").default} className="cursor-pointer me-2" alt="icons" />Email</span> <span className='number'><Skeleton className="main-wallet-top mb-2" height={30} width={150} /></span></p>
+                                    <p className='role'><span><img src={require("../../assets/images/date.svg").default} className="cursor-pointer me-2" alt="icons" />Joined</span> <span className='number'><Skeleton className="main-wallet-top mb-2" height={30} width={150} /></span></p>
+                                    <p className='role'><span><img src={require("../../assets/images/building.svg").default} className="cursor-pointer me-2" alt="icons" />Property</span> <span className='number'><Skeleton className="main-wallet-top mb-2" height={30} width={150} /></span></p>
+                                    <div className='trash-section d-flex justify-content-between mt-2'>
+                                        <Skeleton className="main-wallet-top mb-2" height={30} width={150} />
+                                        <img src={require("../../assets/images/ic_round-delete.svg").default} className="cursor-pointer" alt="icons" />
+                                    </div>
 
-                            </div>))
-                        }</>
-                        :
-                        contactList?.list?.map((contact, index) => (
-                            <div className='mobile-side-customer'>
-                                <p className='d-flex align-items-center'><span className='customer-name'>{contact.name ? contact.name.charAt(0).toUpperCase() : ""}</span>{contact.name}</p>
-                                <hr></hr>
-                                <p className='role'><span><img src={require("../../assets/images/call.svg").default} className="cursor-pointer me-2" alt="icons" />Phone</span> <span className='number'>{contact.phone}</span></p>
-                                <p className='role'><span><img src={require("../../assets/images/email.svg").default} className="cursor-pointer me-2" alt="icons" />Email</span> <span className='number'>{contact.email}</span></p>
-                                <p className='role'>
-                                    <span>
-                                        Joined</span> <span className='number'>{contact?.joiningDate ? createDateFromData(contact.joiningDate):"-"}</span></p>
-                                {/* <p className='role'><span><img src={require("../../assets/images/building.svg").default} className="cursor-pointer me-2" alt="icons" />Property</span> <span className='number'>{customer?.property.map((property, innerIndex) => { return innerIndex ? `, ${capitalizeFirstLetter(property)}` : capitalizeFirstLetter(property) })}</span></p> */}
-                                <div className='trash-section d-flex justify-content-between mt-2'>
-                                    <Button className="blue-btn">{contact.role}</Button>
-                                    <img src={require("../../assets/images/ic_round-delete.svg").default} className="cursor-pointer" alt="icons" onClick={() => handleDelete(contact.id)} />
+                                </div>))
+                            }</>
+                            :
+                            contactList?.list?.map((contact, index) => (
+                                <div className='mobile-side-customer'>
+                                    <p className='d-flex align-items-center'><span className='customer-name'>{contact.name ? contact.name.charAt(0).toUpperCase() : ""}</span>{contact.name}</p>
+                                    <hr></hr>
+                                    <p className='role'><span><img src={require("../../assets/images/call.svg").default} className="cursor-pointer me-2" alt="icons" />Phone</span> <span className='number'>{contact.phone}</span></p>
+                                    <p className='role'><span><img src={require("../../assets/images/email.svg").default} className="cursor-pointer me-2" alt="icons" />Email</span> <span className='number'>{contact.email}</span></p>
+                                    <p className='role'>
+                                        <span>
+                                            Joined</span> <span className='number'>{contact?.joiningDate ? (contact.joiningDate) : "-"}</span></p>
+                                    <div className='trash-section d-flex justify-content-between mt-2'>
+                                        <Button className="blue-btn">{contact.role}</Button>
+                                        <img src={require("../../assets/images/ic_round-delete.svg").default} className="cursor-pointer" alt="icons" onClick={() => handleDelete(contact.id)} />
+                                        <i class="fa-solid fa-pen-to-square" onClick={() => handleEditContact(contact)} ></i>
+                                    </div>
                                 </div>
-                            </div>
-                        ))}
+                            ))}
                     </div>
-                    </div>
+                </div>
             </div>
             {showCategoryModal &&
-                <AddNewContact show={showCategoryModal} handleClose={handleCategoryClose} editDevice={editDevice} />}
+                <AddNewContact show={showCategoryModal} handleClose={handleCategoryClose} editContact={editContact} />}
         </section>
     );
 };

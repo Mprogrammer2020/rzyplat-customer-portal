@@ -111,5 +111,5 @@ function AddContact(params) {
 }
 
 function updateContact(params) {
-    return axios.put(`${config.apiUrl}/contacts/${params.id}`, params, configMultipartHeaders());
+    return axios.put(`${config.apiUrl}/contacts/${params.id}`, params, configJsonHeaders());
 }

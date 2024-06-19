@@ -6,13 +6,12 @@ import Select from "react-select";
 import Loader from "../../Common/Loader";
 import swal from "sweetalert";
 
-const AddNewContact = ({ show, handleClose, editDevice }) => {
-    console.log("show, editDevice ", show, editDevice)
+const AddNewContact = ({ show, handleClose, editContact }) => {
+    console.log("show, editContact ", show, editContact)
     const deviceImageRef = useRef(null);
     const [deviceCategoryOptions, setDeviceCategoryOptions] = useState([]);
     const [deviceOptions, setDeviceOptions] = useState([]);
     const [showLoader, setShowLoader] = useState(false);
-
 
     const [deviceDetail, setDeviceDetail] = useState({
         email: "", name: "", phone: "", role: "",
@@ -31,6 +30,18 @@ const AddNewContact = ({ show, handleClose, editDevice }) => {
             },
         });
     };
+
+    useEffect(() => {
+        if (editContact) {
+            setDeviceDetail({
+                ...deviceDetail,
+                name: editContact.name,
+                email: editContact.email,
+                phone: editContact.phone,
+                role: editContact.role,
+            })
+        }
+    }, [editContact])
 
     function checkValidation() {
         const errors = { email: "", name: "", phone: "", role: "" };
@@ -52,54 +63,48 @@ const AddNewContact = ({ show, handleClose, editDevice }) => {
 
         }
     }
-
-    console.log("deviceDetail--------",deviceDetail);
-
-
-    // add device category
     const addContactListData = async () => {
-        console.log("addContactListData--------->")
-        const errors = checkValidation();
-        if (Object.keys(errors)?.length === 0) {
+        const errors = checkValidation() || {};
+        if (Object.keys(errors).length === 0) {
             try {
                 setShowLoader(true);
-                let response;
                 const params = {
                     name: deviceDetail.name,
                     email: deviceDetail.email,
                     phone: deviceDetail.phone,
                     role: deviceDetail.role
-                }
-                response = await APIServices.AddContact(params);
+                };
+                const response = await APIServices.AddContact(params);
                 if (response.status === 201) {
                     handleClose();
                     setShowLoader(false);
-                    swal("Success", "Conatct list has been successfully added.", "success").then(() => { });
+                    swal("Success", "Contact list has been successfully added.", "success").then(() => { });
                 } else {
-                    throw new Error('Failed to fetch data');
+                    throw new Error('Failed to add contact');
                 }
             } catch (error) {
                 exceptionHandling(error);
                 setShowLoader(false);
-                console.error('Error fetching data:', error);
+                console.error('Error adding contact:', error);
             }
-        }
-        else {
+        } else {
             setDeviceDetail({ ...deviceDetail, errors });
         }
     };
 
+
     const roleOptions = [
-        { value: 'Admin', label: 'Admin' },
-        { value: 'User', label: 'User' },
-        { value: 'Manager', label: 'Manager' },
-        { value: 'Editor', label: 'Editor' }
+        { value: 'role1', label: 'Role 1' },
+        { value: 'role2', label: 'Role 2' },
+        { value: 'role3', label: 'Role 3' },
     ];
+
 
     // edit device category
     const editContactListData = async () => {
         console.log("editContactListData")
-        const errors = checkValidation();
+        // const errors = checkValidation();
+        const errors = checkValidation() || {};
         if (Object.keys(errors).length === 0) {
             try {
                 let response;
@@ -108,13 +113,13 @@ const AddNewContact = ({ show, handleClose, editDevice }) => {
                     name: deviceDetail.name,
                     email: deviceDetail.email,
                     phone: deviceDetail.phone,
-                    role: deviceDetail.role
+                    role: deviceDetail.role,
+                    id: editContact.id,
                 }
                 console.log("params", params)
                 response = await APIServices.updateContact(params);
                 if (response.status === 200) {
                     handleClose();
-                    console.log("updateDevice=========", response)
                     setShowLoader(false);
                     swal("Success", "contact list has been successfully updated.", "success").then(() => { });
                 } else {
@@ -130,20 +135,13 @@ const AddNewContact = ({ show, handleClose, editDevice }) => {
         else {
             setDeviceDetail({ ...deviceDetail, errors });
         }
-
-
     }
-    const handleSelectChange = (selectedOption) => {
-        console.log("selectedOption------>",selectedOption)
-        setDeviceDetail({ ...deviceDetail, role: selectedOption.value, errors: { ...deviceDetail.errors, role: '' } });
-    };
-
 
     return (
         <>
             <Modal show={show} onHide={() => handleClose()} centered className='add-new-device-popup add-new-popup' size='lg' backdrop="static">
                 <Modal.Header>
-                    <Modal.Title>{editDevice ? "Edit" : "Add"} New User</Modal.Title>
+                    <Modal.Title>{editContact ? "Edit" : "Add"} New User</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     <Form>
@@ -169,46 +167,78 @@ const AddNewContact = ({ show, handleClose, editDevice }) => {
                                     {deviceDetail.errors.phone && <span className="error">{deviceDetail.errors.phone}</span>}
                                 </Form.Group>
                             </Col>
-                             <Col md={12} lg={6}>
+                            <Col md={12} lg={6}>
                                 <Form.Group className="mb-2" controlId="formBasicRole">
                                     <Form.Label>Role</Form.Label>
-                                    <Select options={roleOptions} placeholder="Select Device" name="deviceName" value={deviceDetail.role} 
-                                    onChange={(e) =>{console.log("role---->",e) ;setDeviceDetail({ ...deviceDetail, role: e.value, errors: {} })}}
+                                    {/* <Select options={roleOptions} placeholder="Select Role" name="role" value={deviceDetail.role} 
+                            onChange={(e) => { 
+                                console.log("role---->", e); 
+                                setDeviceDetail({ ...deviceDetail, role: e.value, errors: {} });
+                            }}
+                            styles={{
+                                control: (base, state) => ({
+                                    ...base,
+                                    background: "#EDF1F7",
+                                    borderRadius: "5px",
+                                }),
+                                placeholder: (base, state) => ({
+                                    ...base,
+                                    color: "#fff",
+                                }),
+                                input: (base, state) => ({
+                                    ...base,
+                                    color: "white"
+                                })
+                            }}
+                        /> */}
+                                    <Select
+                                        options={roleOptions}
+                                        placeholder="Select Role"
+                                        name="role"
+                                        value={roleOptions.find(option => option.value === deviceDetail.role) || null}
+                                        onChange={(e) => {
+                                            console.log("role---->", e);
+                                            setDeviceDetail({
+                                                ...deviceDetail,
+                                                role: e ? e.value : "",
+                                                errors: { ...deviceDetail.errors, role: "" }
+                                            });
+                                        }}
                                         styles={{
                                             control: (base, state) => ({
+                                                ...base,
                                                 background: "#EDF1F7",
                                                 borderRadius: "5px",
                                             }),
                                             placeholder: (base, state) => ({
                                                 ...base,
                                                 color: "#fff",
-
                                             }),
                                             input: (base, state) => ({
                                                 ...base,
                                                 color: "white"
                                             })
                                         }}
-                                />
+                                    />
                                     {deviceDetail.errors.role && <span className="error">{deviceDetail.errors.role}</span>}
                                 </Form.Group>
-                            </Col> 
-                             
+                            </Col>
                         </Row>
                     </Form>
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button variant="secondary" onClick={(e) => { handleClose(); editDevice = false }} disabled={showLoader}>
+                    <Button variant="secondary" onClick={(e) => { handleClose(); editContact = false }} disabled={showLoader}>
                         CANCEL
                     </Button>
-                    {editDevice ?
-                        <Button variant="primary" className={Object?.keys(checkValidation()).length === 0 ? "add-btn" : ""} onClick={editContactListData} disabled={showLoader || Object.keys(checkValidation()).length !== 0 ? true : false}>
+                    {editContact ?
+                        <Button variant="primary" className={Object.keys(checkValidation() || {}).length === 0 ? "add-btn" : ""} onClick={editContactListData} disabled={showLoader || Object.keys(checkValidation() || {}).length !== 0}>
                             {showLoader ? <Loader loaderType={"COLOR_RING"} width={25} height={25} /> : "EDIT"}
                         </Button>
                         :
-                        <Button variant="primary" className={Object?.keys(checkValidation()).length === 0 ? "add-btn" : ""} onClick={addContactListData} disabled={showLoader || Object?.keys(checkValidation()).length !== 0 ? true : false}>
+                        <Button variant="primary" className={Object.keys(checkValidation() || {}).length === 0 ? "add-btn" : ""} onClick={addContactListData} disabled={showLoader || Object.keys(checkValidation() || {}).length !== 0}>
                             {showLoader ? <Loader loaderType={"COLOR_RING"} width={25} height={25} /> : "ADD"}
-                        </Button>}
+                        </Button>
+                    }
                 </Modal.Footer>
             </Modal>
 
