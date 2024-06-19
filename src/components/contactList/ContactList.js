@@ -8,11 +8,9 @@ import swal from 'sweetalert';
 import "./ContactList.css";
 import AddDeviceCategory from '../modals/AddDeviceCategory';
 import AddNewContact from '../modals/AddNewContact';
-// import "@testing-library/jest-dom";
 
 
 const ContactList = () => {
-    // State for customer data
     const [contactList, setContactList] = useState([]);
     const [filter, setFilter] = useState({ page: 0, size: 10, sortBy: "name", orderBy: "DESC" });
     const contactListRef = useRef();
@@ -23,13 +21,8 @@ const ContactList = () => {
     const [contactID, setContactId]=useState("")
 
     useEffect(() => {
-
-        // Call getcontactList function
         getcontactList(filter);
     }, []);
-
-    // Define function to fetch contactList
-
     async function getcontactList(params) {
         try {
             const response = await APIServices.getcontactList(params.page, params.size, params.sortBy, params.orderBy);
@@ -52,7 +45,6 @@ const ContactList = () => {
         } catch (error) {
             loadingResponse.current = false;
             exceptionHandling(error);
-            // console.error('Error fetching data:', error);
         }
     }
 
@@ -67,8 +59,6 @@ const ContactList = () => {
         getcontactList(filterTemp);
 
     };
-
-    // Function to handle delete action
     const handleDelete = async (customerId) => {
                 try {
                     setContactList(prevcontactList => ({
@@ -103,7 +93,6 @@ const ContactList = () => {
     const onScroll = async () => {
         if (contactListRef.current) {
             const { scrollTop, scrollHeight, clientHeight } = contactListRef.current;
-            // console.log("scrollTop + clientHeight === scrollHeight", scrollTop + clientHeight, scrollHeight, scrollTop, clientHeight);
             if (scrollTop + clientHeight === scrollHeight) {
                 const totalPages = Math.ceil(contactList?.totalElements / filter.size);
                 let filterTemp = { ...filter };
@@ -231,7 +220,6 @@ const ContactList = () => {
                                             <img src={require("../../assets/images/ic_round-delete.svg").default} className="cursor-pointer" alt="icons" onClick={() =>{ 
                                                 setContactId(contact.id);
                                                 setshowwarning(true)
-                                                // handleDelete(contact.id)
                                                 }} />
                                             <img src={require("../../assets/images/edit-icon.svg").default} className="cursor-pointer ms-2" alt="icons"onClick={() => handleEditContact(contact)}/>
                                         </td>

@@ -217,7 +217,6 @@ const AddNewContact = ({ show, handleClose, editContact }) => {
                     }
                 </Modal.Footer>
             </Modal>
-
             <Modal show={showsuccess} onHide={() => setShowSuccess(false)} centered className='add-new-device-popup' >
                 <Modal.Body>
                     <div className="successfull-section text-center ">
@@ -225,9 +224,6 @@ const AddNewContact = ({ show, handleClose, editContact }) => {
                         <h4 className="succefull-txt">{editContact ? "Contact list has been successfully updated." : "Contact list has been successfully Added."}</h4>
                     </div>
                 </Modal.Body>
-
-
-
             </Modal>
         </>
 

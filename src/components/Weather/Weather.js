@@ -112,6 +112,7 @@ function WeatherDetail() {
         }
     };
 
+    console.log("currentWather----->",currentWather)
     return (
         <div>
             <section className='customer-section'>
@@ -164,6 +165,7 @@ function WeatherDetail() {
                                             <div className="current-weather-box">
                                                 <h5 className='heading-main text-dark'>Current Weather <span>{currentWather?.weatherTime ? moment(currentWather?.weatherTime).format("LT") : "-"}</span></h5>
                                                 <div className="outer-weather-main-box">
+                                                <h5 className="temp-text"><img src={require("../../assets/images/air-1.png")} className="me-2" alt="icons" />{currentWather?.tempratureFarenheit ? currentWather?.tempratureFarenheit : "-"} <span> &#x2109;</span></h5>
                                                 <img src={currentWather?.tempratureDescription =="Rainy" ? require("../../assets/images/scattered-1.png"): currentWather?.tempratureDescription =="Scattered Thunderstorm"? require("../../assets/images/scattered-3.png") : currentWather?.tempratureDescription =="Hail Storm"? require("../../assets/images/scattered-2.png") : require("../../assets/images/air-1.png") } className="me-2" alt="icons" />
                                                     <div className="weather-main-txt">
                                                         <p>{currentWather?.tempratureDescription ? currentWather?.tempratureDescription : "-"}</p>
