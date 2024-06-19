@@ -167,7 +167,7 @@ function WeatherDetail() {
                                                         <img src={require("../../assets/images/air-1.png")} className="me-2" alt="icons" />{currentWather?.tempratureFarenheit ? currentWather?.tempratureFarenheit : "-"} <span> &#x2109;</span></h5> */}
                                                     <h5 className="temp-text">
                                                         <img src={currentWather?.tempratureDescription == "Rainy" ? require("../../assets/images/scattered-1.png") : currentWather?.tempratureDescription == "Scattered Thunderstorm" ? require("../../assets/images/scattered-3.png") : currentWather?.tempratureDescription == "Hail Storm" ? require("../../assets/images/scattered-2.png") : require("../../assets/images/air-1.png")} className="me-2" alt="icons" />
-                                                        {currentWather?.tempratureFarenheit ? currentWather?.tempratureFarenheit : "-"} <span> &#x2109;</span>
+                                                        {currentWather?.tempratureFarenheit ? currentWather?.tempratureFarenheit : "-"} <span className="tem-icon main"> &#x2109;</span>
                                                     </h5>
                                                     <div className="weather-main-txt">
                                                         <p>{currentWather?.tempratureDescription ? currentWather?.tempratureDescription : "-"}</p>
@@ -262,7 +262,7 @@ function WeatherDetail() {
                                                         <SwiperSlide>
 
                                                             <div className="forecast-box">
-                                                                <h5 className='heading-main text-dark'> {item?.weatherTime ? moment(item?.weatherTime).format('LT'):"-"}</h5>
+                                                                <h5 className='heading-main text-dark mb-3'> {item?.weatherTime ? moment(item?.weatherTime).format('LT'):"-"}</h5>
                                                                 <img src={item?.tempratureDescription == "Hail Storm" ? require("../../assets/images/heal-Strom-2.png") : item?.tempratureDescription == "Scattered Thunderstorm" ? require("../../assets/images/scatteredthunder.png") : item?.tempratureDescription == "Partly Sunny" ? require("../../assets/images/weather-2.png") : item?.tempratureDescription == "Sunny" ? require("../../assets/images/weather-3.png") : require("../../assets/images/cloud-1.png")} className="" alt="icons" />
                                                                 <h5 className="temp-text">{item?.tempratureFarenheit ? item?.tempratureFarenheit : "-"}&deg;</h5>
                                                                 <p><img src={require("../../assets/images/drop.svg").default} className="me-2" alt="icons" />{item?.tempratureFeelsLike ? item?.tempratureFeelsLike + "%" : "-"}</p>
@@ -359,7 +359,7 @@ function WeatherDetail() {
                                                         <div className="temparature-box-inner">
                                                             <img src={propti?.tempratureDescription == "Rainy" ? require("../../assets/images/scattered-1.png") : propti?.tempratureDescription == "Scattered Thunderstorm" ? require("../../assets/images/scattered-3.png") : propti?.tempratureDescription == "Hail Storm" ? require("../../assets/images/scattered-2.png") : require("../../assets/images/scattered-icon (1).png")} className="me-2" alt="icons" />
                                                             <div className="temparature-box-outer-text">
-                                                                <h5 className="temp-text">{propti?.tempratureFarenheit || "-"}<span className="tem-icon">&#x2109;</span></h5>
+                                                                <h5 className="temp-text">{propti?.tempratureFarenheit || "-"}<span className="tem-icon main">&#x2109;</span></h5>
                                                             </div>
                                                         </div>
                                                         <div className="temparature-box-content">

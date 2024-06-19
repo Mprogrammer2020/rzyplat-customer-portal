@@ -192,13 +192,15 @@
 }
 .tem-icon {
     color: var(--Shades-75, #5C626E) !important;
-    text-align: center !important;
     font-family: Inter !important;
     font-size: 12px !important;
     font-style: normal !important;
     font-weight: 400 !important;
     line-height: normal !important;
     vertical-align: middle !important;
+}
+.tem-icon.main {
+    font-size: 16px !important;
 }
 .forecast-box p {
     font-size: 14px;
@@ -254,11 +256,17 @@
     font-weight: 400;
     line-height: normal;
 }
-.under-swiper .forecast-box {
+/* .under-swiper .forecast-box {
     height: 218px;
-}
+} */
 .ten-day-forecast .swiper-slide:first-child {
     width: 26% !important;
+}
+.outer-weather-main-box h5, .temparature-box-outer-text h5 {
+    font-size: 44px;
+}
+.ten-day-forecast .temparature-box-outer-text h5 {
+    font-size: 20px;
 }
 @media (max-width: 1700px) {
     .ten-day-forecast .swiper-slide:first-child {

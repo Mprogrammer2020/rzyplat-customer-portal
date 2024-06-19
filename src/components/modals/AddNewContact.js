@@ -146,7 +146,7 @@ const AddNewContact = ({ show, handleClose, editContact }) => {
     return (
         <>
             <Modal show={showModal} onHide={() => handleClose()} centered className='add-new-device-popup add-new-popup contact-section-modal' size='lg' backdrop="static">
-                <Modal.Header>
+                <Modal.Header closeButton>
                     <Modal.Title>{editContact ? "Edit" : "Add"} New Contact</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
