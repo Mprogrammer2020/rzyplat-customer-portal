@@ -284,7 +284,7 @@ const ContactList = () => {
                 <Modal.Body>
                     <div className="successfull-section text-center ">
                         <img src={require("../../assets/images/check.svg").default} className="" alt="icons" />
-                        <h4 className="succefull-txt">Conatct list has been deleted</h4>
+                        <h4 className="succefull-txt">User has been deleted</h4>
                     </div>
                 </Modal.Body>
             </Modal>

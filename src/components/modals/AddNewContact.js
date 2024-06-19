@@ -46,26 +46,25 @@ const AddNewContact = ({ show, handleClose, editContact }) => {
         }
     }, [editContact])
 
-    function checkValidation() {
-        const errors = { email: "", name: "", phone: "", role: "" };
+    const checkValidation = () => {
+        const errors = {};
+        if (!deviceDetail.name) {
+            errors.name = "Name is required";
+        }
+        if (!deviceDetail.email) {
+            errors.email = "Email is required";
+        } else if (!/\S+@\S+\.\S+/.test(deviceDetail.email)) {
+            errors.email = "Email is invalid";
+        }
+        if (!deviceDetail.phone) {
+            errors.phone = "Phone is required";
+        } 
+        if (!deviceDetail.role) {
+            errors.role = "Role is required";
+        }
+        return errors;
+    };
 
-        if (deviceDetail.email && !deviceDetail.email.trim()) {
-            errors.email = "This field is required";
-        }
-        if (deviceDetail.name && !deviceDetail.name.trim()) {
-            errors.name = "This field is required";
-        }
-        if (deviceDetail.phone && !deviceDetail.phone.trim()) {
-            errors.phone = "This field is required";
-        }
-        if (deviceDetail.role) {
-            errors.role = "This field is required";
-        }
-        else {
-            return errors;
-
-        }
-    }
     const addContactListData = async () => {
         const errors = checkValidation() || {};
         if (Object.keys(errors).length === 0) {
@@ -103,6 +102,8 @@ const AddNewContact = ({ show, handleClose, editContact }) => {
         { value: 'role2', label: 'Role 2' },
         { value: 'role3', label: 'Role 3' },
     ];
+
+    const isFormValid = Object.keys(checkValidation()).length === 0;
 
 
     // edit device category
@@ -145,91 +146,92 @@ const AddNewContact = ({ show, handleClose, editContact }) => {
 
     return (
         <>
-            <Modal show={showModal} onHide={() => handleClose()} centered className='add-new-device-popup add-new-popup contact-section-modal' size='lg' backdrop="static">
-                <Modal.Header closeButton>
-                    <Modal.Title>{editContact ? "Edit" : "Add"} New Contact</Modal.Title>
-                </Modal.Header>
-                <Modal.Body>
-                    <Form>
-                        <Row>
-                            <Col md={12} lg={6}>
-                                <Form.Group className="mb-2" controlId="formBasicName">
-                                    <Form.Label>User Name</Form.Label>
-                                    <Form.Control type="text" maxLength={50} placeholder="Enter User Name" name="name" value={deviceDetail?.name} onChange={handleInputChange} />
-                                    {deviceDetail.errors.name && <span className="error">{deviceDetail.errors.name}</span>}
-                                </Form.Group>
-                            </Col>
-                            <Col md={12} lg={6}>
-                                <Form.Group className="mb-2" controlId="formBasicEmail">
-                                    <Form.Label>Email ID</Form.Label>
-                                    <Form.Control type="email" maxLength={50} placeholder="Enter User Emal ID" name="email" value={deviceDetail?.email} onChange={handleInputChange} />
-                                    {deviceDetail.errors.email && <span className="error">{deviceDetail.errors.email}</span>}
-                                </Form.Group>
-                            </Col>
-                            <Col md={12} lg={6}>
-                                <Form.Group className="mb-2" controlId="formBasicPhone">
-                                    <Form.Label>Phone</Form.Label>
-                                    <Form.Control type="text" maxLength={15} placeholder="Enter User Phone" name="phone" value={deviceDetail?.phone} onChange={handleInputChange} />
-                                    {deviceDetail.errors.phone && <span className="error">{deviceDetail.errors.phone}</span>}
-                                </Form.Group>
-                            </Col>
-                            <Col md={12} lg={6}>
-                                <Form.Group className="mb-2" controlId="formBasicRole">
-                                    <Form.Label>Role</Form.Label>
-                                    <Select
-                                        options={roleOptions}
-                                        placeholder="Select User Role"
-                                        name="role"
-                                        value={roleOptions.find(option => option.value === deviceDetail.role) || null}
-                                        onChange={(e) => {
-                                            setDeviceDetail({
-                                                ...deviceDetail,
-                                                role: e ? e.value : "",
-                                                errors: { ...deviceDetail.errors, role: "" }
-                                            });
-                                        }}
-                                        styles={{
-                                            control: (base, state) => ({
-                                                ...base,
-                                                background: "#EDF1F7",
-                                                borderRadius: "5px",
-                                            }),
-                                            placeholder: (base, state) => ({
-                                                ...base,
-                                                color: "#fff",
-                                            }),
-                                            input: (base, state) => ({
-                                                ...base,
-                                                color: "white"
-                                            })
-                                        }}
-                                    />
-                                    {deviceDetail.errors.role && <span className="error">{deviceDetail.errors.role}</span>}
-                                </Form.Group>
-                            </Col>
-                        </Row>
-                    </Form>
-                </Modal.Body>
-                <Modal.Footer>
-                    <Button variant="secondary" onClick={(e) => { handleClose(); editContact = false }} disabled={showLoader}>
-                        CANCEL
-                    </Button>
-                    {editContact ?
-                        <Button variant="primary" className={Object.keys(checkValidation() || {}).length === 0 ? "add-btn" : ""} onClick={editContactListData} disabled={showLoader || Object.keys(checkValidation() || {}).length !== 0}>
-                            {showLoader ? <Loader loaderType={"COLOR_RING"} width={25} height={25} /> : "EDIT"}
-                        </Button>
-                        :
-                        <Button variant="primary" className={Object.keys(checkValidation() || {}).length === 0 ? "add-btn" : ""} onClick={addContactListData} disabled={showLoader || Object.keys(checkValidation() || {}).length !== 0}>
-                            {showLoader ? <Loader loaderType={"COLOR_RING"} width={25} height={25} /> : "ADD"}
-                        </Button>
-                    }
-                </Modal.Footer>
-            </Modal>
+          <Modal show={showModal} onHide={() => handleClose()} centered className='add-new-device-popup add-new-popup contact-section-modal' size='lg' backdrop="static">
+    <Modal.Header closeButton>
+        <Modal.Title>{editContact ? "Edit" : "Add"} New Contact</Modal.Title>
+    </Modal.Header>
+    <Modal.Body>
+        <Form>
+            <Row>
+                <Col md={12} lg={6}>
+                    <Form.Group className="mb-2" controlId="formBasicName">
+                        <Form.Label>User Name</Form.Label>
+                        <Form.Control type="text" maxLength={50} placeholder="Enter User Name" name="name" value={deviceDetail?.name} onChange={handleInputChange} />
+                        {deviceDetail.errors.name && <span className="error">{deviceDetail.errors.name}</span>}
+                    </Form.Group>
+                </Col>
+                <Col md={12} lg={6}>
+                    <Form.Group className="mb-2" controlId="formBasicEmail">
+                        <Form.Label>Email ID</Form.Label>
+                        <Form.Control type="email" maxLength={50} placeholder="Enter User Emal ID" name="email" value={deviceDetail?.email} onChange={handleInputChange} />
+                        {deviceDetail.errors.email && <span className="error">{deviceDetail.errors.email}</span>}
+                    </Form.Group>
+                </Col>
+                <Col md={12} lg={6}>
+                    <Form.Group className="mb-2" controlId="formBasicPhone">
+                        <Form.Label>Phone</Form.Label>
+                        <Form.Control type="text" maxLength={15} placeholder="Enter User Phone" name="phone" value={deviceDetail?.phone} onChange={handleInputChange} />
+                        {deviceDetail.errors.phone && <span className="error">{deviceDetail.errors.phone}</span>}
+                    </Form.Group>
+                </Col>
+                <Col md={12} lg={6}>
+                    <Form.Group className="mb-2" controlId="formBasicRole">
+                        <Form.Label>Role</Form.Label>
+                        <Select
+                            options={roleOptions}
+                            placeholder="Select User Role"
+                            name="role"
+                            value={roleOptions.find(option => option.value === deviceDetail.role) || null}
+                            onChange={(e) => {
+                                setDeviceDetail({
+                                    ...deviceDetail,
+                                    role: e ? e.value : "",
+                                    errors: { ...deviceDetail.errors, role: "" }
+                                });
+                            }}
+                            styles={{
+                                control: (base, state) => ({
+                                    ...base,
+                                    background: "#EDF1F7",
+                                    borderRadius: "5px",
+                                }),
+                                placeholder: (base, state) => ({
+                                    ...base,
+                                    color: "#fff",
+                                }),
+                                input: (base, state) => ({
+                                    ...base,
+                                    color: "white"
+                                })
+                            }}
+                        />
+                        {deviceDetail.errors.role && <span className="error">{deviceDetail.errors.role}</span>}
+                    </Form.Group>
+                </Col>
+            </Row>
+        </Form>
+    </Modal.Body>
+    <Modal.Footer>
+        <Button variant="secondary" onClick={(e) => { handleClose(); editContact = false }} disabled={showLoader}>
+            CANCEL
+        </Button>
+        {editContact ?
+            <Button variant="primary" className={isFormValid ? "add-btn" : ""} onClick={editContactListData} disabled={showLoader || !isFormValid}>
+                {showLoader ? <Loader loaderType={"COLOR_RING"} width={25} height={25} /> : "EDIT"}
+            </Button>
+            :
+            <Button variant="primary" className={isFormValid ? "add-btn" : ""} onClick={addContactListData} disabled={showLoader || !isFormValid}>
+                {showLoader ? <Loader loaderType={"COLOR_RING"} width={25} height={25} /> : "ADD"}
+            </Button>
+        }
+    </Modal.Footer>
+</Modal>
+
             <Modal show={showsuccess} onHide={() => {handleClose();setShowSuccess(false)}} centered className='add-new-device-popup' >
                 <Modal.Body>
                     <div className="successfull-section text-center ">
                         <img src={require("../../assets/images/check.svg").default} className="" alt="icons" />
-                        <h4 className="succefull-txt">{editContact ? "Contact list has been successfully updated." : "Contact list has been successfully Added."}</h4>
+                        <h4 className="succefull-txt">{editContact ? "User has been successfully updated." : "User has been successfully Added."}</h4>
                     </div>
                 </Modal.Body>
             </Modal>
