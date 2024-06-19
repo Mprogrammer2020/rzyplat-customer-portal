@@ -35,7 +35,13 @@ export const APIServices = {
     getDeviceCategories,
     getDeviceTypeByCategoryIdDeviceDropdown,
     updateDevice,
-    getDeviceCategoryCount
+    getDeviceCategoryCount,
+    HeatWather,
+    currentWather,
+    currentHourlyWather,
+    currentTenDaysWather,
+    currentPropertyWather
+    
 }
 
 function updateDevice(params) {
@@ -112,4 +118,23 @@ function AddContact(params) {
 
 function updateContact(params) {
     return axios.put(`${config.apiUrl}/contacts/${params.id}`, params, configJsonHeaders());
+}
+
+/* weather page */
+function HeatWather() {
+    return axios.get(`${config.apiUrl}/weather/alerts`, configJsonHeaders());
+}
+
+function currentWather() {
+    return axios.get(`${config.apiUrl}/weather/hourly/current`, configJsonHeaders());
+}
+
+function currentHourlyWather() {
+    return axios.get(`${config.apiUrl}/weather/hourly`, configJsonHeaders());
+}
+function currentTenDaysWather() {
+    return axios.get(`${config.apiUrl}/weather/daily`, configJsonHeaders());
+}
+function currentPropertyWather() {
+    return axios.get(`${config.apiUrl}/weather/hourly/current/properties`, configJsonHeaders());
 }
