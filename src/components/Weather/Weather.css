@@ -239,10 +239,10 @@
     font-weight: 400;
     line-height: normal;
 }
-.air-quality-box.active {
+.current-weather-box .air-quality-box.active {
     border: 1px solid #f05348;
 }   
-.air-quality-box.active span{
+.current-weather-box .air-quality-box.active span{
     background-color: #f05348;
 }
 .air-quality-box.active span img{
@@ -267,6 +267,13 @@
 }
 .ten-day-forecast .temparature-box-outer-text h5 {
     font-size: 20px;
+}
+.outer-weather-main-box .tem-icon.main {
+    left: -9px;
+    position: relative;
+}
+.weather-outer-section:first-child .air-quality-box.active{
+    border: 1px solid #f05348;
 }
 @media (max-width: 1700px) {
     .ten-day-forecast .swiper-slide:first-child {
