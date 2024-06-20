@@ -169,7 +169,9 @@
     height: 100%;
     width: 100%;
 }
-
+.under-swiper .forecast-box {
+    height: 230px;
+}
 .forecast-box .heading-main {
     justify-content: center !important;
 }
