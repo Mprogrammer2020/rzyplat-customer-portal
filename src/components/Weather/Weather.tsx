@@ -402,7 +402,7 @@ function WeatherDetail() {
                                                 <div className="property-weather-box">
                                                     <div className="d-flex justify-content-between align-items-center">
                                                         <p className="property-text"><img src={require("../../assets/images/property-icon.svg").default} className="" alt="icons" /> Property Name</p>
-                                                        <p className="under-property"><b>{propti?.propertyName || "-"}</b></p>
+                                                        <p className="under-property">{propti?.propertyName || "-"}</p>
                                                     </div>
                                                     <div className="temparature-box-outer">
                                                         <div className="temparature-box-inner">

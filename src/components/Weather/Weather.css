@@ -295,6 +295,7 @@
 .under-property{
     color: #31353B;
     font-size: 14px;
+    font-weight: 500;
 }
 @media (max-width: 1700px) {
     .ten-day-forecast .swiper-slide:first-child {
