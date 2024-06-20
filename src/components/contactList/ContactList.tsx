@@ -128,7 +128,7 @@ const ContactList: React.FC = () => {
         return string.charAt(0).toUpperCase() + string.slice(1);
     };
 
-    const sortByOption = ["Name ASC", "Role ASC", "Joined ASC", "Phone ASC", "Email ASC", "Name DESC", "Role DESC", "Joined DESC", "Phone DESC", "Email DESC"];
+    // const sortByOption = ["Name ASC", "Role ASC", "Joined ASC", "Phone ASC", "Email ASC", "Name DESC", "Role DESC", "Joined DESC", "Phone DESC", "Email DESC"];
 
     return (
         <section className='customer-section'>
@@ -181,9 +181,9 @@ const ContactList: React.FC = () => {
                                     value={`${capitalizeFirstLetter(filter.sortBy)} ${filter.orderBy}`}
                                     onChange={(e: ChangeEvent<HTMLSelectElement>) => sortcontactList(e.target.value)}>
                                     <option value={"Name DESC"}>SORT BY</option>
-                                    {sortByOption.map((option, index) => (
+                                    {/* {sortByOption.map((option, index) => (
                                         <option key={index} value={option}>{option.replace("ASC", "Ascending").replace("DESC", "Descending")}</option>
-                                    ))}
+                                    ))} */}
                                 </Form.Select>
                                 <img src={require("../../assets/images/mi_filter-blue.svg").default} className="ms-2" alt="icons" />
                             </div>
