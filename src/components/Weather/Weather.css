@@ -19,11 +19,14 @@
     width: 100%;
     background-color: #fff;
     color: #31353B;
+    padding: 11px;
+    font-size: 16px;
+    font-weight: normal;
 }
 
 .drop-down-upper i {
     position: absolute;
-    top: 11px;
+    top: 16px;
     right: 22px;
     color: #01337C;
 }
@@ -36,6 +39,14 @@
     border-radius: 8px;
     background: var(--Shades-0, #FFF);
     padding: 13px;
+}
+.forecast-box .heading-main {
+    font-weight: 500;
+    font-size: 14px;
+}
+.property-weather-box .property-text{
+    color: #5C626E;
+    font-size: 16px;
 }
 
 .heading-main span {
@@ -66,6 +77,7 @@
 
 .weather-main-txt {
     margin-left: 15px;
+    line-height: 21px;
 }
 
 .small-text {
@@ -157,7 +169,9 @@
     height: 100%;
     width: 100%;
 }
-
+.under-swiper .forecast-box {
+    height: 230px;
+}
 .forecast-box .heading-main {
     justify-content: center !important;
 }
@@ -204,6 +218,10 @@
 }
 .forecast-box p {
     font-size: 14px;
+    vertical-align: middle;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 .main-temp-shadow {
     background: #C0D9FF;
@@ -238,6 +256,7 @@
     font-style: normal;
     font-weight: 400;
     line-height: normal;
+    justify-content: start;
 }
 .current-weather-box .air-quality-box.active {
     border: 1px solid #f05348;
@@ -274,6 +293,11 @@
 }
 .weather-outer-section:first-child .air-quality-box.active{
     border: 1px solid #f05348;
+}
+.under-property{
+    color: #31353B;
+    font-size: 14px;
+    font-weight: 500;
 }
 @media (max-width: 1700px) {
     .ten-day-forecast .swiper-slide:first-child {

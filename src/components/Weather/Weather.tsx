@@ -8,28 +8,75 @@ import { useEffect, useState } from "react";
 import { APIServices } from "../../services/APIServices";
 import { exceptionHandling } from "../../Common/CommonComponents";
 import moment from "moment";
+
+interface WeatherWarning {
+    title: string;
+    description: string;
+    level: string;
+    alertTime: string;
+    weather: {
+        windSpeed: number;
+    };
+}
+
+interface CurrentWeather {
+    weatherTime: string;
+    tempratureFarenheit: number;
+    tempratureDescription: string;
+    tempratureFeelsLike: number;
+    airQuality: string;
+    windSpeed: number;
+    humidity: number;
+    visibility: number;
+    pressure: number;
+    dewPoint: number;
+}
+
+interface HourlyWeather {
+    weatherTime: string;
+    tempratureFarenheit: number;
+    tempratureDescription: string;
+    tempratureFeelsLike: number;
+}
+
+interface TenDaysWeather {
+    weatherDate: string;
+    maxTempratureInFarenheit: number;
+    minTempratureInFarenheit: number;
+    tempratureDescription: string;
+}
+
+interface PropertyWeather {
+    propertyName: string;
+    tempratureFarenheit: number;
+    tempratureDescription: string;
+    tempratureFeelsLike: number;
+    airQuality: string;
+    windSpeed: number;
+    humidity: number;
+}
+
 function WeatherDetail() {
-    const [weatherWarning, setWeatherWarning] = useState()
-    const [currentWather, setcurrentWather] = useState()
-    const [currentHourlyWather, setcurrentHourlyWather] = useState()
-    const [currentTenDaysWather, setcurrentTenDaysWather] = useState()
-    const [currentPropertyWather, setcurrentPropertyWather] = useState()
-    const [propertyWeather, setpropertyWeather] = useState("")
+    const [weatherWarning, setWeatherWarning] = useState<WeatherWarning | null>(null);
+    const [currentWeather, setCurrentWeather] = useState<CurrentWeather | null>(null);
+    const [currentHourlyWeather, setCurrentHourlyWeather] = useState<HourlyWeather[]>([]);
+    const [currentTenDaysWeather, setCurrentTenDaysWeather] = useState<TenDaysWeather[]>([]);
+    const [currentPropertyWeather, setCurrentPropertyWeather] = useState<PropertyWeather[]>([]);
+    const [propertyWeather, setPropertyWeather] = useState<TenDaysWeather | null>(null);
 
     useEffect(() => {
-        getWarningWeather()
-        getCurrentWeather()
-        getCurrentHourlyWeather()
-        getCurrenTenDaysWeather()
-        getCurrenPropertyWeather()
-    }, [])
+        getWarningWeather();
+        getCurrentWeather();
+        getCurrentHourlyWeather();
+        getCurrenTenDaysWeather();
+        getCurrenPropertyWeather();
+    }, []);
 
-    /* Weather Warning */
     async function getWarningWeather() {
         try {
             const response = await APIServices.HeatWather();
             if (response.status === 200) {
-                let responseData = response.data;
+                let responseData = response.data as WeatherWarning;
                 setWeatherWarning(responseData);
             } else {
                 throw new Error('Failed to fetch data');
@@ -39,13 +86,13 @@ function WeatherDetail() {
         }
     }
 
-    /* current weather */
     async function getCurrentWeather() {
         try {
             const response = await APIServices.currentWather();
             if (response.status === 200) {
-                let responseData = response.data;
-                setcurrentWather(responseData);
+                console.log("currentWeather-------->",response)
+                let responseData = response.data as CurrentWeather;
+                setCurrentWeather(responseData);
             } else {
                 throw new Error('Failed to fetch data');
             }
@@ -54,13 +101,12 @@ function WeatherDetail() {
         }
     }
 
-    /* hourly weather */
     async function getCurrentHourlyWeather() {
         try {
             const response = await APIServices.currentHourlyWather();
             if (response.status === 200) {
-                let responseData = response.data;
-                setcurrentHourlyWather(responseData);
+                let responseData = response.data as HourlyWeather[];
+                setCurrentHourlyWeather(responseData);
             } else {
                 throw new Error('Failed to fetch data');
             }
@@ -69,15 +115,13 @@ function WeatherDetail() {
         }
     }
 
-    /* 10 day forcaste weather */
     async function getCurrenTenDaysWeather() {
         try {
             const response = await APIServices.currentTenDaysWather();
             if (response.status === 200) {
-                let responseData = response.data;
-                setpropertyWeather(responseData.shift())
-                setcurrentTenDaysWather(responseData);
-
+                let responseData = response.data as TenDaysWeather[];
+                setPropertyWeather(responseData.shift() || null);
+                setCurrentTenDaysWeather(responseData);
             } else {
                 throw new Error('Failed to fetch data');
             }
@@ -85,15 +129,13 @@ function WeatherDetail() {
             exceptionHandling(error);
         }
     }
-
-    /* property forcaset */
 
     async function getCurrenPropertyWeather() {
         try {
             const response = await APIServices.currentPropertyWather();
             if (response.status === 200) {
-                let responseData = response.data;
-                setcurrentPropertyWather(responseData);
+                let responseData = response.data as PropertyWeather[];
+                setCurrentPropertyWeather(responseData);
             } else {
                 throw new Error('Failed to fetch data');
             }
@@ -101,7 +143,8 @@ function WeatherDetail() {
             exceptionHandling(error);
         }
     }
-    const formatDate = (dateString) => {
+
+    const formatDate = (dateString: string) => {
         const inputDate = moment(dateString);
         const today = moment();
 
@@ -111,6 +154,7 @@ function WeatherDetail() {
             return inputDate.format('ddd DD');
         }
     };
+
     return (
         <div>
             <section className='customer-section'>
@@ -161,17 +205,17 @@ function WeatherDetail() {
                                     <Row>
                                         <Col md={6}>
                                             <div className="current-weather-box">
-                                                <h5 className='heading-main text-dark'>Current Weather <span>{currentWather?.weatherTime ? moment(currentWather?.weatherTime).format("LT") : "-"}</span></h5>
+                                                <h5 className='heading-main text-dark'>Current Weather <span>{currentWeather?.weatherTime ? moment(currentWeather?.weatherTime).format("LT") : "-"}</span></h5>
                                                 <div className="outer-weather-main-box">
                                                     {/* <h5 className="temp-text">
-                                                        <img src={require("../../assets/images/air-1.png")} className="me-2" alt="icons" />{currentWather?.tempratureFarenheit ? currentWather?.tempratureFarenheit : "-"} <span> &#x2109;</span></h5> */}
+                                                        <img src={require("../../assets/images/air-1.png")} className="me-2" alt="icons" />{currentWeather?.tempratureFarenheit ? currentWeather?.tempratureFarenheit : "-"} <span> &#x2109;</span></h5> */}
                                                     <h5 className="temp-text">
-                                                        <img src={currentWather?.tempratureDescription == "Rainy" ? require("../../assets/images/scattered-1.png") : currentWather?.tempratureDescription == "Scattered Thunderstorm" ? require("../../assets/images/scattered-3.png") : currentWather?.tempratureDescription == "Hail Storm" ? require("../../assets/images/scattered-2.png") : require("../../assets/images/air-1.png")} className="me-2" alt="icons" />
-                                                        {currentWather?.tempratureFarenheit ? currentWather?.tempratureFarenheit : "-"} <span className="tem-icon main"> &#x2109;</span>
+                                                        <img src={currentWeather?.tempratureDescription == "Rainy" ? require("../../assets/images/scattered-1.png") : currentWeather?.tempratureDescription == "Scattered Thunderstorm" ? require("../../assets/images/scattered-3.png") : currentWeather?.tempratureDescription == "Hail Storm" ? require("../../assets/images/scattered-2.png") : require("../../assets/images/air-1.png")} className="me-2" alt="icons" />
+                                                        {currentWeather?.tempratureFarenheit ? currentWeather?.tempratureFarenheit : "-"} <span className="tem-icon main"> &#x2109;</span>
                                                     </h5>
                                                     <div className="weather-main-txt">
-                                                        <p>{currentWather?.tempratureDescription ? currentWather?.tempratureDescription : "-"}</p>
-                                                        <span className="small-text">Feels like {currentWather?.tempratureFeelsLike ? currentWather?.tempratureFeelsLike + "°" : "-"}</span>
+                                                        <p>{currentWeather?.tempratureDescription ? currentWeather?.tempratureDescription : "-"}</p>
+                                                        <span className="small-text">Feels like {currentWeather?.tempratureFeelsLike ? currentWeather?.tempratureFeelsLike + "°" : "-"}</span>
                                                     </div>
                                                 </div>
                                                 <div className="air-quality-outer">
@@ -181,7 +225,7 @@ function WeatherDetail() {
                                                         </span>
                                                         <div className="air-content">
                                                             <p>Air Quality</p>
-                                                            <h6>{currentWather?.airQuality ? currentWather?.airQuality : "-"}</h6>
+                                                            <h6>{currentWeather?.airQuality ? currentWeather?.airQuality : "-"}</h6>
                                                         </div>
                                                     </div>
                                                     <div className="air-quality-box active">
@@ -190,7 +234,7 @@ function WeatherDetail() {
                                                         </span>
                                                         <div className="air-content">
                                                             <p>Wind</p>
-                                                            <h6>{currentWather?.windSpeed ? currentWather?.windSpeed + " mp/h" : "-"} </h6>
+                                                            <h6>{currentWeather?.windSpeed ? currentWeather?.windSpeed + " mp/h" : "-"} </h6>
                                                         </div>
                                                     </div>
                                                     <div className="air-quality-box">
@@ -199,7 +243,7 @@ function WeatherDetail() {
                                                         </span>
                                                         <div className="air-content">
                                                             <p>Humidity</p>
-                                                            <h6>{currentWather?.humidity ? currentWather?.humidity + " %" : "-"}</h6>
+                                                            <h6>{currentWeather?.humidity ? currentWeather?.humidity + " %" : "-"}</h6>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -210,7 +254,7 @@ function WeatherDetail() {
                                                         </span>
                                                         <div className="air-content">
                                                             <p>Visibility</p>
-                                                            <h6>{currentWather?.visibility ? currentWather?.visibility + " km" : "-"}</h6>
+                                                            <h6>{currentWeather?.visibility ? currentWeather?.visibility + " km" : "-"}</h6>
                                                         </div>
                                                     </div>
                                                     <div className="air-quality-box">
@@ -219,7 +263,7 @@ function WeatherDetail() {
                                                         </span>
                                                         <div className="air-content">
                                                             <p>Pressure</p>
-                                                            <h6>{currentWather?.pressure ? currentWather?.pressure + " mb" : "-"}</h6>
+                                                            <h6>{currentWeather?.pressure ? currentWeather?.pressure + " mb" : "-"}</h6>
                                                         </div>
                                                     </div>
                                                     <div className="air-quality-box">
@@ -228,7 +272,7 @@ function WeatherDetail() {
                                                         </span>
                                                         <div className="air-content">
                                                             <p>Dew Point</p>
-                                                            <h6>{currentWather?.dewPoint ? currentWather?.dewPoint + "°" : "-"}</h6>
+                                                            <h6>{currentWeather?.dewPoint ? currentWeather?.dewPoint + "°" : "-"}</h6>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -245,6 +289,7 @@ function WeatherDetail() {
                                             </div>
                                         </Col>
                                     </Row>
+
                                     <hr className="line"></hr>
 
                                     <div className="forecast-weather mt-3">
@@ -255,17 +300,17 @@ function WeatherDetail() {
                                             className="mySwiper under-swiper"
 
                                         >
-                                            {currentHourlyWather?.length > 0 ?
-                                                currentHourlyWather?.map((item, index) => {
+                                            {currentHourlyWeather?.length > 0 ?
+                                                currentHourlyWeather?.map((item, index) => {
                                                     return (
 
                                                         <SwiperSlide>
 
                                                             <div className="forecast-box">
-                                                                <h5 className='heading-main text-dark mb-3'> {item?.weatherTime ? moment(item?.weatherTime).format('LT'):"-"}</h5>
+                                                                <h5 className='heading-main text-dark mb-3'> {item?.weatherTime ? moment(item?.weatherTime).format('LT') : "-"}</h5>
                                                                 <img src={item?.tempratureDescription == "Hail Storm" ? require("../../assets/images/heal-Strom-2.png") : item?.tempratureDescription == "Scattered Thunderstorm" ? require("../../assets/images/scatteredthunder.png") : item?.tempratureDescription == "Partly Sunny" ? require("../../assets/images/weather-2.png") : item?.tempratureDescription == "Sunny" ? require("../../assets/images/weather-3.png") : require("../../assets/images/cloud-1.png")} className="" alt="icons" />
                                                                 <h5 className="temp-text">{item?.tempratureFarenheit ? item?.tempratureFarenheit : "-"}&deg;</h5>
-                                                                <p><img src={require("../../assets/images/drop.svg").default} className="me-2" alt="icons" />{item?.tempratureFeelsLike ? item?.tempratureFeelsLike + "%" : "-"}</p>
+                                                                <p><img src={require("../../assets/images/drop.svg").default} className="me-1" alt="icons" />{item?.tempratureFeelsLike ? item?.tempratureFeelsLike + "%" : "-"}</p>
                                                                 <p className="mt-3">{item?.tempratureDescription ? item?.tempratureDescription : "-"}</p>
                                                             </div>
                                                         </SwiperSlide>
@@ -285,6 +330,9 @@ function WeatherDetail() {
                                             spaceBetween={8}
                                             className="mySwiper ten-day-forecast"
                                             breakpoints={{
+                                                1500: {
+                                                    slidesPerView: 6,
+                                                },
                                                 1600: {
                                                     slidesPerView: 7,
                                                 },
@@ -314,8 +362,8 @@ function WeatherDetail() {
                                                     </div>
                                                 </div>
                                             </SwiperSlide>
-                                            {currentTenDaysWather?.length > 0 ?
-                                                currentTenDaysWather?.map((item, index) => {
+                                            {currentTenDaysWeather?.length > 0 ?
+                                                currentTenDaysWeather?.map((item, index) => {
                                                     return (
                                                         <>
 
@@ -344,16 +392,17 @@ function WeatherDetail() {
                                 </div>
                             </div>
                         </Col>
+
                         <Col md={4}>
                             <div className="weather-outer-section">
-                                {currentPropertyWather?.length > 0 ?
-                                    currentPropertyWather?.map((propti, index) => {
+                                {currentPropertyWeather?.length > 0 ?
+                                    currentPropertyWeather?.map((propti, index) => {
                                         return (
                                             <>
                                                 <div className="property-weather-box">
                                                     <div className="d-flex justify-content-between align-items-center">
-                                                        <p><img src={require("../../assets/images/property-icon.svg").default} className="" alt="icons" /> Property Name</p>
-                                                        <p><b>{propti?.propertyName || "-"}</b></p>
+                                                        <p className="property-text"><img src={require("../../assets/images/property-icon.svg").default} className="" alt="icons" /> Property Name</p>
+                                                        <p className="under-property">{propti?.propertyName || "-"}</p>
                                                     </div>
                                                     <div className="temparature-box-outer">
                                                         <div className="temparature-box-inner">
@@ -407,10 +456,9 @@ function WeatherDetail() {
                         </Col>
                     </Row>
                 </div>
-                {/* weather summary section end */}
             </section>
         </div>
-    )
-
+    );
 }
+
 export default WeatherDetail;

@@ -293,7 +293,7 @@ const ContactList = () => {
                 <Modal.Body>
                     <div className="successfull-section text-center">
                         <img class="delete-img" src={require("../../assets/images/delete.svg").default} className="delete-icons" alt="icons" />
-                        <h4 className="succefull-txt">Are you sure want to delete this conatct list?</h4>
+                        <h4 className="succefull-txt"></h4>
                     </div>
                 </Modal.Body>
                 <Modal.Footer>
