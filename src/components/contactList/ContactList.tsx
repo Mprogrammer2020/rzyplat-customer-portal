@@ -287,19 +287,21 @@ const ContactList: React.FC = () => {
 
             </div>
             {/* Delete Confirmation Modal */}
-            <Modal show={showwarning} onHide={() => setshowwarning(false)} className='contact-delete-modal'>
+            <Modal show={showwarning} onHide={() => setshowwarning(false)} centered className='contact-delete-modal add-new-device-popup'>
                 <Modal.Body>
-                    <div className='text-center'>
+                    <div className='text-center successfull-section pb-0'>
                         {/* <img src={require("../../assets/images/material-symbols_warning-rounded.svg").default} alt="icons" /> */}
-                        <img class="delete-img" src={require("../../assets/images/delete.svg").default} className="delete-icons" alt="icons" />
-                        <h5 className='main-text-heading mt-3'>Are You Sure?</h5>
-                        <p className='text-heading'>Do you really want to delete these records?</p>
-                        <div className='d-flex align-items-center justify-content-center'>
-                            <Button className='cancel-btn' onClick={() => setshowwarning(false)}>No, Cancel</Button>
-                            <Button className='save-btn ms-3' onClick={() => handleDelete(contactID)}>Yes, Continue</Button>
-                        </div>
+                        <img className="delete-icons" src={require("../../assets/images/delete.svg").default}  alt="icons" />
+                        <p className='succefull-txt'>Are you sure want to delete this conatct list?</p>
+                        
                     </div>
                 </Modal.Body>
+                <Modal.Footer>
+                <div className='footer-btns-bottom-right mx-auto'>
+                            <Button className='cancel-btn' onClick={() => setshowwarning(false)}>No, Cancel</Button>
+                            <Button className='save-btn ms-3 add-btn delete-btn' onClick={() => handleDelete(contactID)}>Yes, Continue</Button>
+                        </div>
+                </Modal.Footer>
             </Modal>
             {/* Add/Edit Contact Modal */}
             {/* <AddNewContact

@@ -196,7 +196,14 @@ const AddNewContact: React.FC<AddNewContactProps> = ({ show, handleClose, editCo
                             <Col md={12} lg={6}>
                                 <Form.Group className="mb-2" controlId="formBasicPhone">
                                     <Form.Label>Phone</Form.Label>
-                                    <Form.Control type="text" maxLength={15} placeholder="Enter User Phone" name="phone" value={deviceDetail?.phone} onChange={handleInputChange} />
+                                    <Form.Control type="text" maxLength={15} placeholder="Enter User Phone" name="phone" value={deviceDetail?.phone} onChange={handleInputChange}
+                                     onKeyPress={(event) => {
+                                        // Allow only numbers to be entered, based on keyCodes
+                                        const charCode = event.which ? event.which : event.keyCode;
+                                        if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+                                            event.preventDefault();
+                                        }
+                                    }} />
                                     {deviceDetail.errors.phone && <span className="error">{deviceDetail.errors.phone}</span>}
                                 </Form.Group>
                             </Col>
