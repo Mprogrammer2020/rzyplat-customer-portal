@@ -152,10 +152,10 @@ body {
     background: #D8DFEA;
 }
 
-/* header {
+header {
     background: linear-gradient(231.98deg, #01337C 28.19%, #013A8C 28.2%, #013A8C 96.59%, #00C17B 119.39%);
     padding: 18px 15px;
-} */
+}
 
 .heading-main {
     font-size: 16px;
@@ -163,8 +163,11 @@ body {
     line-height: 19.36px;
     text-align: left;
     color: #fff;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    white-space: nowrap;
 }
-
 .header-right-box .form-control {
     border: 1px solid #6791D0;
     background: #ffffff1c;
@@ -335,6 +338,7 @@ body {
     padding: 12px;
     /* min-width: 261px; */
     width: inherit;
+    white-space: nowrap;
 }
 
 .customer-container-body .table td {
@@ -1084,6 +1088,7 @@ hr {
 .footer-btns-bottom-right .add-btn {
     background: #01337c !important;
     border: 1px solid #01337c !important;
+    padding: 6px 22px;
 }
 .succefull-txt {
     color:  #01337C;
@@ -1109,6 +1114,72 @@ hr {
     text-overflow: ellipsis;
     white-space: nowrap;
     padding-right: 12px;
+}
+
+.inventory-detail-top-right h6 {
+    background: #c0d9ff;
+    color: #01337c;
+    font-size: 15px;
+    font-weight: 600;
+    padding: 8px 12px;
+    border-radius: 6px;
+    cursor: pointer;
+    margin-right: 12px;
+}
+.inventory-detail-top-right h6 i {
+    margin-left: 4px;
+
+}
+.swal-button {
+    background-color: #01337C !important;
+    color: #fff;
+    border: none;
+    box-shadow: none;
+    border-radius: 5px;
+    font-weight: 600;
+    font-size: 14px;
+    padding: 6px 24px;
+    margin: 0;
+    cursor: pointer;
+}
+button.swal-button.swal-button--cancel {
+    background: #808080a6 !important;
+}
+.swal-button:focus {
+    box-shadow: unset !important;
+}
+img.delete-icons {
+    width: 70px;
+}
+h5.heading-main img {
+    cursor: pointer;
+}
+.no-data-area {
+    min-height: 400px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    text-align: center;
+}
+.no-data-area img {
+    mix-blend-mode: multiply;
+}
+.no-data-area h6 {
+    background: #edf1f7;
+}
+img.forward-arrow {
+    margin: 0 8px;
+}
+.heading-main span.active {
+    color: #ffffffa6;
+}
+.heading-main span {
+    color: #fff;
+}
+td.action-div img {
+    width: 24px;
+    min-width: 24px;
 }
 /* media-query */
 @media (max-width: 1700px) {
@@ -1151,6 +1222,9 @@ hr {
 }
 
 @media (max-width: 991px) {
+    .customer-container-body .table td {
+        font-size: 14px;
+    }
     .new-conversation-right {
         display: flex;
         align-items: center;
@@ -1190,6 +1264,12 @@ hr {
     }
 }
 @media (max-width: 600px) {
+   .customer-mobile-outer {
+        margin-top: 0;
+    }
+    .customer-outer-section.inventory-contnet-area {
+        margin-top: 60px;
+    }
     .header-right-box .form-control {
         display: none;
     }
@@ -1224,8 +1304,8 @@ hr {
         left: 0;
         padding: 21px;
         top: 53px;
+        z-index: 9;
     }
-
     header {
         border-radius: 0 0 12px 12px;
         position: fixed;
@@ -1296,6 +1376,22 @@ hr {
 }
 
 @media (max-width: 575px) {
+    .customer-list-header-mobile {
+        position: fixed;
+        width: 100%;
+        left: 0;
+        padding: 21px;
+        top: 80px;
+        z-index: 9;
+    }
+    .customer-mobile-outer.inventory-detail-mobile-outer {
+        margin-top: 0;
+        padding: 0;
+    }
+    .customer-mobile-outer {
+        margin-top: 60px;
+        padding: 0 10px;
+    }
     .customer-outer-section {
         margin-top: 70px;
         padding: 10px;
@@ -1325,6 +1421,9 @@ hr {
 }
 
 @media (max-width: 480px) {
+    img.delete-icons {
+        width: 50px;
+    }
     .device-content-inner button {
         font-size: 14px;
     }
@@ -1356,7 +1455,7 @@ hr {
     }
 
     .devices-area-top-right h6 {
-        margin: 0 0 0 12px;
+        margin: 0;
         font-size: 12px;
     }
 
@@ -1397,7 +1496,7 @@ hr {
     }
 
     button.required-devices {
-        min-width: 165px;
+        min-width: 150px;
     }
 
     .new-conversation-right button {
@@ -1407,10 +1506,18 @@ hr {
         justify-content: center;
         align-items: center;
     }
+    .mobile-side-customer .role, .number {
+        font-size: 13px;
+    }
 }
 
 @media (max-width: 420px) {
-
+    .heading-main {
+        margin-bottom: 3px;
+    }
+    .footer-btns-bottom-right .add-btn {
+        padding: 5px 22px;
+    }
     .inner-hover-divice.first-child-section button {
         margin-top: 4px;
         font-size: 12px;

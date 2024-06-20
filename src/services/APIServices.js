@@ -25,20 +25,64 @@ export const APIServices = {
     uploadBulkDevice,
     addDeviceType,
     getCustomers,
-    deleteCustomer
+    getcontactList,
+    AddContact,
+    updateContact,
+    deleteContact,
+    deleteCustomer,
+    getDevices,
+    deleteDevices,
+    getDeviceCategories,
+    getDeviceTypeByCategoryIdDeviceDropdown,
+    updateDevice,
+    getDeviceCategoryCount,
+    HeatWather,
+    currentWather,
+    currentHourlyWather,
+    currentTenDaysWather,
+    currentPropertyWather
+    
+}
+
+function updateDevice(params) {
+    return axios.put(`${config.apiUrl}/devices/${params?.deviceId}`, params, configJsonHeaders());
 }
 
 function getCategories(page, size = 10, orderBy, direction) {
     return axios.get(`${config.apiUrl}/categories?pageNumber=${page}&pageSize=${size}&orderBy=${orderBy}&direction=${direction}`, configJsonHeaders());
 }
 
+function getDeviceCategories() {
+    return axios.get(`${config.apiUrl}/categories/basic`, configJsonHeaders());
+}
+
+function getDevices(page, size = 10, orderBy, direction,category_id, device_typeId) {
+    return axios.get(`${config.apiUrl}/devices?pageNumber=${page}&pageSize=${size}${orderBy ? "&orderBy="+orderBy :"" }${direction ? "&direction="+direction :""}&categoryId=${category_id}${device_typeId ? "&deviceTypeId="+device_typeId :""}`, configJsonHeaders());
+}
+function deleteDevices(deviceId) {
+    return axios.delete(`${config.apiUrl}/devices/${deviceId}`, configJsonHeaders());
+}
+
 function getDeviceTypeByCategoryId(categoryId, page, size = 10) {
     return axios.get(`${config.apiUrl}/device-type/${categoryId}?pageNumber=${page}&pageSize=${size}`, configJsonHeaders());
+}
+
+//getDeviceCategoryCount
+
+function getDeviceCategoryCount(categoryId) {
+    return axios.get(`${config.apiUrl}/categories/${categoryId}`, configJsonHeaders());
+}
+
+
+function getDeviceTypeByCategoryIdDeviceDropdown(categoryId) {
+    return axios.get(`${config.apiUrl}/device-type/basic/${categoryId}`, configJsonHeaders());
 }
 
 function addCategory(params) {
     return axios.post(`${config.apiUrl}/categories`, params, configMultipartHeaders());
 }
+
+
 
 function addDevice(params) {
     return axios.post(`${config.apiUrl}/devices`, params, configJsonHeaders());
@@ -58,4 +102,39 @@ function getCustomers(page, size, orderBy, direction) {
 
 function deleteCustomer(customerId) {
     return axios.delete(`${config.apiUrl}/customers/${customerId}`, configJsonHeaders());
+}
+
+function getcontactList(page, size, orderBy, direction) {
+    return axios.get(`${config.apiUrl}/contacts/search?pageNumber=${page}&pageSize=${size}&orderBy=${orderBy}&direction=${direction}`, configJsonHeaders());
+}
+
+function deleteContact(contactId) {
+    return axios.delete(`${config.apiUrl}/contacts/${contactId}`, configJsonHeaders());
+}
+
+function AddContact(params) {
+    return axios.post(`${config.apiUrl}/contacts`, params, configJsonHeaders());
+}
+
+function updateContact(params) {
+    return axios.put(`${config.apiUrl}/contacts/${params.id}`, params, configJsonHeaders());
+}
+
+/* weather page */
+function HeatWather() {
+    return axios.get(`${config.apiUrl}/weather/alerts`, configJsonHeaders());
+}
+
+function currentWather() {
+    return axios.get(`${config.apiUrl}/weather/hourly/current`, configJsonHeaders());
+}
+
+function currentHourlyWather() {
+    return axios.get(`${config.apiUrl}/weather/hourly`, configJsonHeaders());
+}
+function currentTenDaysWather() {
+    return axios.get(`${config.apiUrl}/weather/daily`, configJsonHeaders());
+}
+function currentPropertyWather() {
+    return axios.get(`${config.apiUrl}/weather/hourly/current/properties`, configJsonHeaders());
 }

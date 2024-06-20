@@ -5,7 +5,7 @@ import { APIServices } from '../services/APIServices';
 import { exceptionHandling } from '../Common/CommonComponents';
 import Skeleton from 'react-loading-skeleton';
 import swal from 'sweetalert';
-import "@testing-library/jest-dom";
+// import "@testing-library/jest-dom";
 
 
 const Customer = () => {
@@ -15,9 +15,6 @@ const Customer = () => {
     const customersRef = useRef();
     const loadingResponse = useRef(false);
 
-
-
-    // Fetch customer data from API
     useEffect(() => {
 
         // Call getCustomers function
@@ -103,6 +100,7 @@ const Customer = () => {
     const onScroll = async () => {
         if (customersRef.current) {
             const { scrollTop, scrollHeight, clientHeight } = customersRef.current;
+            // console.log("scrollTop + clientHeight === scrollHeight", scrollTop + clientHeight, scrollHeight, scrollTop, clientHeight);
             if (scrollTop + clientHeight === scrollHeight) {
                 const totalPages = Math.ceil(customers?.totalElements / filter.size);
                 let filterTemp = { ...filter };
@@ -168,9 +166,6 @@ const Customer = () => {
                                 })}
                             </Form.Select>
                             <img src={require("../assets/images/mi_filter-blue.svg").default} className="ms-2" alt="icons" />
-                            {/* <h5 onClick={() => sortCustomers()}><span > </span>
-                                
-                            </h5> */}
                             <p className='mobile-tab'>{customers?.totalRecords}</p>
                         </div>
                     </div>
@@ -189,7 +184,6 @@ const Customer = () => {
                             </tr>
                         </thead>
                         <tbody ref={customersRef} onScroll={onScroll} className="customer-scroll">
-                            {/* <div ref={customersRef} onScroll={onScroll} className="customer-scroll"> */}
                             {customers.length <= 0 ? <div className='border-radius'>
                                 <tr>
                                     <td><Skeleton className="main-wallet-top mb-2" height={30} width={150} count={20} /></td>
@@ -199,7 +193,6 @@ const Customer = () => {
                                     <td><Skeleton className="main-wallet-top mb-2" height={30} width={150} count={20} /></td>
                                     <td><Skeleton className="main-wallet-top mb-2" height={30} width={150} count={20} /></td>
                                     <td><Skeleton className="main-wallet-top mb-2" height={30} width={150} count={20} /></td>
-
                                 </tr>
                             </div> : customers?.list?.map((customer, index) => (
                                 <tr key={index}>
@@ -224,15 +217,14 @@ const Customer = () => {
                                         <img src={require("../assets/images/ic_round-delete.svg").default} className="cursor-pointer" alt="icons" onClick={() => handleDelete(customer.id)} />
                                     </td>
                                 </tr>
-
                             ))}
-                            {/* </div> */}
                         </tbody>
                     </table>
                 </div>
 
                 {/* mobile side cards */}
-                <div ref={customersRef} onScroll={onScroll} className="customer-scroll mobile">
+                <div className='customer-mobile-outer'>
+                <div ref={customersRef} onScroll={onScroll} className="customer-scroll mobile ">
                     {customers.length <= 0 ?
                         <>{
                             Array.from({ length: 5 }).map(() => (<div className='mobile-side-customer'>
@@ -265,7 +257,8 @@ const Customer = () => {
                                 </div>
                             </div>
                         ))}
-                </div>
+                    </div>
+                    </div>
             </div>
         </section>
     );

@@ -6,7 +6,8 @@ import Select from "react-select";
 import Loader from "../../Common/Loader";
 import swal from "sweetalert";
 
-const AddDeviceCategory = ({ show, handleClose }) => {
+const AddDeviceCategory = ({ show, handleClose, editDevice }) => {
+    console.log("show, editDevice ", show, editDevice)
     const deviceImageRef = useRef(null);
     const [deviceCategoryOptions, setDeviceCategoryOptions] = useState([]);
     const [deviceOptions, setDeviceOptions] = useState([]);
@@ -20,23 +21,27 @@ const AddDeviceCategory = ({ show, handleClose }) => {
     });
 
     useEffect(() => {
-        getCategories(0, 30);
-    }, [])
+        getDeviceCategories()
+        if (editDevice) {
+        getDeviceTypeByCategoryIdDeviceDropdown(editDevice.categoryId)
 
-    // useEffect(() => {
-    //     setDeviceDetail({
-    //         ...deviceDetail,
-    //         deviceImage: "", deviceName: "",
-    //         sku: "", serialNumber: "", deviceCategory: "",
-    //         errors: { deviceImage: "", deviceName: "", sku: "", serialNumber: "", deviceCategory: "", }
-    //     })
-    // }, [deviceDetail.showBulkUpload])
+            setDeviceDetail({
+                ...deviceDetail,
+                serialNumber:editDevice.serialNumber,
+                deviceCategory:{value:editDevice.categoryId,label:editDevice.categoryName},
+                deviceName:{value:editDevice.deviceTypeId,label:editDevice.deviceTypeLabel},
+                sku:editDevice.sku,
 
-    async function getCategories(page, size) {
+            })
+
+        }
+    }, [editDevice])
+
+    async function getDeviceCategories() {
         try {
-            const response = await APIServices.getCategories(page, size,"name","desc");
+            const response = await APIServices.getDeviceCategories();
             if (response.status === 200) {
-                const options = response.data.list.map(item => { return { value: item.id, label: item.name } })
+                const options = response.data.map(item => { return { value: item.id, label: item.name } })
                 setDeviceCategoryOptions(options);
             } else {
                 throw new Error('Failed to fetch data');
@@ -47,11 +52,12 @@ const AddDeviceCategory = ({ show, handleClose }) => {
         }
     }
 
-    async function getDeviceTypeByCategoryId(categoryId, page, size) {
+    // getDeviceTypeByCategoryIdDeviceDropdown
+    async function getDeviceTypeByCategoryIdDeviceDropdown(categoryId) {
         try {
-            const response = await APIServices.getDeviceTypeByCategoryId(categoryId, page, size);
+            const response = await APIServices.getDeviceTypeByCategoryIdDeviceDropdown(categoryId);
             if (response.status === 200) {
-                setDeviceOptions(response.data.list.map(item => { return { value: item.id, label: item.type } }))
+                setDeviceOptions(response.data.map(item => { return { value: item.id, label: item.type } }))
             } else {
                 throw new Error('Failed to fetch data');
             }
@@ -62,10 +68,9 @@ const AddDeviceCategory = ({ show, handleClose }) => {
     }
 
     function selectDeviceCategory(e) {
-        getDeviceTypeByCategoryId(e.value, 0, 30);
+        getDeviceTypeByCategoryIdDeviceDropdown(e.value)
         setDeviceDetail({ ...deviceDetail, deviceCategory: e, deviceName: "", errors: {} });
     }
-
 
     function selectDeviceImage() {
         if (deviceImageRef.current) {
@@ -138,12 +143,13 @@ const AddDeviceCategory = ({ show, handleClose }) => {
                 sku: "", serialNumber: "", deviceCategory: "",
                 errors: { deviceImage: "", deviceName: "", sku: "", serialNumber: "", deviceCategory: "", }
             });
-        }else{
-            swal("",  `File type "${fileName.split('.').pop()}" is not supported. Please upload a CSV or xls file.`, "error");
+        } else {
+            swal("", `File type "${fileName.split('.').pop()}" is not supported. Please upload a CSV or xls file.`, "error");
 
         }
     }
 
+    // add device category
     const addDeviceCategory = async () => {
         const errors = checkValidation();
         if (Object.keys(errors).length === 0) {
@@ -182,16 +188,55 @@ const AddDeviceCategory = ({ show, handleClose }) => {
                 setShowLoader(false);
                 console.error('Error fetching data:', error);
             }
-        } else {
+        } 
+        else {
             setDeviceDetail({ ...deviceDetail, errors });
         }
     };
 
-    return (<>
+    // edit device category
+    const editDeviceCategory = async () => {
+        console.log("editDeviceCategory")
+        const errors = checkValidation();
+        if (Object.keys(errors).length === 0) {
+            try{
+                let response;
+                setShowLoader(true)
+                const params = {
+                    categoryId: deviceDetail.deviceCategory.value,
+                    deviceTypeId: deviceDetail.deviceName.value,
+                    serialNumber: deviceDetail.serialNumber,
+                    deviceId: editDevice.id
+                }
+                console.log("params",params)
+                response = await APIServices.updateDevice(params);
+                if (response.status === 200) {
+                    handleClose();
+                    console.log("updateDevice=========",response)
+                    setShowLoader(false);
+                    swal("Success", "Device has been successfully updated.", "success").then(() => { });
+                } else {
+                    throw new Error('Failed to fetch data');
+                }
+            }
+            catch (error) {
+                exceptionHandling(error);
+                setShowLoader(false);
+                console.error('Error fetching data:', error);
+            }
+        }
+        else {
+            setDeviceDetail({ ...deviceDetail, errors });
+        }
+  
+
+    }
+    return (
+    <>
         <Form.Control ref={deviceImageRef} type="file" name="deviceImage" accept="image/*" style={{ display: "none" }} onChange={handleImageChange} />
         <Modal show={show} onHide={() => handleClose()} centered className='add-new-device-popup add-new-popup' size='lg' backdrop="static">
             <Modal.Header>
-                <Modal.Title>Add New {deviceDetail.showBulkUpload ? "Device" : "Category"}</Modal.Title>
+                <Modal.Title>{editDevice ? "Edit" : "Add"} New {deviceDetail.showBulkUpload ? "Device" : "Category"}</Modal.Title>
             </Modal.Header>
             <Modal.Body>
                 <Form>
@@ -241,7 +286,7 @@ const AddDeviceCategory = ({ show, handleClose }) => {
                                             })
                                         }}
                                     /> :
-                                        <Form.Control type="text" placeholder="Enter Device Name" maxLength={50} name="deviceName" onChange={handleInputChange} />}
+                                        <Form.Control type="text" placeholder="Enter Device Name" maxLength={50} value={deviceDetail?.deviceName} name="deviceName" onChange={handleInputChange} />}
 
                                 </Form.Group>
                                 {deviceDetail.errors.deviceName && <span className="error">{deviceDetail.errors.deviceName}</span>}
@@ -249,21 +294,21 @@ const AddDeviceCategory = ({ show, handleClose }) => {
                             <Col md={12} lg={6}>
                                 <Form.Group className="mb-2" controlId="formBasicEmail">
                                     <Form.Label>Serial Number</Form.Label>
-                                    <Form.Control type="text" maxLength={50} placeholder="Enter Serial Number" name="serialNumber" onChange={handleInputChange} />
+                                    <Form.Control type="text" maxLength={15} value={deviceDetail?.serialNumber}  placeholder="Enter Serial Number" name="serialNumber" onChange={handleInputChange} />
                                 </Form.Group>
                                 {deviceDetail.errors.serialNumber && <span className="error">{deviceDetail.errors.serialNumber}</span>}
                             </Col>
                             <Col md={12} lg={6}>
                                 <Form.Group className="mb-2" controlId="formBasicEmail">
                                     <Form.Label>SKU</Form.Label>
-                                    <Form.Control type="text" maxLength={50} name="sku" onChange={handleInputChange} />
+                                    <Form.Control type="text" maxLength={12} value={deviceDetail?.sku} readOnly={editDevice ? true : false} name="sku" onChange={handleInputChange} />
                                 </Form.Group>
                                 {deviceDetail.errors.sku && <span className="error">{deviceDetail.errors.sku}</span>}
                             </Col>
                         </> : ""}
                     </Row>
                 </Form>
-                {deviceDetail.showBulkUpload && <>
+                {editDevice ? <></> : deviceDetail.showBulkUpload && <>
                     <p>or bulk upload</p>
                     <div className='upload-file'>
                         <img src={require("../../assets/images/upload-file.png")} alt='upload-img' />
@@ -273,7 +318,7 @@ const AddDeviceCategory = ({ show, handleClose }) => {
                 </>}
             </Modal.Body>
             <Modal.Footer>
-                <div className='footer-btns-bottom-left'>
+                {editDevice ? "" : <div className='footer-btns-bottom-left'>
                     {deviceDetail.showBulkUpload ? <Button type='button' variant='unset' onClick={() => setDeviceDetail({
                         ...deviceDetail, showBulkUpload: false, deviceImage: "", deviceName: "",
                         sku: "", serialNumber: "", deviceCategory: "",
@@ -281,14 +326,19 @@ const AddDeviceCategory = ({ show, handleClose }) => {
                     })}> NEW CATEGORY</Button> :
                         <Button type='button' variant='unset' onClick={() => selectDeviceImage()}><i class="fa fa-upload" aria-hidden="true"></i> {deviceDetail.deviceImage && deviceDetail.deviceImage?.name ? deviceDetail.deviceImage.name : "Upload Image"}</Button>}
                     {!deviceDetail.showBulkUpload && deviceDetail.errors.deviceImage && <span className="error">{deviceDetail.errors.deviceImage}</span>}
-                </div>
+                </div>}
                 <div className='footer-btns-bottom-right'>
-                    <Button variant="secondary" onClick={handleClose} disabled={showLoader}>
+                    <Button variant="secondary" onClick={(e) => {handleClose(); editDevice = false}} disabled={showLoader}>
                         CANCEL
                     </Button>
+                    {editDevice ?  
+                    <Button variant="primary" className={Object.keys(checkValidation()).length === 0 ? "add-btn" : ""} onClick={editDeviceCategory} disabled={showLoader || Object.keys(checkValidation()).length !== 0 ? true : false}>
+                    {showLoader ? <Loader loaderType={"COLOR_RING"} width={25} height={25} /> : "EDIT"}
+                </Button>
+                    :
                     <Button variant="primary" className={Object.keys(checkValidation()).length === 0 ? "add-btn" : ""} onClick={addDeviceCategory} disabled={showLoader || Object.keys(checkValidation()).length !== 0 ? true : false}>
                         {showLoader ? <Loader loaderType={"COLOR_RING"} width={25} height={25} /> : "ADD"}
-                    </Button>
+                    </Button>}
                 </div>
 
             </Modal.Footer>

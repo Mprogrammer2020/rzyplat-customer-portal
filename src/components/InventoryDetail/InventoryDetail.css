@@ -1,0 +1,180 @@
+.inventory-detail-outer .customer-container-body .table td {
+    min-width: unset;
+}
+.inventory-detail-top-right {
+    display: flex;
+    align-items: center;
+}
+.inventory-detail-outer {
+    background: #edf1f7;
+    border-radius: 10px;
+}
+.inventory-detail-columns {
+    padding: 20px;
+}
+/* .inventory-detail-columns .device-content-inner {
+    margin: 20px 0 0;
+} */
+.device-content-inner {
+    box-shadow: 0px 12px 27.1px -16px rgba(5, 31, 68, 0.40);
+    border-radius: 10px;
+}
+.inventory-detail-columns .device-content-inner img {
+    width: 100%;
+    height: 210px;
+    object-fit: cover;
+    border-radius: 6px;
+}
+
+.inventory-detail-columns .device-content-inner:hover .device-info {
+    background: none;
+}
+.device-content-inner.active {
+    background: #013a8c;
+}
+.device-content-inner.active .device-info p, .device-content-inner.active .device-info h6 {
+    color: #fff;
+}
+.sort-box img {
+    right: 27px !important;
+}
+ .customer-scroll-main {
+    overflow-y: scroll;
+    top: 10px !important;
+    position: relative;
+    max-height: 642px;
+    height: 100%;
+    margin-bottom: 0;
+    display: block;
+}
+.smoke-detector-mobile-outer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.smoke-detector-mobile-outer .action-div {
+    display: flex;
+    break-after: column;
+    padding: 0 !important;
+}
+.smoke-detector-mobile-outer-left p {
+    color: #01337C;
+    font-weight: 400;
+}
+.smoke-detector-mobile-outer-left h6 {
+    font-size: 17px;
+    margin-bottom: 4px;
+}
+.serial-sku {
+    display: flex;
+    align-items: center;
+}
+.smoke-detector-serial, .smoke-detector-sku {
+    background: #EDF1F7;
+    width: 50%;
+    margin: 10px 8px 10px 0;
+    padding: 10px;
+    border-radius: 5px;
+}
+.serial-sku h5 {
+    color: #5C626EB2;
+    font-size: 16px;
+    margin-bottom: 3px;
+}
+.serial-sku p {
+    color: #000;
+    font-size: 15px;
+}
+p.added-date {
+    font-size: 14px;
+    font-weight: 500;
+    margin: 2px 0 0 0;
+}
+.inventory-detail-outer .customer-list-header h3 {
+    color: #01337C;
+    font-size: 16px;
+    display: none;
+}
+.inventory-detail-top-right .sort-by-top-right h6.inventory-detail-sortby {
+    width: 108px;
+}
+/* .inventory-outer-content-area .customer-container-body .table tbody tr{
+    margin-bottom: 14px;
+} */
+
+.customer-scroll-main tr {
+    margin-bottom: 14px !important;
+}
+
+.delete-img {
+    width: 72px;
+}
+/* media-query */
+@media (max-width: 600px) { 
+    
+    .inventory-detail-outer .customer-list-header h3 {
+    display: block;
+    }
+h6.inventory-add {
+    display: none;
+}
+.inventory-detail-outer h5.heading-main {
+    display: none;
+}
+    .device-info {
+        padding: 0 !important;
+    }
+    .inventory-detail-outer {
+        background: none;
+        border-radius: 10px;
+        margin: 0 10px;
+    }
+    .inventory-detail-columns {
+        padding: 0;
+        margin-top: 24px;
+    }
+    h6.inventory-detail-sortby span {
+        display: none;
+    }
+    .inventory-detail-top-right .sort-by-top-right h6.inventory-detail-sortby {
+        width: fit-content;
+        margin-right: 15px;
+    }
+}
+@media (max-width: 575px) {
+    .inventory-detail-columns {
+        padding: 0;
+        margin-top: 35px;
+    }
+.customer-outer-section.inventory-outer-content-area {
+    margin-top: 140px;
+}
+
+.inventory-detail-outer .heading-main img {
+    display: none;
+}
+}
+@media (max-width: 480px) {
+.inventory-detail-columns .device-content-inner img {
+    width: 100%;
+    height: 160px;
+    object-fit: cover;
+    border-radius: 6px;
+}
+
+}
+@media (max-width: 420px) {
+    .customer-outer-section.inventory-outer-content-area {
+        margin-top: 140px;
+    }
+    .inventory-detail-columns .device-content-inner img {
+        width: 100%;
+        height: 120px;
+        object-fit: cover;
+        border-radius: 6px;
+    }
+    .device-info {
+        padding: 0;
+    }
+  
+}

@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Button, Col, Form, Modal, Row } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
+import { Link,useNavigate } from 'react-router-dom';
 import Select from "react-select";
 import AddNewDeviceType from './modals/AddNewDeviceType';
 import AddDeviceCategory from './modals/AddDeviceCategory';
@@ -8,14 +8,17 @@ import { APIServices } from '../services/APIServices';
 import { exceptionHandling, getFileURL } from '../Common/CommonComponents';
 import Skeleton from 'react-loading-skeleton';
 
+
 const Inventory = () => {
-    const [categoryId, setCategoryId] = useState();
+    const navigate = useNavigate();
+    const [categoryId, setCategoryId] = useState("");
     const [showAddNewDeviceModal, setShowAddNewDeviceModal] = useState(false);
     const [showCategoryModal, setShowCategoryModal] = useState(false);
     const [showSortBy, setShowSortBy] = useState(false);
     const [categories, setCategories] = useState([]);
     const [filter, setFilter] = useState({ page: 0, size: 30, orderBy: "name", direction: "desc" });
     const inventoryRef = useRef();
+    // const navigate = useNavigate();
 
 
 
@@ -34,12 +37,12 @@ const Inventory = () => {
     }, []);
 
     function addNewDevice(categoryId) {
-        setCategoryId(categoryId);
+        setCategoryId(categoryId)
         setShowAddNewDeviceModal(true);
     }
 
     const handleNewDeviceClose = () => {
-        getCategories(filter);
+        // getCategories(filter);
         setShowAddNewDeviceModal(false);
     };
 
@@ -60,6 +63,7 @@ const Inventory = () => {
             const response = await APIServices.getCategories(filter.page, filter.size, filter.orderBy, filter.direction);
             if (response.status === 200) {
                 let responseData = response.data;
+                console.log("responseData=====",responseData)
                 let tempList;
                 if (filter.page == 0) {
                     tempList = [];
@@ -79,10 +83,12 @@ const Inventory = () => {
         }
     }
 
+   
+
     const onScroll = async () => {
         if (inventoryRef.current) {
             const { scrollTop, scrollHeight, clientHeight } = inventoryRef.current;
-            console.log("scrollTop + clientHeight === scrollHeight",scrollTop + clientHeight , scrollHeight);
+            // console.log("scrollTop + clientHeight === scrollHeight",scrollTop + clientHeight , scrollHeight);
             if (scrollTop + clientHeight === scrollHeight) {
                 const totalPages = Math.ceil(categories.totalElements / filter.size);
                 console.log("totalPages",totalPages);
@@ -124,7 +130,6 @@ const Inventory = () => {
                                     <Form.Group className="position-relative w-50" controlId="exampleForm.ControlInput1">
                                         <img src={require("../assets/images/iconamoon_search.svg").default} className="search-icon" alt="icons" />
                                         <Form.Control type="email" placeholder="Search" />
-                                        {/* <span className='cutomer-text'>CUSTOMERS</span> */}
                                         <img src={require("../assets/images/mi_filter.svg").default} className="filter-icon" alt="icons" />
                                     </Form.Group>
                                     <Link>
@@ -139,7 +144,7 @@ const Inventory = () => {
                     </Row>
                 </header>
                 {/* header section ends */}
-                <div className='customer-outer-section' >
+                <div className='customer-outer-section inventory-contnet-area' >
                     <div className='new-conversation'>
                         <Row>
                             <Col md={12} lg={6}>
@@ -189,7 +194,6 @@ const Inventory = () => {
                                         <ul>
                                             <li className={filter.orderBy == "name" ? 'active' : ""} onClick={() => sortByDevice("name", filter.direction)}>Name</li>
                                             <li className={filter.orderBy == "createdOn" ? 'active' : ""} onClick={() => sortByDevice("createdOn", filter.direction)}>Date</li>
-                                            {/* <li>Quantity</li> */}
                                             <hr></hr>
                                             <li className={filter.direction == "asc" ? 'active' : ""} onClick={() => sortByDevice(filter.orderBy, "asc")}>Ascending</li>
                                             <li className={filter.direction == "desc" ? 'active' : ""} onClick={() => sortByDevice(filter.orderBy, "desc")}>Descending</li>
@@ -219,17 +223,14 @@ const Inventory = () => {
                                             </Col>))}
                                     </>
                                     :
-
                                     categories?.list?.map((item, index) => {
                                         return (<Col md={6} lg={6} xl={4}>
                                             <div className='position-relative add-green-btn-outer-box'>
                                                 <Button type='button' className='main-btn' variant='unset' onClick={() => addNewDevice(item?.id)}><i class="fa fa-plus" aria-hidden="true"></i> New Device Type</Button>
-                                                <div className='device-content-inner'>
+                                                <div className='device-content-inner' onClick={(e) => navigate(`/inventory-details?categoryId=${item.id}`, { state: item })}>
+                                                
                                                     <div className='position-relative'>
                                                         <img src={`data:${item?.imageContentType};base64,${item?.imageContent}`} alt="icons" />
-                                                        <div className='inner-img' >
-                                                            <img src={require("../assets/images/device1.png")} alt="icons" />
-                                                        </div>
                                                     </div>
                                                     <div className='device-info'>
                                                         <p>{item?.name}</p>
@@ -258,7 +259,8 @@ const Inventory = () => {
             </section>
 
             {showAddNewDeviceModal && <AddNewDeviceType show={showAddNewDeviceModal} handleClose={handleNewDeviceClose} categoryId={categoryId} />}
-            {showCategoryModal && <AddDeviceCategory show={showCategoryModal} handleClose={handleCategoryClose} />}
+            {showCategoryModal && 
+<AddDeviceCategory show={showCategoryModal} handleClose={handleCategoryClose} />}
 
         </>
 

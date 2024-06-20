@@ -1,0 +1,36 @@
+.mobile-tab-contact {
+    color: #01337C;
+    font-family: Inter;
+    font-size: 16px !important;
+    font-style: normal;
+    font-weight: 400 !important;
+    line-height: normal !important;
+    margin-right: 21px;
+}
+.inventory-add.contact-add-new-btn {
+    background: #C0D9FF;
+    padding: 8px 13px;
+    border-radius: 5px;
+    color: #01337C;
+    cursor: pointer;
+}
+.contact-section-modal .css-kch19p-control {
+    border-color: transparent;
+}
+.contact-section-modal .css-qx5h3x-placeholder {
+    color: #212529!important;
+    font-size: 13px !important;
+}
+.add-new-device-popup.contact-section-modal .form-control {
+    padding: 11px;
+}
+.contact-section-modal .css-kch19p-control:hover {
+    border-color: transparent;
+}
+.add-new-device-popup.contact-section-modal .modal-footer {
+    justify-content: end;
+}
+.contact-section-modal .add-btn.btn.btn-primary {
+    background: #01337C;
+    border-color: #01337C;
+}
