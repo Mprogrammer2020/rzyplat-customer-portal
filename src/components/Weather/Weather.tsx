@@ -310,7 +310,7 @@ function WeatherDetail() {
                                                                 <h5 className='heading-main text-dark mb-3'> {item?.weatherTime ? moment(item?.weatherTime).format('LT') : "-"}</h5>
                                                                 <img src={item?.tempratureDescription == "Hail Storm" ? require("../../assets/images/heal-Strom-2.png") : item?.tempratureDescription == "Scattered Thunderstorm" ? require("../../assets/images/scatteredthunder.png") : item?.tempratureDescription == "Partly Sunny" ? require("../../assets/images/weather-2.png") : item?.tempratureDescription == "Sunny" ? require("../../assets/images/weather-3.png") : require("../../assets/images/cloud-1.png")} className="" alt="icons" />
                                                                 <h5 className="temp-text">{item?.tempratureFarenheit ? item?.tempratureFarenheit : "-"}&deg;</h5>
-                                                                <p><img src={require("../../assets/images/drop.svg").default} className="me-2" alt="icons" />{item?.tempratureFeelsLike ? item?.tempratureFeelsLike + "%" : "-"}</p>
+                                                                <p><img src={require("../../assets/images/drop.svg").default} className="me-1" alt="icons" />{item?.tempratureFeelsLike ? item?.tempratureFeelsLike + "%" : "-"}</p>
                                                                 <p className="mt-3">{item?.tempratureDescription ? item?.tempratureDescription : "-"}</p>
                                                             </div>
                                                         </SwiperSlide>
@@ -401,8 +401,8 @@ function WeatherDetail() {
                                             <>
                                                 <div className="property-weather-box">
                                                     <div className="d-flex justify-content-between align-items-center">
-                                                        <p><img src={require("../../assets/images/property-icon.svg").default} className="" alt="icons" /> Property Name</p>
-                                                        <p><b>{propti?.propertyName || "-"}</b></p>
+                                                        <p className="property-text"><img src={require("../../assets/images/property-icon.svg").default} className="" alt="icons" /> Property Name</p>
+                                                        <p className="under-property"><b>{propti?.propertyName || "-"}</b></p>
                                                     </div>
                                                     <div className="temparature-box-outer">
                                                         <div className="temparature-box-inner">
