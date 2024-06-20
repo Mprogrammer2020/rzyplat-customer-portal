@@ -4,10 +4,8 @@ import Customer from './components/Customer'; // Import your Customer component
 import Inventory from './components/Inventory';
 import InventoryDetail from './components/InventoryDetail/InventoryDetail';
 import InventoryNewConnection from './components/InventoryNewConnection/InventoryNewConnection';
-// import ContactList from './components/contactList/ContactList';
 import ContactList from "./components/contactList/ContactList.tsx"
 import WeatherDetail from "./components/Weather/Weather.tsx"
-// import WeatherDetail from "./components/Weather/Weather"
 // Import other components as needed
 
 const Routing = () => {
