@@ -330,6 +330,9 @@ function WeatherDetail() {
                                             spaceBetween={8}
                                             className="mySwiper ten-day-forecast"
                                             breakpoints={{
+                                                1500: {
+                                                    slidesPerView: 6,
+                                                },
                                                 1600: {
                                                     slidesPerView: 7,
                                                 },
