@@ -105,7 +105,7 @@ function deleteCustomer(customerId) {
 }
 
 function getcontactList(page, size, orderBy, direction) {
-    return axios.get(`${config.apiUrl}/contacts/search?pageNumber=${page}&pageSize=${size}&orderBy=${orderBy}&direction=${direction}`, configJsonHeaders());
+    return axios.get(`${config.apiUrl}/contacts?pageNumber=${page}&pageSize=${size}&orderBy=${orderBy}&direction=${direction}`, configJsonHeaders());
 }
 
 function deleteContact(contactId) {

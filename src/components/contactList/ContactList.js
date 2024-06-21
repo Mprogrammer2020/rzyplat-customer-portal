@@ -306,10 +306,7 @@ const ContactList = () => {
                         </Button>
                     </div>
                 </Modal.Footer>
-
-
             </Modal>
-
             {showCategoryModal &&
                 <AddNewContact show={showCategoryModal} handleClose={handleCategoryClose} editContact={editContact} />}
         </section>
