@@ -40,8 +40,21 @@ export const APIServices = {
     currentWather,
     currentHourlyWather,
     currentTenDaysWather,
-    currentPropertyWather
-    
+    currentPropertyWather,
+    alertStats,
+    firealerts,
+    firealertsHistory,
+    moldalerts,
+    moldalertsHistory,
+    moldproperty,
+    securityalertsHistory,
+    securityalerts,
+    SystemMonitoringHistory,
+    SystemMonitoringalerts,
+    InsuranceAlert,
+    InsuranceAlertHistory,
+    InsuranceSevereAlert,
+    fireDeviceList
 }
 
 function updateDevice(params) {
@@ -138,3 +151,58 @@ function currentTenDaysWather() {
 function currentPropertyWather() {
     return axios.get(`${config.apiUrl}/weather/hourly/current/properties`, configJsonHeaders());
 }
+
+function alertStats() {
+    return axios.get(`${config.apiUrl}/alerts/stats`, configJsonHeaders());
+}
+function firealerts() {
+    return axios.get(`${config.apiUrl}/alerts/fire`, configJsonHeaders());
+}
+function firealertsHistory(page, size=10) {
+    return axios.get(`${config.apiUrl}/alerts/fire/history?page=${page}&size=${size}`, configJsonHeaders());
+}
+
+function moldalerts() {
+    return axios.get(`${config.apiUrl}/alerts/mold`, configJsonHeaders());
+}
+function moldalertsHistory(page, size=10) {
+    return axios.get(`${config.apiUrl}/alerts/mold/history?page=${page}&size=${size}`, configJsonHeaders());
+}
+
+function moldproperty() {
+    return axios.get(`${config.apiUrl}/mold/properties`, configJsonHeaders());
+}
+
+function securityalerts() {
+    return axios.get(`${config.apiUrl}/alerts/security`, configJsonHeaders());
+}
+
+function securityalertsHistory(page, size=10) {
+    return axios.get(`${config.apiUrl}/alerts/security/history?page=${page}&size=${size}`, configJsonHeaders());
+}
+
+function SystemMonitoringalerts() {
+    return axios.get(`${config.apiUrl}/alerts/monitoring`, configJsonHeaders());
+}
+
+function SystemMonitoringHistory(page, size=10) {
+    return axios.get(`${config.apiUrl}/alerts/monitoring/history?page=${page}&size=${size}`, configJsonHeaders());
+}
+
+function InsuranceAlert() {
+    return axios.get(`${config.apiUrl}/alerts/insurance`, configJsonHeaders());
+}
+
+function InsuranceAlertHistory(page, size=10) {
+    return axios.get(`${config.apiUrl}/alerts/insurance/history?page=${page}&size=${size}`, configJsonHeaders());
+}
+
+function InsuranceSevereAlert(page, size=10) {
+    return axios.get(`${config.apiUrl}/alerts/insurance/history/severe`, configJsonHeaders());
+}
+
+function fireDeviceList() {
+    return axios.get(`${config.apiUrl}/monitoring/devices`, configJsonHeaders());
+}
+
+

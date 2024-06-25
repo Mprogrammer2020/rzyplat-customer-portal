@@ -1,7 +1,64 @@
 import "./Fire.css";
 import { Button, Col, Form, Row } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
+import { APIServices } from "../../services/APIServices";
+import { useEffect, useState } from "react";
+import { exceptionHandling } from "../../Common/CommonComponents";
+import Skeleton from "react-loading-skeleton";
+
+interface firedevice {
+    onlineCount: number,
+    offlineCount: number,
+    lowbatteryCount: number
+}
+
 function SystemDevice() {
+    const [firedevice, setfiredevice] = useState<firedevice | null>(null);
+    const [firedeviceStatus, setFireDeviceStatus] = useState(true)
+    const [filterCount, setFilterCount] = useState("")
+    const [selectedStatus, setSelectedStatus] = useState('online');
+
+    useEffect(() => {
+        getFireDeviceList("")
+    }, [])
+
+    async function getFireDeviceList(filters) {
+        try {
+            const response = await APIServices.fireDeviceList(filters);
+            if (response.status === 200) {
+                console.log("setFilterCount", response)
+                let responseData = response.data as firedevice;
+                console.log("getFireDeviceList responseData------->", responseData)
+                setfiredevice(responseData);
+                setFireDeviceStatus(false)
+            } else {
+                throw new Error('Failed to fetch data');
+            }
+        } catch (error) {
+            exceptionHandling(error);
+        }
+    }
+
+    const handleStatusClick = async (status) => {
+        setSelectedStatus(status);
+    
+        let filters = {};
+        if (status === 'online') {
+          filters = { online: true };
+        } else if (status === 'offline') {
+          filters = { online: false };
+        } else if (status === 'lowBattery') {
+          filters = { lowBattery: true };
+        }
+    
+        try {
+            getFireDeviceList(filters)
+        } catch (error) {
+          console.error('API call failed', error);
+        }
+      };
+
+
     return (
         <>
             <div className="system-device-section">
@@ -60,28 +117,52 @@ function SystemDevice() {
                                         </div>
                                     </div>
                                 </div>
-                                <div className="status-bar-section">
+                                {/* <div className="status-bar-section">
                                     <div className="inner-status-bar active">
                                         <div>
                                             <img src={require("../../assets/images/online.svg").default} className="me-2" alt="icons" />
                                             <span>Online</span>
                                         </div>
-                                        <span className="status-text">484</span>
+                                        <span className="status-text">{firedevice?.onlineCount || "-"}</span>
                                         <img src={require("../../assets/images/close-window.svg").default} className="close-window" alt="icons" />
                                     </div>
                                     <div className="inner-status-bar">
                                         <div>
                                             <img src={require("../../assets/images/offline.svg").default} className="me-2" alt="icons" />
-                                            <span>Online</span>
+                                            <span>Offline</span>
                                         </div>
-                                        <span className="status-text">484</span>
+                                        <span className="status-text">{firedevice?.offlineCount || "-"}</span>
                                     </div>
                                     <div className="inner-status-bar">
                                         <div>
                                             <img src={require("../../assets/images/battery-low.svg").default} className="me-2" alt="icons" />
+                                            <span>Low Battery</span>
+                                        </div>
+                                        <span className="status-text">{firedevice?.lowbatteryCount || "-"}</span>
+                                    </div>
+                                </div> */}
+                                <div className="status-bar-section">
+                                    <div className={`inner-status-bar ${selectedStatus === 'online' ? 'active' : ''}`} onClick={() => handleStatusClick('online')}>
+                                        <div>
+                                            <img src={require("../../assets/images/online.svg").default} className="me-2" alt="icons" />
                                             <span>Online</span>
                                         </div>
-                                        <span className="status-text">484</span>
+                                        <span className="status-text">{firedevice?.onlineCount || "-"}</span>
+                                        <img src={require("../../assets/images/close-window.svg").default} className="close-window" alt="icons" />
+                                    </div>
+                                    <div className={`inner-status-bar ${selectedStatus === 'offline' ? 'active' : ''}`} onClick={() => handleStatusClick('offline')}>
+                                        <div>
+                                            <img src={require("../../assets/images/offline.svg").default} className="me-2" alt="icons" />
+                                            <span>Offline</span>
+                                        </div>
+                                        <span className="status-text">{firedevice?.offlineCount || "-"}</span>
+                                    </div>
+                                    <div className={`inner-status-bar ${selectedStatus === 'lowBattery' ? 'active' : ''}`} onClick={() => handleStatusClick('lowBattery')}>
+                                        <div>
+                                            <img src={require("../../assets/images/battery-low.svg").default} className="me-2" alt="icons" />
+                                            <span>Low Battery</span>
+                                        </div>
+                                        <span className="status-text">{firedevice?.lowbatteryCount || "-"}</span>
                                     </div>
                                 </div>
                             </div>
@@ -101,150 +182,42 @@ function SystemDevice() {
                                 </tr>
                             </thead>
                             <tbody className="customer-scroll">
-                                <tr >
-                                    <td><p>1726389EF182</p></td>
-                                    <td>Beldon, Building A, Unit 01</td>
-                                    <td>02-06-2024</td>
-                                    <td className="property-section"><p className='role inner-role'><img src={require("../../assets/images/red-tem.svg").default} className="me-2" alt="icons" />Temperature: <span className="red-temp">123.2</span></p>
-                                    <p className='role inner-role'><img src={require("../../assets/images/humadity.svg").default} className="me-2" alt="icons" />Temperature: <span className="red-temp green-text">123.2</span></p>
-                                    </td>
-                                    <td className='action-div'>
-                                        <Button className="battery-btn"><img src={require("../../assets/images/battery.svg").default} className="" alt="icons" /> Battery<b className="ms-3 main-text-battery">100</b></Button>
-                                        <Button className="battery-btn">ONLINE</Button>
-                                    </td>
-                                </tr>
-                                <tr >
-                                    <td><p>1726389EF182</p></td>
-                                    <td>Beldon, Building A, Unit 01</td>
-                                    <td>02-06-2024</td>
-                                    <td className="property-section"><p className='role inner-role'><img src={require("../../assets/images/red-tem.svg").default} className="me-2" alt="icons" />Temperature: <span className="red-temp">123.2</span></p>
-                                    <p className='role inner-role'><img src={require("../../assets/images/humadity.svg").default} className="me-2" alt="icons" />Temperature: <span className="red-temp green-text">123.2</span></p>
-                                    </td>
-                                    <td className='action-div'>
-                                        <Button className="battery-btn"><img src={require("../../assets/images/battery.svg").default} className="" alt="icons" /> Battery<b className="ms-3 main-text-battery">100</b></Button>
-                                        <Button className="battery-btn">ONLINE</Button>
-                                    </td>
-                                </tr>
-                                <tr >
-                                    <td><p>1726389EF182</p></td>
-                                    <td>Beldon, Building A, Unit 01</td>
-                                    <td>02-06-2024</td>
-                                    <td className="property-section"><p className='role inner-role'><img src={require("../../assets/images/red-tem.svg").default} className="me-2" alt="icons" />Temperature: <span className="red-temp">123.2</span></p>
-                                    <p className='role inner-role'><img src={require("../../assets/images/humadity.svg").default} className="me-2" alt="icons" />Temperature: <span className="red-temp green-text">123.2</span></p>
-                                    </td>
-                                    <td className='action-div'>
-                                        <Button className="battery-btn"><img src={require("../../assets/images/battery.svg").default} className="" alt="icons" /> Battery<b className="ms-3 main-text-battery">100</b></Button>
-                                        <Button className="battery-btn">ONLINE</Button>
-                                    </td>
-                                </tr>
-                                <tr >
-                                    <td><p>1726389EF182</p></td>
-                                    <td>Beldon, Building A, Unit 01</td>
-                                    <td>02-06-2024</td>
-                                    <td className="property-section"><p className='role inner-role'><img src={require("../../assets/images/red-tem.svg").default} className="me-2" alt="icons" />Temperature: <span className="red-temp">123.2</span></p>
-                                    <p className='role inner-role'><img src={require("../../assets/images/humadity.svg").default} className="me-2" alt="icons" />Temperature: <span className="red-temp green-text">123.2</span></p>
-                                    </td>
-                                    <td className='action-div'>
-                                        <Button className="battery-btn"><img src={require("../../assets/images/battery.svg").default} className="" alt="icons" /> Battery<b className="ms-3 main-text-battery">100</b></Button>
-                                        <Button className="battery-btn">ONLINE</Button>
-                                    </td>
-                                </tr>
-                                <tr >
-                                    <td><p>1726389EF182</p></td>
-                                    <td>Beldon, Building A, Unit 01</td>
-                                    <td>02-06-2024</td>
-                                    <td className="property-section"><p className='role inner-role'><img src={require("../../assets/images/red-tem.svg").default} className="me-2" alt="icons" />Temperature: <span className="red-temp">123.2</span></p>
-                                    <p className='role inner-role'><img src={require("../../assets/images/humadity.svg").default} className="me-2" alt="icons" />Temperature: <span className="red-temp green-text">123.2</span></p>
-                                    </td>
-                                    <td className='action-div'>
-                                        <Button className="battery-btn"><img src={require("../../assets/images/battery.svg").default} className="" alt="icons" /> Battery<b className="ms-3 main-text-battery">100</b></Button>
-                                        <Button className="battery-btn">ONLINE</Button>
-                                    </td>
-                                </tr>
-                                <tr >
-                                    <td><p>1726389EF182</p></td>
-                                    <td>Beldon, Building A, Unit 01</td>
-                                    <td>02-06-2024</td>
-                                    <td className="property-section"><p className='role inner-role'><img src={require("../../assets/images/red-tem.svg").default} className="me-2" alt="icons" />Temperature: <span className="red-temp">123.2</span></p>
-                                    <p className='role inner-role'><img src={require("../../assets/images/humadity.svg").default} className="me-2" alt="icons" />Temperature: <span className="red-temp green-text">123.2</span></p>
-                                    </td>
-                                    <td className='action-div'>
-                                        <Button className="battery-btn"><img src={require("../../assets/images/battery.svg").default} className="" alt="icons" /> Battery<b className="ms-3 main-text-battery">100</b></Button>
-                                        <Button className="battery-btn">ONLINE</Button>
-                                    </td>
-                                </tr>
-                                <tr >
-                                    <td><p>1726389EF182</p></td>
-                                    <td>Beldon, Building A, Unit 01</td>
-                                    <td>02-06-2024</td>
-                                    <td className="property-section"><p className='role inner-role'><img src={require("../../assets/images/red-tem.svg").default} className="me-2" alt="icons" />Temperature: <span className="red-temp">123.2</span></p>
-                                    <p className='role inner-role'><img src={require("../../assets/images/humadity.svg").default} className="me-2" alt="icons" />Temperature: <span className="red-temp green-text">123.2</span></p>
-                                    </td>
-                                    <td className='action-div'>
-                                        <Button className="battery-btn"><img src={require("../../assets/images/battery.svg").default} className="" alt="icons" /> Battery<b className="ms-3 main-text-battery">100</b></Button>
-                                        <Button className="battery-btn">ONLINE</Button>
-                                    </td>
-                                </tr>
-                                <tr >
-                                    <td><p>1726389EF182</p></td>
-                                    <td>Beldon, Building A, Unit 01</td>
-                                    <td>02-06-2024</td>
-                                    <td className="property-section"><p className='role inner-role'><img src={require("../../assets/images/red-tem.svg").default} className="me-2" alt="icons" />Temperature: <span className="red-temp">123.2</span></p>
-                                    <p className='role inner-role'><img src={require("../../assets/images/humadity.svg").default} className="me-2" alt="icons" />Temperature: <span className="red-temp green-text">123.2</span></p>
-                                    </td>
-                                    <td className='action-div'>
-                                        <Button className="battery-btn"><img src={require("../../assets/images/battery.svg").default} className="" alt="icons" /> Battery<b className="ms-3 main-text-battery">100</b></Button>
-                                        <Button className="battery-btn">ONLINE</Button>
-                                    </td>
-                                </tr>
-                                <tr >
-                                    <td><p>1726389EF182</p></td>
-                                    <td>Beldon, Building A, Unit 01</td>
-                                    <td>02-06-2024</td>
-                                    <td className="property-section"><p className='role inner-role'><img src={require("../../assets/images/red-tem.svg").default} className="me-2" alt="icons" />Temperature: <span className="red-temp">123.2</span></p>
-                                    <p className='role inner-role'><img src={require("../../assets/images/humadity.svg").default} className="me-2" alt="icons" />Temperature: <span className="red-temp green-text">123.2</span></p>
-                                    </td>
-                                    <td className='action-div'>
-                                        <Button className="battery-btn"><img src={require("../../assets/images/battery.svg").default} className="" alt="icons" /> Battery<b className="ms-3 main-text-battery">100</b></Button>
-                                        <Button className="battery-btn">ONLINE</Button>
-                                    </td>
-                                </tr>
-                                <tr >
-                                    <td><p>1726389EF182</p></td>
-                                    <td>Beldon, Building A, Unit 01</td>
-                                    <td>02-06-2024</td>
-                                    <td className="property-section"><p className='role inner-role'><img src={require("../../assets/images/red-tem.svg").default} className="me-2" alt="icons" />Temperature: <span className="red-temp">123.2</span></p>
-                                    <p className='role inner-role'><img src={require("../../assets/images/humadity.svg").default} className="me-2" alt="icons" />Temperature: <span className="red-temp green-text">123.2</span></p>
-                                    </td>
-                                    <td className='action-div'>
-                                        <Button className="battery-btn"><img src={require("../../assets/images/battery.svg").default} className="" alt="icons" /> Battery<b className="ms-3 main-text-battery">100</b></Button>
-                                        <Button className="battery-btn">ONLINE</Button>
-                                    </td>
-                                </tr>
-                                <tr >
-                                    <td><p>1726389EF182</p></td>
-                                    <td>Beldon, Building A, Unit 01</td>
-                                    <td>02-06-2024</td>
-                                    <td className="property-section"><p className='role inner-role'><img src={require("../../assets/images/red-tem.svg").default} className="me-2" alt="icons" />Temperature: <span className="red-temp">123.2</span></p>
-                                    <p className='role inner-role'><img src={require("../../assets/images/humadity.svg").default} className="me-2" alt="icons" />Temperature: <span className="red-temp green-text">123.2</span></p>
-                                    </td>
-                                    <td className='action-div'>
-                                        <Button className="battery-btn"><img src={require("../../assets/images/battery.svg").default} className="" alt="icons" /> Battery<b className="ms-3 main-text-battery">100</b></Button>
-                                        <Button className="battery-btn">ONLINE</Button>
-                                    </td>
-                                </tr>
-                                <tr >
-                                    <td><p>1726389EF182</p></td>
-                                    <td>Beldon, Building A, Unit 01</td>
-                                    <td>02-06-2024</td>
-                                    <td className="property-section"><p className='role inner-role'><img src={require("../../assets/images/red-tem.svg").default} className="me-2" alt="icons" />Temperature: <span className="red-temp">123.2</span></p>
-                                    <p className='role inner-role'><img src={require("../../assets/images/humadity.svg").default} className="me-2" alt="icons" />Temperature: <span className="red-temp green-text">123.2</span></p>
-                                    </td>
-                                    <td className='action-div'>
-                                        <Button className="battery-btn"><img src={require("../../assets/images/battery.svg").default} className="" alt="icons" /> Battery<b className="ms-3 main-text-battery">100</b></Button>
-                                        <Button className="battery-btn">ONLINE</Button>
-                                    </td>
-                                </tr>
+                                {firedeviceStatus == true ?
+                                    (<div className='border-radius'>
+                                        <tr>
+                                            <td><Skeleton className="main-wallet-top mb-2" height={30} width={150} /></td>
+                                            <td><Skeleton className="main-wallet-top mb-2" height={30} width={150} /></td>
+                                            <td><Skeleton className="main-wallet-top mb-2" height={30} width={150} /></td>
+                                            <td><Skeleton className="main-wallet-top mb-2" height={30} width={150} /></td>
+                                            <td><Skeleton className="main-wallet-top mb-2" height={30} width={150} /></td>
+                                        </tr>
+                                    </div>) :
+                                    firedevice?.list?.length > 0 ?
+                                        firedevice?.list?.map((item, index) => {
+                                            // console.log("item-------->", item)
+                                            return (
+                                                <tr >
+                                                    <td><p>{item?.deviceId || "N/A"}</p></td>
+                                                    <td>{item?.property || "N/A"}</td>
+                                                    <td>{item?.installationDate || "N/A"}</td>
+                                                    <td className="property-section"><p className='role inner-role'>
+                                                        <img src={item?.temperature < 20 ? require("../../assets/images/red-tem.svg").default : require("../../assets/images/lets-icons_temperature-fill.svg").default} className="me-2 red-temprature" alt="icons" />
+
+                                                        Temperature: <span className={item?.temperature < 20 ? "red-temp" : "green-temp"}>{item?.temperature || "N/A"}</span></p>
+                                                        <p className='role inner-role'><img src={require("../../assets/images/humadity.svg").default} className="me-2" alt="icons" />Humidity: <span className="red-temp green-text">{item?.humidity || "N/A"}</span></p>
+                                                    </td>
+                                                    <td className='action-div'>
+                                                        <Button className={`battery-btn ${item?.batteryLevel < 20 ? 'red' : item?.batteryLevel < 50 ? 'yello' : ""}`}><img src={require("../../assets/images/battery.svg").default} className="" alt="icons" /> Battery<b className="ms-3 main-text-battery">{item?.batteryLevel || "-"}</b></Button>
+                                                        <Button className={`battery-btn ${item?.online === false ? 'offline' : 'online'}`}>
+                                                            {item?.online === false ? "OFFLINE" : "ONLINE"}
+                                                        </Button>
+                                                    </td>
+                                                </tr>
+                                            )
+                                        })
+                                        :
+                                        <p>No device Available here</p>
+                                }
                             </tbody>
                         </table>
                     </div>

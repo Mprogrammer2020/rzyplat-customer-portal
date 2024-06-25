@@ -1,12 +1,116 @@
 import "./Insurance.css";
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Button, Col, Form, Modal, Row } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
+import { APIServices } from "../../services/APIServices";
+import { exceptionHandling } from "../../Common/CommonComponents";
+import Skeleton from "react-loading-skeleton";
+import moment from "moment";
+
+
+interface Insurancealert {
+    activeAlerts: number;
+    totalAlerts: number;
+    severeAlerts: number,
+    totalClaims: number
+}
+interface InsuranceHistory {
+    createdDate: string,
+    closedDate: string,
+    property: string,
+    unitStatus: string,
+    totalElements: number
+}
+interface Insuranceproperty {
+
+}
 function Insurance() {
     const [show, setShow] = useState(false);
-
     const handleClose = () => setShow(false);
-    const handleShow = () => setShow(true);
+    // const handleShow = () => setShow(true);
+    const handleShow = () => {
+        setShow(true);
+        getInsuranceAlertHistory(filter);
+    }
+    const [Insurancealert, setInsurancealert] = useState<Insurancealert | null>(null);
+    const [InsuranceHistory, setInsuranceHistory] = useState<InsuranceHistory | null>(null)
+    const [Insuranceproperty, setInsuranceproperty] = useState<Insuranceproperty | null>(null)
+    const [InsuranceHistoryStatus, setInsuranceHistoryStatus] = useState(true)
+    const InsuranceHistoryRef = useRef();
+    const loadingResponse = useRef(false);
+    const [filter, setFilter] = useState({ page: 0, size: 10, sortBy: "name", orderBy: "DESC" });
+
+    useEffect(() => {
+        getInsuranceSevereAlert()
+        getInsuranceAlert()
+
+    }, [])
+    /* getInsuranceAlert list */
+    async function getInsuranceAlert() {
+        try {
+            const response = await APIServices.InsuranceAlert();
+            if (response.status === 200) {
+                let responseData = response.data as Insurancealert;
+                setInsurancealert(responseData);
+            } else {
+                throw new Error('Failed to fetch data');
+            }
+        } catch (error) {
+            exceptionHandling(error);
+        }
+    }
+
+    /* getInsuranceAlertHistory history */
+    async function getInsuranceAlertHistory(filter) {
+        try {
+            const response = await APIServices.InsuranceAlertHistory(filter.page, filter.size);
+            if (response.status === 200) {
+                let responseData = response.data as InsuranceHistory;
+                setInsuranceHistory(responseData);
+                setInsuranceHistoryStatus(false)
+                loadingResponse.current = false;
+            } else {
+                throw new Error('Failed to fetch data');
+            }
+        } catch (error) {
+            exceptionHandling(error);
+        }
+    }
+
+    /* get Insurance serve property */
+
+    async function getInsuranceSevereAlert() {
+        try {
+            const response = await APIServices.InsuranceSevereAlert();
+            if (response.status === 200) {
+                let responseData = response.data as Insuranceproperty;
+                console.log("3rd api-------->",responseData)
+                setInsuranceproperty(responseData);
+            } else {
+                throw new Error('Failed to fetch data');
+            }
+        } catch (error) {
+            exceptionHandling(error);
+        }
+    }
+
+    const onScroll = async (scrollData) => {
+        if (scrollData) {
+            const { scrollTop, scrollHeight, clientHeight } = scrollData;
+            if (scrollTop + clientHeight === scrollHeight) {
+                const totalPages = Math.ceil(InsuranceHistory?.totalElements / filter.size);
+                let filterTemp = { ...filter };
+                filterTemp.page = filterTemp.page + 1
+                if (filterTemp.page < totalPages && !loadingResponse.current) {
+                    loadingResponse.current = true;
+                    setFilter(filterTemp);
+                    getInsuranceAlertHistory(filterTemp);
+                }
+            }
+        }
+    };
+
+
     return (
         <>
             <div className="alert-main-section">
@@ -55,7 +159,7 @@ function Insurance() {
                                                     <img src={require("../../assets/images/alarm-lg.svg").default} className="me-2" alt="icons" />
                                                     <div className="alarm-content-left">
                                                         <p>Alerts</p>
-                                                        <h6>600</h6>
+                                                        <h6>{Insurancealert?.totalAlerts || "-"}</h6>
                                                     </div>
                                                 </div>
                                                 <Button onClick={handleShow} className="fire-history-btn">ALERT HISTORY <img src={require("../../assets/images/history.svg").default} className="ms-2" alt="icons" /></Button>
@@ -67,7 +171,7 @@ function Insurance() {
                                                     <img src={require("../../assets/images/alarm-bg-2.svg").default} className="me-2" alt="icons" />
                                                     <div className="alarm-content-left">
                                                         <p>Active Alerts</p>
-                                                        <h6>02</h6>
+                                                        <h6>{Insurancealert?.activeAlerts || "-"}</h6>
                                                     </div>
                                                 </div>
                                             </div>
@@ -84,7 +188,7 @@ function Insurance() {
                                             <img src={require("../../assets/images/claims.svg").default} className="me-2" alt="icons" />
                                             <div className="alarm-content-left">
                                                 <p>Claims</p>
-                                                <h6 className="blue-text">25</h6>
+                                                <h6 className="blue-text">{Insurancealert?.totalClaims || "-"}</h6>
                                             </div>
                                         </div>
                                         <img src={require("../../assets/images/right-icon.svg").default} className="" alt="icons" />
@@ -96,7 +200,7 @@ function Insurance() {
                                             <img src={require("../../assets/images/severe.svg").default} className="me-2" alt="icons" />
                                             <div className="alarm-content-left">
                                                 <p>Severe Alerts</p>
-                                                <h6 className="blue-text">25</h6>
+                                                <h6 className="blue-text">{Insurancealert?.severeAlerts || "-"}</h6>
                                             </div>
                                         </div>
                                         <img src={require("../../assets/images/right-icon.svg").default} className="" alt="icons" />
@@ -147,6 +251,9 @@ function Insurance() {
                     </Row>
                 </div>
             </div>
+
+
+
             {/* history modal */}
             <Modal className="history-modal" animation={false} size="xl" show={show} onHide={handleClose} centered>
                 <Modal.Header closeButton className="border-0">
@@ -157,7 +264,7 @@ function Insurance() {
                         </h5>
                         <div className=''>
                             <div className='sort-box d-flex align-items-center'>
-                                <p className='mobile-tab mobile-tab-contact text-light'>600 items</p>
+                                <p className='mobile-tab mobile-tab-contact text-light'>{InsuranceHistory?.totalElements || "-"} items</p>
                                 <Form.Select aria-label="Default select example">
                                     <option>SORT BY</option>
                                     <option value="1">One</option>
@@ -182,127 +289,40 @@ function Insurance() {
                                         <th className='action-div'>Action</th>
                                     </tr>
                                 </thead>
-                                <tbody className="customer-scroll">
-                                    <tr>
-                                        <td><span>22-03-24</span><br></br>
-                                            <span className="time-text">09:00 PM</span>
-                                        </td>
-                                        <td><p className="property-address">Property Name Building 20 - Unit 02</p></td>
-                                        <td><p className='role'>VACANT</p></td>
-                                        <td className="property-section"><span>22-03-24</span><br></br>
-                                            <span className="time-text">09:00 PM</span></td>
-                                        <td className='action-div'>
-                                            <img src={require("../../assets/images/send-action.svg").default} className="" alt="icons" />
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td><span>22-03-24</span><br></br>
-                                            <span className="time-text">09:00 PM</span>
-                                        </td>
-                                        <td><p className="property-address">Property Name Building 20 - Unit 02</p></td>
-                                        <td><p className='role'>VACANT</p></td>
-                                        <td className="property-section"><span>22-03-24</span><br></br>
-                                            <span className="time-text">09:00 PM</span></td>
-                                        <td className='action-div'>
-                                            <img src={require("../../assets/images/send-action.svg").default} className="" alt="icons" />
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td><span>22-03-24</span><br></br>
-                                            <span className="time-text">09:00 PM</span>
-                                        </td>
-                                        <td><p className="property-address">Property Name Building 20 - Unit 02</p></td>
-                                        <td><p className='role'>VACANT</p></td>
-                                        <td className="property-section"><span>22-03-24</span><br></br>
-                                            <span className="time-text">09:00 PM</span></td>
-                                        <td className='action-div'>
-                                            <img src={require("../../assets/images/send-action.svg").default} className="" alt="icons" />
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td><span>22-03-24</span><br></br>
-                                            <span className="time-text">09:00 PM</span>
-                                        </td>
-                                        <td><p className="property-address">Property Name Building 20 - Unit 02</p></td>
-                                        <td><p className='role'>VACANT</p></td>
-                                        <td className="property-section"><span>22-03-24</span><br></br>
-                                            <span className="time-text">09:00 PM</span></td>
-                                        <td className='action-div'>
-                                            <img src={require("../../assets/images/send-action.svg").default} className="" alt="icons" />
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td><span>22-03-24</span><br></br>
-                                            <span className="time-text">09:00 PM</span>
-                                        </td>
-                                        <td><p className="property-address">Property Name Building 20 - Unit 02</p></td>
-                                        <td><p className='role'>VACANT</p></td>
-                                        <td className="property-section"><span>22-03-24</span><br></br>
-                                            <span className="time-text">09:00 PM</span></td>
-                                        <td className='action-div'>
-                                            <img src={require("../../assets/images/send-action.svg").default} className="" alt="icons" />
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td><span>22-03-24</span><br></br>
-                                            <span className="time-text">09:00 PM</span>
-                                        </td>
-                                        <td><p className="property-address">Property Name Building 20 - Unit 02</p></td>
-                                        <td><p className='role'>VACANT</p></td>
-                                        <td className="property-section"><span>22-03-24</span><br></br>
-                                            <span className="time-text">09:00 PM</span></td>
-                                        <td className='action-div'>
-                                            <img src={require("../../assets/images/send-action.svg").default} className="" alt="icons" />
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td><span>22-03-24</span><br></br>
-                                            <span className="time-text">09:00 PM</span>
-                                        </td>
-                                        <td><p className="property-address">Property Name Building 20 - Unit 02</p></td>
-                                        <td><p className='role'>VACANT</p></td>
-                                        <td className="property-section"><span>22-03-24</span><br></br>
-                                            <span className="time-text">09:00 PM</span></td>
-                                        <td className='action-div'>
-                                            <img src={require("../../assets/images/send-action.svg").default} className="" alt="icons" />
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td><span>22-03-24</span><br></br>
-                                            <span className="time-text">09:00 PM</span>
-                                        </td>
-                                        <td><p className="property-address">Property Name Building 20 - Unit 02</p></td>
-                                        <td><p className='role'>VACANT</p></td>
-                                        <td className="property-section"><span>22-03-24</span><br></br>
-                                            <span className="time-text">09:00 PM</span></td>
-                                        <td className='action-div'>
-                                            <img src={require("../../assets/images/send-action.svg").default} className="" alt="icons" />
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td><span>22-03-24</span><br></br>
-                                            <span className="time-text">09:00 PM</span>
-                                        </td>
-                                        <td><p className="property-address">Property Name Building 20 - Unit 02</p></td>
-                                        <td><p className='role'>VACANT</p></td>
-                                        <td className="property-section"><span>22-03-24</span><br></br>
-                                            <span className="time-text">09:00 PM</span></td>
-                                        <td className='action-div'>
-                                            <img src={require("../../assets/images/send-action.svg").default} className="" alt="icons" />
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td><span>22-03-24</span><br></br>
-                                            <span className="time-text">09:00 PM</span>
-                                        </td>
-                                        <td><p className="property-address">Property Name Building 20 - Unit 02</p></td>
-                                        <td><p className='role'>VACANT</p></td>
-                                        <td className="property-section"><span>22-03-24</span><br></br>
-                                            <span className="time-text">09:00 PM</span></td>
-                                        <td className='action-div'>
-                                            <img src={require("../../assets/images/send-action.svg").default} className="" alt="icons" />
-                                        </td>
-                                    </tr>
+                                <tbody ref={InsuranceHistoryRef} onScroll={() => onScroll(InsuranceHistoryRef.current)} className="customer-scroll">
+                                    {InsuranceHistoryStatus == true ?
+
+                                        <div className='border-radius'>
+                                            <tr>
+                                                <td><Skeleton className="main-wallet-top mb-2" height={30} width={150} /></td>
+                                                <td><Skeleton className="main-wallet-top mb-2" height={30} width={150} /></td>
+                                                <td><Skeleton className="main-wallet-top mb-2" height={30} width={150} /></td>
+                                                <td><Skeleton className="main-wallet-top mb-2" height={30} width={150} /></td>
+                                                <td><Skeleton className="main-wallet-top mb-2" height={30} width={150} /></td>
+                                            </tr>
+                                        </div>
+                                        :
+                                        InsuranceHistory?.list?.length > 0 ?
+                                            InsuranceHistory?.list?.map((alert, index) => {
+                                                return (
+                                                    <tr>
+                                                        <td><span>{alert?.createdDate ? moment(alert?.createdDate).format("DD-MM-YYYY") : "N/A"}</span><br></br>
+                                                            <span className="time-text">{alert?.createdDate ? moment(alert?.createdDate).format('LT') : "N/A"}</span>
+                                                        </td>
+                                                        <td><p className="property-address">{alert?.property || "N/A"}</p></td>
+                                                        <td><p className='role'>{alert?.unitStatus || "N/A"}</p></td>
+                                                        <td className="property-section"><span>{alert?.closedDate ? moment(alert?.closedDate).format("DD-MM-YYYY") : "N/A"}</span><br></br>
+                                                            <span className="time-text">{alert?.closedDate ? moment(alert?.closedDate).format('LT') : "N/A"}</span></td>
+                                                        <td className='action-div'>
+                                                            <img src={require("../../assets/images/send-action.svg").default} className="" alt="icons" />
+                                                        </td>
+                                                    </tr>
+                                                )
+                                            })
+                                            :
+                                            <p>No Mold History</p>
+                                    }
+
                                 </tbody>
                             </table>
                         </div>
@@ -310,6 +330,7 @@ function Insurance() {
                 </Modal.Body>
             </Modal>
             {/* history modal */}
+
         </>
     )
 }

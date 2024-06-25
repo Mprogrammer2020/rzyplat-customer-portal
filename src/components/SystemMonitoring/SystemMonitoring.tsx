@@ -1,12 +1,103 @@
 import "./SystemMonitoring.css";
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Button, Col, Dropdown, Form, Modal, Row } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
+import { APIServices } from "../../services/APIServices";
+import { exceptionHandling } from "../../Common/CommonComponents";
+import Skeleton from "react-loading-skeleton";
+import moment from "moment";
+
+interface SystemMonitoringalert {
+    activeAlerts: number;
+    totalAlerts: number;
+    totalDevices: number;
+}
+interface SystemMonitoringHistory {
+    createdDate: string,
+    closedDate: string,
+    property: string,
+    unitStatus: string,
+    totalElements: number
+}
+interface SystemMonitoringproperty {
+
+}
+
 function SystemMonitoring() {
     const [show, setShow] = useState(false);
-
     const handleClose = () => setShow(false);
-    const handleShow = () => setShow(true);
+    // const handleShow = () => setShow(true);
+    // SystemMonitoring
+    
+
+    const handleShow = () => {
+        setShow(true);
+        getSystemMonitoringHistory(filter);
+    }
+    const [SystemMonitoringalert, setSystemMonitoringalert] = useState<SystemMonitoringalert | null>(null);
+    const [SystemMonitoringHistory, setSystemMonitoringHistory] = useState<SystemMonitoringHistory | null>(null)
+    const [SystemMonitoringproperty, setSystemMonitoringproperty] = useState<SystemMonitoringproperty | null>(null)
+    const [SystemMonitoringHistoryStatus, setSystemMonitoringHistoryStatus] = useState(true)
+    const SystemMonitoringHistoryRef = useRef();
+    const loadingResponse = useRef(false);
+    const [filter, setFilter] = useState({ page: 0, size: 10, sortBy: "name", orderBy: "DESC" });
+
+    useEffect(() => {
+        getSystemMonitoringAlert()
+    }, [])
+
+
+
+    async function getSystemMonitoringAlert() {
+        try {
+            const response = await APIServices.SystemMonitoringalerts();
+            if (response.status === 200) {
+                let responseData = response.data as SystemMonitoringalert;
+                setSystemMonitoringalert(responseData);
+            } else {
+                throw new Error('Failed to fetch data');
+            }
+        } catch (error) {
+            exceptionHandling(error);
+        }
+    }
+
+    /* mold history */
+    async function getSystemMonitoringHistory(filter) {
+        try {
+            const response = await APIServices.SystemMonitoringHistory(filter.page, filter.size);
+            if (response.status === 200) {
+                let responseData = response.data as SystemMonitoringHistory;
+                console.log("getSystemMonitoringHistory",responseData)
+                setSystemMonitoringHistory(responseData);
+                setSystemMonitoringHistoryStatus(false)
+                loadingResponse.current = false;
+            } else {
+                throw new Error('Failed to fetch data');
+            }
+        } catch (error) {
+            exceptionHandling(error);
+        }
+    }
+
+    const onScroll = async (scrollData) => {
+        if (scrollData) {
+            const { scrollTop, scrollHeight, clientHeight } = scrollData;
+            if (scrollTop + clientHeight === scrollHeight) {
+                const totalPages = Math.ceil(SystemMonitoringHistory?.totalElements / filter.size);
+                let filterTemp = { ...filter };
+                filterTemp.page = filterTemp.page + 1
+                if (filterTemp.page < totalPages && !loadingResponse.current) {
+                    loadingResponse.current = true;
+                    setFilter(filterTemp);
+                    getSystemMonitoringHistory(filterTemp);
+                }
+            }
+        }
+    };
+
+
+
     return (
         <>
             <div className="alert-main-section">
@@ -55,7 +146,7 @@ function SystemMonitoring() {
                                                     <img src={require("../../assets/images/alarm-lg.svg").default} className="me-2" alt="icons" />
                                                     <div className="alarm-content-left">
                                                         <p>Alerts</p>
-                                                        <h6>600</h6>
+                                                        <h6>{SystemMonitoringalert?.totalAlerts || "-"}</h6>
                                                     </div>
                                                 </div>
                                                 <Button onClick={handleShow} className="fire-history-btn">ALERT HISTORY <img src={require("../../assets/images/history.svg").default} className="ms-2" alt="icons" /></Button>
@@ -67,7 +158,7 @@ function SystemMonitoring() {
                                                     <img src={require("../../assets/images/alarm-bg-2.svg").default} className="me-2" alt="icons" />
                                                     <div className="alarm-content-left">
                                                         <p>Active Alerts</p>
-                                                        <h6>02</h6>
+                                                        <h6>{SystemMonitoringalert?.activeAlerts || "-"}</h6>
                                                     </div>
                                                 </div>
                                             </div>
@@ -86,8 +177,8 @@ function SystemMonitoring() {
                     </Row>
                 </div>
             </div>
-            {/* history modal */}
-            <Modal className="history-modal" animation={false} size="xl" show={show} onHide={handleClose} centered>
+             {/* history modal */}
+             <Modal className="history-modal" animation={false} size="xl" show={show} onHide={handleClose} centered>
                 <Modal.Header closeButton className="border-0">
                     <div className="under-history">
                         <h5>
@@ -96,7 +187,7 @@ function SystemMonitoring() {
                         </h5>
                         <div className=''>
                             <div className='sort-box d-flex align-items-center'>
-                                <p className='mobile-tab mobile-tab-contact text-light'>600 items</p>
+                                <p className='mobile-tab mobile-tab-contact text-light'>{SystemMonitoringHistory?.totalElements || "-"} items</p>
                                 <Form.Select aria-label="Default select example">
                                     <option>SORT BY</option>
                                     <option value="1">One</option>
@@ -121,127 +212,40 @@ function SystemMonitoring() {
                                         <th className='action-div'>Action</th>
                                     </tr>
                                 </thead>
-                                <tbody className="customer-scroll">
-                                    <tr>
-                                        <td><span>22-03-24</span><br></br>
-                                            <span className="time-text">09:00 PM</span>
-                                        </td>
-                                        <td><p className="property-address">Property Name Building 20 - Unit 02</p></td>
-                                        <td><p className='role'>VACANT</p></td>
-                                        <td className="property-section"><span>22-03-24</span><br></br>
-                                            <span className="time-text">09:00 PM</span></td>
-                                        <td className='action-div'>
-                                            <img src={require("../../assets/images/send-action.svg").default} className="" alt="icons" />
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td><span>22-03-24</span><br></br>
-                                            <span className="time-text">09:00 PM</span>
-                                        </td>
-                                        <td><p className="property-address">Property Name Building 20 - Unit 02</p></td>
-                                        <td><p className='role'>VACANT</p></td>
-                                        <td className="property-section"><span>22-03-24</span><br></br>
-                                            <span className="time-text">09:00 PM</span></td>
-                                        <td className='action-div'>
-                                            <img src={require("../../assets/images/send-action.svg").default} className="" alt="icons" />
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td><span>22-03-24</span><br></br>
-                                            <span className="time-text">09:00 PM</span>
-                                        </td>
-                                        <td><p className="property-address">Property Name Building 20 - Unit 02</p></td>
-                                        <td><p className='role'>VACANT</p></td>
-                                        <td className="property-section"><span>22-03-24</span><br></br>
-                                            <span className="time-text">09:00 PM</span></td>
-                                        <td className='action-div'>
-                                            <img src={require("../../assets/images/send-action.svg").default} className="" alt="icons" />
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td><span>22-03-24</span><br></br>
-                                            <span className="time-text">09:00 PM</span>
-                                        </td>
-                                        <td><p className="property-address">Property Name Building 20 - Unit 02</p></td>
-                                        <td><p className='role'>VACANT</p></td>
-                                        <td className="property-section"><span>22-03-24</span><br></br>
-                                            <span className="time-text">09:00 PM</span></td>
-                                        <td className='action-div'>
-                                            <img src={require("../../assets/images/send-action.svg").default} className="" alt="icons" />
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td><span>22-03-24</span><br></br>
-                                            <span className="time-text">09:00 PM</span>
-                                        </td>
-                                        <td><p className="property-address">Property Name Building 20 - Unit 02</p></td>
-                                        <td><p className='role'>VACANT</p></td>
-                                        <td className="property-section"><span>22-03-24</span><br></br>
-                                            <span className="time-text">09:00 PM</span></td>
-                                        <td className='action-div'>
-                                            <img src={require("../../assets/images/send-action.svg").default} className="" alt="icons" />
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td><span>22-03-24</span><br></br>
-                                            <span className="time-text">09:00 PM</span>
-                                        </td>
-                                        <td><p className="property-address">Property Name Building 20 - Unit 02</p></td>
-                                        <td><p className='role'>VACANT</p></td>
-                                        <td className="property-section"><span>22-03-24</span><br></br>
-                                            <span className="time-text">09:00 PM</span></td>
-                                        <td className='action-div'>
-                                            <img src={require("../../assets/images/send-action.svg").default} className="" alt="icons" />
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td><span>22-03-24</span><br></br>
-                                            <span className="time-text">09:00 PM</span>
-                                        </td>
-                                        <td><p className="property-address">Property Name Building 20 - Unit 02</p></td>
-                                        <td><p className='role'>VACANT</p></td>
-                                        <td className="property-section"><span>22-03-24</span><br></br>
-                                            <span className="time-text">09:00 PM</span></td>
-                                        <td className='action-div'>
-                                            <img src={require("../../assets/images/send-action.svg").default} className="" alt="icons" />
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td><span>22-03-24</span><br></br>
-                                            <span className="time-text">09:00 PM</span>
-                                        </td>
-                                        <td><p className="property-address">Property Name Building 20 - Unit 02</p></td>
-                                        <td><p className='role'>VACANT</p></td>
-                                        <td className="property-section"><span>22-03-24</span><br></br>
-                                            <span className="time-text">09:00 PM</span></td>
-                                        <td className='action-div'>
-                                            <img src={require("../../assets/images/send-action.svg").default} className="" alt="icons" />
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td><span>22-03-24</span><br></br>
-                                            <span className="time-text">09:00 PM</span>
-                                        </td>
-                                        <td><p className="property-address">Property Name Building 20 - Unit 02</p></td>
-                                        <td><p className='role'>VACANT</p></td>
-                                        <td className="property-section"><span>22-03-24</span><br></br>
-                                            <span className="time-text">09:00 PM</span></td>
-                                        <td className='action-div'>
-                                            <img src={require("../../assets/images/send-action.svg").default} className="" alt="icons" />
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td><span>22-03-24</span><br></br>
-                                            <span className="time-text">09:00 PM</span>
-                                        </td>
-                                        <td><p className="property-address">Property Name Building 20 - Unit 02</p></td>
-                                        <td><p className='role'>VACANT</p></td>
-                                        <td className="property-section"><span>22-03-24</span><br></br>
-                                            <span className="time-text">09:00 PM</span></td>
-                                        <td className='action-div'>
-                                            <img src={require("../../assets/images/send-action.svg").default} className="" alt="icons" />
-                                        </td>
-                                    </tr>
+                                <tbody ref={SystemMonitoringHistoryRef} onScroll={() => onScroll(SystemMonitoringHistoryRef.current)} className="customer-scroll">
+                                    {SystemMonitoringHistoryStatus == true ?
+
+                                        <div className='border-radius'>
+                                            <tr>
+                                                <td><Skeleton className="main-wallet-top mb-2" height={30} width={150} /></td>
+                                                <td><Skeleton className="main-wallet-top mb-2" height={30} width={150} /></td>
+                                                <td><Skeleton className="main-wallet-top mb-2" height={30} width={150} /></td>
+                                                <td><Skeleton className="main-wallet-top mb-2" height={30} width={150} /></td>
+                                                <td><Skeleton className="main-wallet-top mb-2" height={30} width={150} /></td>
+                                            </tr>
+                                        </div>
+                                        :
+                                        SystemMonitoringHistory?.list?.length > 0 ?
+                                        SystemMonitoringHistory?.list?.map((alert, index) => {
+                                                return (
+                                                    <tr>
+                                                        <td><span>{alert?.createdDate ? moment(alert?.createdDate).format("DD-MM-YYYY") : "N/A"}</span><br></br>
+                                                            <span className="time-text">{alert?.createdDate ? moment(alert?.createdDate).format('LT') : "N/A"}</span>
+                                                        </td>
+                                                        <td><p className="property-address">{alert?.property || "N/A"}</p></td>
+                                                        <td><p className='role'>{alert?.unitStatus || "N/A"}</p></td>
+                                                        <td className="property-section"><span>{alert?.closedDate ? moment(alert?.closedDate).format("DD-MM-YYYY") : "N/A"}</span><br></br>
+                                                            <span className="time-text">{alert?.closedDate ? moment(alert?.closedDate).format('LT') : "N/A"}</span></td>
+                                                        <td className='action-div'>
+                                                            <img src={require("../../assets/images/send-action.svg").default} className="" alt="icons" />
+                                                        </td>
+                                                    </tr>
+                                                )
+                                            })
+                                            :
+                                            <p>No SystemMonitoring History</p>
+                                    }
+
                                 </tbody>
                             </table>
                         </div>

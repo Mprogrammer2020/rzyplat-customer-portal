@@ -307,22 +307,7 @@ function InventoryDetail() {
                                         </div>
                                     </Col>
                                 )) :
-                                    // deviceType?.list?.map((item, index) => {
-                                    //     return (<Col xs={6} md={6} lg={6} xl={3} onClick={() => { getDeviceById(item.id); setdeviceStatus(true) }} >
-                                    //         <div className='device-content-inner ${deviceStatus  ? `active` :"'>
-                                    //              <div className='position-relative'>
-                                    //                     <img src={`data:${item?.imageContentType};base64,${item?.imageContent}`} alt="icons" />
-                                    //                 </div>
-                                    //             <div className='device-info'>
-                                    //                 <p>{item?.type ? item?.type : "N/A"}</p>
-                                    //                 <span className='d-flex align-items-center arrow-icon'>
-                                    //                     <h6>{item?.count ? item?.count : "0"}</h6>
-                                    //                 </span>
-                                    //             </div>
-                                    //         </div>
-                                    //     </Col>
-                                    //     )
-                                    // })}
+                                  
                                     deviceType?.list?.map((item, index) => {
                                         return (
                                             <Col xs={6} md={6} lg={6} xl={3} key={index} onClick={() => handleItemClick(index)}>
@@ -356,7 +341,8 @@ function InventoryDetail() {
                                     </tr>
                                 </thead>
                                 <tbody ref={inventoryDetailRef} onScroll={() => onScroll(inventoryDetailRef.current)} className="customer-scroll-main">
-                                    {device?.length <= 0 ? <div className='border-radius'>
+                                    {device?.length <= 0 ?
+                                     <div className='border-radius'>
                                         <tr>
                                             <td><Skeleton className="main-wallet-top mb-2" height={30} width={150} count={20} /></td>
                                             <td><Skeleton className="main-wallet-top mb-2" height={30} width={150} count={20} /></td>

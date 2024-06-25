@@ -34,6 +34,30 @@
     line-height: normal;
 }
 
+.battery-btn {
+    /* Common button styles */
+    padding: 10px 20px;
+    font-size: 16px;
+    border-radius: 5px;
+    border: none;
+  }
+  button.battery-btn.red.btn.btn-primary {
+    background: #F05348 !important;
+}
+button.battery-btn.yello.btn.btn-primary {
+    background: #FF9900 !important;
+}
+  .battery-btn.online {
+    background-color: #00C17B !important;
+  }
+  .green-temp{
+    color: #00C17B !important;
+  }
+  
+  .battery-btn.offline {
+    background-color: #FF9900 !important;
+  }
+
 .alarm-body {
     border-radius: 8px;
     background: var(--Shades-0, #FFF);
