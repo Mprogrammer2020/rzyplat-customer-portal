@@ -1,8 +1,8 @@
-import "./Security.css";
+import "./SystemMonitoring.css";
 import { useState } from 'react';
 import { Button, Col, Dropdown, Form, Modal, Row } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
-function Security() {
+function SystemMonitoring() {
     const [show, setShow] = useState(false);
 
     const handleClose = () => setShow(false);
@@ -15,7 +15,7 @@ function Security() {
                     <Row className='align-items-center'>
                         <Col xs={6} md={6}>
                             <div className='header-left-box'>
-                                <h5 className='heading-main'><img src={require("../../assets/images/security.svg").default} className="me-2" alt="icons" /> Security</h5>
+                                <h5 className='heading-main'><img src={require("../../assets/images/menu-bar.svg").default} className="me-2" alt="icons" /> System Monitoring</h5>
                             </div>
                         </Col>
                         <Col xs={6} md={6}>
@@ -79,8 +79,7 @@ function Security() {
                         <Col md={4}>
                             <div className="weather-outer-section">
                                 <div className="weather-header">
-                                    <h5 className='heading-main text-dark'><img src={require("../../assets/images/footage.svg").default} className="me-2" alt="icons" /> Live Footage</h5>
-                                    <img src={require("../../assets/images/size-big.svg").default} className="" alt="icons" /> 
+                                    <h5 className='heading-main text-dark'><img src={require("../../assets/images/device.svg").default} className="me-2" alt="icons" /> Device Summary</h5>
                                 </div>
                             </div>
                         </Col>
@@ -253,4 +252,4 @@ function Security() {
         </>
     )
 }
-export default Security;
+export default SystemMonitoring;

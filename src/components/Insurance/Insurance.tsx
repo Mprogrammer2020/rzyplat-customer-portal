@@ -1,8 +1,8 @@
-import "./Security.css";
+import "./Insurance.css";
 import { useState } from 'react';
-import { Button, Col, Dropdown, Form, Modal, Row } from 'react-bootstrap';
+import { Button, Col, Form, Modal, Row } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
-function Security() {
+function Insurance() {
     const [show, setShow] = useState(false);
 
     const handleClose = () => setShow(false);
@@ -15,7 +15,7 @@ function Security() {
                     <Row className='align-items-center'>
                         <Col xs={6} md={6}>
                             <div className='header-left-box'>
-                                <h5 className='heading-main'><img src={require("../../assets/images/security.svg").default} className="me-2" alt="icons" /> Security</h5>
+                                <h5 className='heading-main'><img src={require("../../assets/images/insurance-icon.svg").default} className="me-2" alt="icons" /> Insurance</h5>
                             </div>
                         </Col>
                         <Col xs={6} md={6}>
@@ -78,9 +78,69 @@ function Security() {
                         </Col>
                         <Col md={4}>
                             <div className="weather-outer-section">
-                                <div className="weather-header">
-                                    <h5 className='heading-main text-dark'><img src={require("../../assets/images/footage.svg").default} className="me-2" alt="icons" /> Live Footage</h5>
-                                    <img src={require("../../assets/images/size-big.svg").default} className="" alt="icons" /> 
+                                <div className="alarm-body">
+                                    <div className="alarm-content border-0 pe-0">
+                                        <div className="alarm-content-inner">
+                                            <img src={require("../../assets/images/claims.svg").default} className="me-2" alt="icons" />
+                                            <div className="alarm-content-left">
+                                                <p>Claims</p>
+                                                <h6 className="blue-text">25</h6>
+                                            </div>
+                                        </div>
+                                        <img src={require("../../assets/images/right-icon.svg").default} className="" alt="icons" />
+                                    </div>
+                                </div>
+                                <div className="alarm-body mt-3">
+                                    <div className="alarm-content border-0 pe-0">
+                                        <div className="alarm-content-inner">
+                                            <img src={require("../../assets/images/severe.svg").default} className="me-2" alt="icons" />
+                                            <div className="alarm-content-left">
+                                                <p>Severe Alerts</p>
+                                                <h6 className="blue-text">25</h6>
+                                            </div>
+                                        </div>
+                                        <img src={require("../../assets/images/right-icon.svg").default} className="" alt="icons" />
+                                    </div>
+                                </div>
+                                <div className="fire-red-box mt-2">
+                                    <div className="under-fire-boxes">
+                                        <p className="red-texting"><img src={require("../../assets/images/fire-goal.svg").default} className="me-2" alt="icons" /> Fire 911</p>
+                                        <p className="dark-text">9 min  <img src={require("../../assets/images/right-arrow.svg").default} className="" alt="icons" /></p>
+                                    </div>
+                                    <div className="under-fire-boxes">
+                                        <p className="red-texting">Property Name Building 20 - Unit 02</p>
+                                        <p className="accupied-btn">OCCUPIED</p>
+                                    </div>
+                                </div>
+                                <div className="fire-red-box mt-2">
+                                    <div className="under-fire-boxes">
+                                        <p className="red-texting"><img src={require("../../assets/images/fire-goal.svg").default} className="me-2" alt="icons" /> Fire 911</p>
+                                        <p className="dark-text">9 min  <img src={require("../../assets/images/right-arrow.svg").default} className="" alt="icons" /></p>
+                                    </div>
+                                    <div className="under-fire-boxes">
+                                        <p className="red-texting">Property Name Building 20 - Unit 02</p>
+                                        <p className="accupied-btn">OCCUPIED</p>
+                                    </div>
+                                </div>
+                                <div className="fire-red-box mt-2">
+                                    <div className="under-fire-boxes">
+                                        <p className="red-texting"><img src={require("../../assets/images/fire-goal.svg").default} className="me-2" alt="icons" /> Fire 911</p>
+                                        <p className="dark-text">9 min  <img src={require("../../assets/images/right-arrow.svg").default} className="" alt="icons" /></p>
+                                    </div>
+                                    <div className="under-fire-boxes">
+                                        <p className="red-texting">Property Name Building 20 - Unit 02</p>
+                                        <p className="accupied-btn">OCCUPIED</p>
+                                    </div>
+                                </div>
+                                <div className="fire-red-box mt-2">
+                                    <div className="under-fire-boxes">
+                                        <p className="red-texting"><img src={require("../../assets/images/fire-goal.svg").default} className="me-2" alt="icons" /> Fire 911</p>
+                                        <p className="dark-text">9 min  <img src={require("../../assets/images/right-arrow.svg").default} className="" alt="icons" /></p>
+                                    </div>
+                                    <div className="under-fire-boxes">
+                                        <p className="red-texting">Property Name Building 20 - Unit 02</p>
+                                        <p className="accupied-btn">OCCUPIED</p>
+                                    </div>
                                 </div>
                             </div>
                         </Col>
@@ -253,4 +313,4 @@ function Security() {
         </>
     )
 }
-export default Security;
+export default Insurance;

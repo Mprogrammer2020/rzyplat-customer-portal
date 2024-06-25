@@ -11,6 +11,8 @@ import Fire from './components/Fire/Fire.tsx';
 import SystemDevice from './components/Fire/SystemDevice.tsx';
 import Mold from './components/Mold/Mold.tsx';
 import Security from './components/Security/Security.tsx';
+import Insurance from './components/Insurance/Insurance.tsx';
+import SystemMonitoring from './components/SystemMonitoring/SystemMonitoring.tsx';
 // Import other components as needed
 
 const Routing = () => {
@@ -28,6 +30,8 @@ const Routing = () => {
         <Route path ="/system-device" element={<SystemDevice />} />
         <Route path ="/mold" element={<Mold />} />
         <Route path ="/security" element={<Security />} />
+        <Route path ="/insurance" element={<Insurance />} />
+        <Route path ="/system-monitoring" element={<SystemMonitoring />} />
         {/* Add more routes as needed */}
       </Routes>
     </Router>
