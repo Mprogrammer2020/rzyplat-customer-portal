@@ -256,3 +256,6 @@
     background: var(--Shades-0, #FFF);
     padding: 5px 16px;
 }
+img.rotate {
+    transform: rotate(88deg);
+}

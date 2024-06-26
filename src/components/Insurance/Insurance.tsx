@@ -45,9 +45,10 @@ function Insurance() {
     const InsuranceHistoryRef = useRef();
     const loadingResponse = useRef(false);
     const [filter, setFilter] = useState({ page: 0, size: 10, sortBy: "name", orderBy: "DESC" });
-    const [showCalanderModal, setShowCalanderModal]=useState(false)
+    const [showCalanderModal, setShowCalanderModal] = useState(false)
     const handleCloseCalander = () => setShowCalanderModal(false);
-  const handleCalanderShow = () => setShowCalanderModal(true);
+    const handleCalanderShow = () => setShowCalanderModal(true);
+    const [selectedDate, setSelectedDate] = useState<Date | null>(null);
 
 
     useEffect(() => {
@@ -158,7 +159,11 @@ function Insurance() {
                             <div className="weather-outer-section">
                                 <div className="weather-header">
                                     <h5 className='heading-main text-dark'><img src={require("../../assets/images/alarm.svg").default} className="me-2" alt="icons" /> Alert Summary</h5>
-                                    <Button className="fire-history-btn" onClick={handleCalanderShow}>FILTER <img src={require("../../assets/images/CALENDER.svg").default} className="ms-2" alt="icons" /></Button>
+                                    <div className="calender-view">
+                                        <Button className="fire-history-btn" onClick={handleCalanderShow}>FILTER <img src={require("../../assets/images/CALENDER.svg").default} className="ms-2" alt="icons" /></Button>
+                                        {showCalanderModal &&
+                                            <CalendarComponent onClose={handleCloseCalander}  initialDate={selectedDate} />}
+                                    </div>
                                 </div>
                                 <div className="alarm-body">
                                     <Row>
@@ -177,7 +182,7 @@ function Insurance() {
                                         <Col md={6}>
                                             <div className="alarm-content border-0">
                                                 <div className="alarm-content-inner">
-                                                    <img src={require("../../assets/images/alarm-bg-2.svg").default} className="me-2" alt="icons" />
+                                                    <img src={require("../../assets/images/alarm-bg-2.svg").default} className="me-2 " alt="icons" />
                                                     <div className="alarm-content-left">
                                                         <p>Active Alerts</p>
                                                         <h6>{Insurancealert?.activeAlerts || "-"}</h6>
@@ -212,7 +217,7 @@ function Insurance() {
                                                 <h6 className="blue-text">{Insurancealert?.severeAlerts || "-"}</h6>
                                             </div>
                                         </div>
-                                        <img src={require("../../assets/images/right-icon.svg").default} className="" alt="icons" />
+                                        <img src={require("../../assets/images/right-icon.svg").default} className="rotate" alt="icons" />
                                     </div>
                                 </div>
 
@@ -316,8 +321,6 @@ function Insurance() {
                 </Modal.Body>
             </Modal>
 
-            {showCalanderModal &&
-            <CalendarComponent onClose={handleCloseCalander}/>}
 
         </>
     )
