@@ -159,14 +159,14 @@ function firealerts() {
     return axios.get(`${config.apiUrl}/alerts/fire`, configJsonHeaders());
 }
 function firealertsHistory(page, size=10) {
-    return axios.get(`${config.apiUrl}/alerts/fire/history?page=${page}&size=${size}`, configJsonHeaders());
+    return axios.get(`${config.apiUrl}/alerts/fire/history?pageNumber=${page}&pageSize=${size}`, configJsonHeaders());
 }
 
 function moldalerts() {
     return axios.get(`${config.apiUrl}/alerts/mold`, configJsonHeaders());
 }
 function moldalertsHistory(page, size=10) {
-    return axios.get(`${config.apiUrl}/alerts/mold/history?page=${page}&size=${size}`, configJsonHeaders());
+    return axios.get(`${config.apiUrl}/alerts/mold/history?pageNumber=${page}&pageSize=${size}`, configJsonHeaders());
 }
 
 function moldproperty() {
@@ -178,7 +178,7 @@ function securityalerts() {
 }
 
 function securityalertsHistory(page, size=10) {
-    return axios.get(`${config.apiUrl}/alerts/security/history?page=${page}&size=${size}`, configJsonHeaders());
+    return axios.get(`${config.apiUrl}/alerts/security/history?pageNumber=${page}&pageSize=${size}`, configJsonHeaders());
 }
 
 function SystemMonitoringalerts() {
@@ -186,7 +186,7 @@ function SystemMonitoringalerts() {
 }
 
 function SystemMonitoringHistory(page, size=10) {
-    return axios.get(`${config.apiUrl}/alerts/monitoring/history?page=${page}&size=${size}`, configJsonHeaders());
+    return axios.get(`${config.apiUrl}/alerts/monitoring/history?pageNumber=${page}&pageSize=${size}`, configJsonHeaders());
 }
 
 function InsuranceAlert() {
@@ -194,7 +194,7 @@ function InsuranceAlert() {
 }
 
 function InsuranceAlertHistory(page, size=10) {
-    return axios.get(`${config.apiUrl}/alerts/insurance/history?page=${page}&size=${size}`, configJsonHeaders());
+    return axios.get(`${config.apiUrl}/alerts/insurance/history?pageNumber=${page}&pageSize=${size}`, configJsonHeaders());
 }
 
 function InsuranceSevereAlert(page, size=10) {
@@ -245,8 +245,8 @@ function fireDeviceList(filter, data) {
     }
 
     // Add page and size parameters
-    queryParams.push(`page=${data.page}`);
-    queryParams.push(`size=${data.size}`);
+    queryParams.push(`pageNumber=${data.page}`);
+    queryParams.push(`pageSize=${data.size}`);
 
     // Append queryParams to URL if there are any
     if (queryParams.length > 0) {
