@@ -300,6 +300,15 @@ button.battery-btn.yello.btn.btn-primary {
     height: 13px;
     transform: rotate(-90deg);
 }
+.history-modal .customer-container-body .table th{
+    padding: 6px 13px !important;
+}
+.property-address {
+    padding: 0 6px;
+}
+.date-time-format {
+    padding: 0 11px;
+}
 @media (max-width: 1712px) {
     .property-section {
         min-width: 402px !important;

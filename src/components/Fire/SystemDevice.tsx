@@ -214,7 +214,7 @@ function SystemDevice() {
                                                     </td>
                                                     <td className='action-div'>
                                                         <Button className={`battery-btn ${item?.batteryLevel < 20 ? 'red' : item?.batteryLevel < 50 ? 'yello' : ""}`}>
-                                                            <img src={require(item?.batteryLevel < 20 ? "../../assets/images/loose-battery.svg" :"../../assets/images/battery.svg").default} className="me-2" alt="icons" />
+                                                            <img src={require(item?.batteryLevel < 20 ? "../../assets/images/loose-battery.svg" : item?.batteryLevel < 50 ?"../../assets/images/loose-battery.svg":"../../assets/images/battery.svg").default} className="me-2" alt="icons" />
                                                              Battery<b className="ms-3 main-text-battery">{item?.batteryLevel || "-"}</b></Button>
                                                         <Button className={`battery-btn online-offline ${item?.online === false ? 'offline' : 'online'}`}>
                                                             {item?.online === false ? "OFFLINE" : "ONLINE"}
