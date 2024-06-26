@@ -2,7 +2,7 @@ import "./Fire.css";
 import { Button, Col, Form, Row } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { APIServices } from "../../services/APIServices";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { exceptionHandling } from "../../Common/CommonComponents";
 import Skeleton from "react-loading-skeleton";
 
@@ -17,19 +17,23 @@ function SystemDevice() {
     const [firedeviceStatus, setFireDeviceStatus] = useState(true)
     const [filterCount, setFilterCount] = useState("")
     const [selectedStatus, setSelectedStatus] = useState('online');
+    const [filter, setFilter] = useState({ page: 0, size: 10 });
+    const firedeviceRef = useRef();
+    const loadingResponse = useRef(false);
 
     useEffect(() => {
-        getFireDeviceList("")
+        getFireDeviceList("", filter)
     }, [])
 
-    async function getFireDeviceList(filters) {
+    async function getFireDeviceList(filters, filter) {
         try {
-            const response = await APIServices.fireDeviceList(filters);
+            const response = await APIServices.fireDeviceList(filters, filter);
             if (response.status === 200) {
                 console.log("setFilterCount", response)
                 let responseData = response.data as firedevice;
                 setfiredevice(responseData);
                 setFireDeviceStatus(false)
+                loadingResponse.current =false
             } else {
                 throw new Error('Failed to fetch data');
             }
@@ -52,9 +56,26 @@ function SystemDevice() {
         }
 
         try {
-            getFireDeviceList(filters);
+            getFireDeviceList(filters, filter);
         } catch (error) {
             console.error('API call failed', error);
+        }
+    };
+
+    const onScroll = async (scrollData) => {
+        if (scrollData) {
+            const { scrollTop, scrollHeight, clientHeight } = scrollData;
+            console.log("scrollTop + clientHeight === scrollHeight", scrollTop + clientHeight, scrollHeight,);
+            if (scrollTop + clientHeight === scrollHeight) {
+                const totalPages = Math.ceil(firedevice?.totalElements / filter.size);
+                let filterTemp = { ...filter };
+                filterTemp.page = filterTemp.page + 1
+                if (filterTemp.page < totalPages && !loadingResponse.current) {
+                    loadingResponse.current = true;
+                    setFilter(filterTemp);
+                    getFireDeviceList("", filterTemp)
+                }
+            }
         }
     };
 
@@ -166,7 +187,7 @@ function SystemDevice() {
                                     <th className='action-div'>STATUS</th>
                                 </tr>
                             </thead>
-                            <tbody className="customer-scroll">
+                            <tbody ref={firedeviceRef} onScroll={() => onScroll(firedeviceRef.current)} className="customer-scroll">
                                 {firedeviceStatus == true ?
                                     (<div className='border-radius'>
                                         <tr>
@@ -179,7 +200,6 @@ function SystemDevice() {
                                     </div>) :
                                     firedevice?.list?.length > 0 ?
                                         firedevice?.list?.map((item, index) => {
-                                            // console.log("item-------->", item)
                                             return (
                                                 <tr >
                                                     <td><p>{item?.deviceId || "N/A"}</p></td>

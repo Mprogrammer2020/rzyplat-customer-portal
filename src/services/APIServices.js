@@ -201,20 +201,59 @@ function InsuranceSevereAlert(page, size=10) {
     return axios.get(`${config.apiUrl}/alerts/insurance/history/severe`, configJsonHeaders());
 }
 
-function fireDeviceList(filter) {
+
+// function fireDeviceList(filter, data) {
+//     let url = `${config.apiUrl}/monitoring/devices`;
+//     let queryParams = [];
+
+//     // Add filters to queryParams if defined
+//     if (filter?.online !== undefined) {
+//         queryParams.push(`online=${filter.online}`);
+//     }
+//     if (filter?.lowBattery !== undefined) {
+//         queryParams.push(`lowBattery=${filter.lowBattery}`);
+//     }
+
+//     // Add page and size parameters if defined in data
+//     if (data?.page !== undefined) {
+//         queryParams.push(`page=${data.page}`);
+//     }
+//     if (data?.size !== undefined) {
+//         queryParams.push(`size=${data.size}`);
+//     }
+
+//     // Append queryParams to URL if there are any
+//     if (queryParams.length > 0) {
+//         url += '?' + queryParams.join('&');
+//     }
+
+
+//     return axios.get(url, configJsonHeaders());
+// }
+
+function fireDeviceList(filter, data) {
+    console.log("data--------->",data,filter)
     let url = `${config.apiUrl}/monitoring/devices`;
     let queryParams = [];
+
+    // Add filters to queryParams if defined
     if (filter?.online !== undefined) {
         queryParams.push(`online=${filter.online}`);
     }
     if (filter?.lowBattery !== undefined) {
         queryParams.push(`lowBattery=${filter.lowBattery}`);
     }
+
+    // Add page and size parameters
+    queryParams.push(`page=${data.page}`);
+    queryParams.push(`size=${data.size}`);
+
+    // Append queryParams to URL if there are any
     if (queryParams.length > 0) {
         url += '?' + queryParams.join('&');
     }
+
     return axios.get(url, configJsonHeaders());
 }
-
 
 
