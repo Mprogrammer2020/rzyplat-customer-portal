@@ -117,29 +117,37 @@ function SystemDevice() {
                                         </div>
                                     </div>
                                 </div>
-                              
+
                                 <div className="status-bar-section">
                                     <div className={`inner-status-bar ${selectedStatus === 'online' ? 'active' : ''}`} onClick={() => handleStatusClick('online')}>
                                         <div>
                                             <img src={require("../../assets/images/online.svg").default} className="me-2" alt="icons" />
                                             <span>Online</span>
                                         </div>
-                                        <span className="status-text">{firedevice?.onlineCount || "-"}</span>
-                                        <img src={require("../../assets/images/close-window.svg").default} className="close-window" alt="icons" />
+                                        <div className="d-flex ms-3">
+                                            <span className="status-text me-2">{firedevice?.onlineCount || "-"}</span>
+                                            <img src={require("../../assets/images/close-window.svg").default} className="close-window" alt="icons" />
+                                        </div>
                                     </div>
-                                    <div className={`inner-status-bar ${selectedStatus === 'offline' ? 'active' : ''}`} onClick={() => handleStatusClick('offline')}>
+                                    <div className={`inner-status-bar offline ${selectedStatus === 'offline' ? 'active' : ''}`} onClick={() => handleStatusClick('offline')}>
                                         <div>
                                             <img src={require("../../assets/images/offline.svg").default} className="me-2" alt="icons" />
                                             <span>Offline</span>
                                         </div>
-                                        <span className="status-text">{firedevice?.offlineCount || "-"}</span>
+                                        <div className="d-flex ms-3">
+                                            <span className="status-text me-2">{firedevice?.offlineCount || "-"}</span>
+                                            <img src={require("../../assets/images/close-window.svg").default} className="close-window" alt="icons" />
+                                        </div>
                                     </div>
-                                    <div className={`inner-status-bar ${selectedStatus === 'lowBattery' ? 'active' : ''}`} onClick={() => handleStatusClick('lowBattery')}>
+                                    <div className={`inner-status-bar ${selectedStatus === 'lowBattery' ? '' : ''}`} onClick={() => handleStatusClick('lowBattery')}>
                                         <div>
                                             <img src={require("../../assets/images/battery-low.svg").default} className="me-2" alt="icons" />
                                             <span>Low Battery</span>
                                         </div>
-                                        <span className="status-text">{firedevice?.lowbatteryCount || "-"}</span>
+                                        <div className="d-flex ms-3">
+                                            <span className="status-text me-2">{firedevice?.lowbatteryCount || "-"}</span>
+                                            <img src={require("../../assets/images/close-window.svg").default} className="close-window" alt="icons" />
+                                        </div>
                                     </div>
                                 </div>
                             </div>

@@ -158,13 +158,13 @@
 .inner-status-bar {
     border-radius: 4px;
     background: #EDF1F7;
-    padding: 9px 14px;
+    padding: 9px 8px;
     display: inline-block;
     margin-right: 10px;
-    width: 9%;
     display: flex;
     align-items: center;
     justify-content: space-between;
+    cursor: pointer;
 }
 
 .inner-status-bar span {

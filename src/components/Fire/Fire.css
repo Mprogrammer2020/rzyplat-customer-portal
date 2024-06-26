@@ -11,6 +11,7 @@
     justify-content: space-between;
     border-right: 1px solid #a5b0c475;
     padding-right: 16px;
+    cursor: pointer;
 }
 
 .alarm-content-inner {
@@ -178,17 +179,23 @@ button.battery-btn.yello.btn.btn-primary {
     padding: 0 12px 15px 12px;
     display: flex;
 }
+.customer-list-header {
+    padding: 7px;
+}
 
 .inner-status-bar {
     border-radius: 4px;
     background: #EDF1F7;
-    padding: 9px 14px;
+    padding: 9px 8px;
     display: inline-block;
     margin-right: 10px;
-    width: 9%;
     display: flex;
     align-items: center;
     justify-content: space-between;
+    white-space: nowrap !important; 
+}
+.inner-status-bar.offline.active {
+    background: #f90;
 }
 
 .inner-status-bar span {
@@ -258,7 +265,13 @@ button.battery-btn.yello.btn.btn-primary {
 }
 .inner-status-bar.active .close-window {
     display: block;
+    width: 18px !important;
 }
 .inner-status-bar.active span{
     color: #fff;
-}   
+}  
+@media (max-width: 1712px) {
+    .property-section {
+        min-width: 402px !important;
+    }
+} 
