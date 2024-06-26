@@ -1,6 +1,6 @@
 import "./Fire.css";
 import { Button, Col, Form, Row } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { APIServices } from "../../services/APIServices";
 import { useEffect, useRef, useState } from "react";
 import { exceptionHandling } from "../../Common/CommonComponents";
@@ -13,6 +13,7 @@ interface firedevice {
 }
 
 function SystemDevice() {
+    const navigate =useNavigate()
     const [firedevice, setfiredevice] = useState<firedevice | null>(null);
     const [firedeviceStatus, setFireDeviceStatus] = useState(true)
     const [filterCount, setFilterCount] = useState("")
@@ -117,7 +118,7 @@ function SystemDevice() {
                         <div className="inventory-detail-outer">
                             <div className='customer-list-header-mobile'>
                                 <div className='customer-list-header d-flex align-items-center justify-content-between'>
-                                    <h5 className='heading-main'>
+                                    <h5 className='heading-main' onClick={(e) =>navigate("/fire")}>
                                         <img src={require("../../assets/images/back.svg").default} className="me-2" alt="icons" />
                                         <span className='smoke-heading'>Smoke Detectors / Fire Alarms</span></h5>
                                     <h3>  Devices</h3>

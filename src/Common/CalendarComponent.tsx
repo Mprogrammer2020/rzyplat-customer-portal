@@ -35,7 +35,7 @@ const CalendarComponent: React.FC<{ onClose: () => void, initialDate: Date | nul
       const currentHour = now.getHours();
       const currentMinute = now.getMinutes();
       setStartTime(`${currentHour}:${currentMinute}`);
-      setEndTime('23:59:59');
+      setEndTime('23:59');
     }
   };
 
