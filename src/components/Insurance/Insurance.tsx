@@ -6,6 +6,8 @@ import { APIServices } from "../../services/APIServices";
 import { exceptionHandling } from "../../Common/CommonComponents";
 import Skeleton from "react-loading-skeleton";
 import moment from "moment";
+import CalendarComponent from '../../Common/CalendarComponent.tsx';
+
 
 
 interface Insurancealert {
@@ -25,6 +27,7 @@ interface Insuranceproperty {
     createdDate: string,
     closedDate: string,
     property: string,
+    unitStatus: string,
 
 }
 function Insurance() {
@@ -42,6 +45,10 @@ function Insurance() {
     const InsuranceHistoryRef = useRef();
     const loadingResponse = useRef(false);
     const [filter, setFilter] = useState({ page: 0, size: 10, sortBy: "name", orderBy: "DESC" });
+    const [showCalanderModal, setShowCalanderModal]=useState(false)
+    const handleCloseCalander = () => setShowCalanderModal(false);
+  const handleCalanderShow = () => setShowCalanderModal(true);
+
 
     useEffect(() => {
         getInsuranceSevereAlert()
@@ -87,7 +94,6 @@ function Insurance() {
             const response = await APIServices.InsuranceSevereAlert();
             if (response.status === 200) {
                 let responseData = response.data as Insuranceproperty;
-                console.log("3rd api-------->", responseData)
                 setInsuranceproperty(responseData);
             } else {
                 throw new Error('Failed to fetch data');
@@ -152,7 +158,7 @@ function Insurance() {
                             <div className="weather-outer-section">
                                 <div className="weather-header">
                                     <h5 className='heading-main text-dark'><img src={require("../../assets/images/alarm.svg").default} className="me-2" alt="icons" /> Alert Summary</h5>
-                                    <Button className="fire-history-btn">FILTER <img src={require("../../assets/images/CALENDER.svg").default} className="ms-2" alt="icons" /></Button>
+                                    <Button className="fire-history-btn" onClick={handleCalanderShow}>FILTER <img src={require("../../assets/images/CALENDER.svg").default} className="ms-2" alt="icons" /></Button>
                                 </div>
                                 <div className="alarm-body">
                                     <Row>
@@ -309,7 +315,9 @@ function Insurance() {
                     </div>
                 </Modal.Body>
             </Modal>
-            {/* history modal */}
+
+            {showCalanderModal &&
+            <CalendarComponent onClose={handleCloseCalander}/>}
 
         </>
     )
