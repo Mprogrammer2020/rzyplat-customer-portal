@@ -240,8 +240,10 @@ function Security() {
                                         securityHistory?.list?.map((alert, index) => {
                                                 return (
                                                     <tr>
-                                                        <td><span>{alert?.createdDate ? moment(alert?.createdDate).format("DD-MM-YYYY") : "N/A"}</span><br></br>
+                                                        <td><p className="date-time-format">
+                                                            <span>{alert?.createdDate ? moment(alert?.createdDate).format("DD-MM-YYYY") : "N/A"}</span><br></br>
                                                             <span className="time-text">{alert?.createdDate ? moment(alert?.createdDate).format('LT') : "N/A"}</span>
+                                                            </p>
                                                         </td>
                                                         <td><p className="property-address">{alert?.property || "N/A"}</p></td>
                                                         <td><p className='role'>{alert?.unitStatus || "N/A"}</p></td>

@@ -234,6 +234,9 @@
 .inner-status-bar.active .close-window {
     display: block;
 }
+.history-modal .customer-container-body .table th {
+    padding: 6px 13px !important;
+}
 .property-address {
     padding: 0 6px;
 }
