@@ -1,0 +1,376 @@
+.fire-history-btn.btn.btn-primary {
+    border-radius: 4px;
+    background: var(--Primary-25, #C0D9FF);
+    border: none;
+    color: #01337C;
+}
+
+.alarm-content {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-right: 1px solid #A5B0C4;
+    padding-right: 16px;
+}
+
+.alarm-content-inner {
+    display: flex;
+    align-items: center;
+}
+
+.alarm-content-inner {
+    color: #31353B;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+}
+
+.alarm-content-left h6 {
+    color: #31353B;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+}
+
+.alarm-body {
+    border-radius: 8px;
+    background: var(--Shades-0, #FFF);
+    padding: 14px;
+}
+
+.blue-text {
+    color: #01337C !important;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+}
+
+.under-history {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-radius: 6px;
+    background: #01337C;
+    padding: 14px 38px 14px 14px;
+    color: #fff;
+}
+
+.under-history .referesh {
+    filter: brightness(0) invert(1);
+    width: 29px;
+}
+
+.under-history h5 {
+    color: #FFF;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+}
+
+.under-history .mobile-tab.mobile-tab-contact.text-light {
+    white-space: nowrap;
+}
+
+.history-modal .btn-close {
+    position: absolute;
+    z-index: 999;
+    right: 30px;
+    filter: brightness(0) invert(1);
+    opacity: 1;
+}
+
+.time-text {
+    color: #5C626E;
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+}
+
+.history-modal .modal-xl {
+    --bs-modal-width: 1660px;
+}
+
+.history-modal .customer-container-body .table thead tr {
+    border-radius: 6px;
+    background: var(--Shades-100, #31353B);
+}
+
+.history-modal .customer-container-body {
+    padding: 0;
+    background: #fff;
+}
+
+.history-modal .customer-container-body .table td {
+    background: #EDF1F7;
+}
+
+.history-modal .role,
+.history-modal .property {
+    background: #ffffff;
+}
+
+.history-modal .modal-content {
+    border-radius: 19px;
+}
+
+.heading-main .light-main-text {
+    color: #fff !important;
+}
+
+.disable.light-main-text {
+    opacity: 0.5;
+}
+
+.system-under-section {
+    border-radius: 8px;
+    background: var(--Shades-25, #EDF1F7);
+    margin: 21px;
+}
+
+.system-device-section .customer-list-header {
+    border-radius: 8px;
+}
+
+.system-device-section .customer-list-header-mobile {
+    background: #fff;
+    border-radius: 15px;
+}
+
+.heading-main .smoke-heading {
+    color: #5C626E !important;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+}
+
+.status-bar-section {
+    padding: 0 12px 15px 12px;
+    display: flex;
+}
+
+.inner-status-bar {
+    border-radius: 4px;
+    background: #EDF1F7;
+    padding: 9px 14px;
+    display: inline-block;
+    margin-right: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.inner-status-bar span {
+    color: #5C626E;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+}
+
+.status-text {
+    color: #31353B;
+    text-align: right;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+}
+
+.red-temp {
+    color: #F05348;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+}
+.red-temp.green-text{
+    color: #00C17B !important;
+}
+.role.inner-role {
+    text-transform: unset;
+    margin-right: 8px;
+    background: #EDF1F7 !important;
+}
+.battery-btn.btn.btn-primary {
+    border-radius: 4px;
+    background: var(--Secondary-100, #00C17B);
+    border: none;
+    padding: 9px 17px;
+    height: 45px;
+    border-radius: 6px;
+    margin-right: 5px;
+}
+.system-device-section .action-div {
+    max-width: 302px !important;
+}
+.property-section {
+    min-width: 512px;
+}
+.main-text-battery {
+    font-weight: normal;
+    color:#FFF;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+}
+.system-device-section .customer-outer-section {
+    padding: 22px 22px 0 22px;
+}
+.close-window {
+    display: none;
+}
+.inner-status-bar.active {
+    background: #00c17b;
+    color: #fff;
+}
+.inner-status-bar.active .close-window {
+    display: block;
+}
+.history-modal .customer-container-body .table th {
+    padding: 6px 13px !important;
+}
+.property-address {
+    padding: 0 6px;
+}
+.date-time-format {
+    padding: 0 11px;
+}
+.inner-status-bar.active span{
+    color: #fff;
+}   
+.under-fire-boxes {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+.fire-red-box {
+    border-radius: 6px;
+    background: #FFC7C4;
+    padding: 13px;
+}
+.red-texting {
+    color: #f05348;
+    margin: 9px 0 0 0;
+}
+.accupied-btn {
+    border-radius: 4px;
+    border: 1px solid var(--Shades-50, #A5B0C4);
+    background: var(--Shades-0, #FFF);
+    padding: 5px 16px;
+}
+img.rotate {
+    transform: rotate(88deg);
+}
+.calender-view .react-datepicker {
+    display: inline-block;
+    position: relative;
+    line-height: initial;
+    border-radius: 8px;
+    background: rgba(192, 217, 255, 0.75);
+    box-shadow: 0px 30px 31.5px -4px rgba(0, 0, 0, 0.14);
+    backdrop-filter: blur(14.350000381469727px);
+    padding: 13px 19px 14px;
+    border: none;
+}
+.calender-view .react-datepicker__header {
+    background-color: transparent;
+    padding: 10px 0;
+}
+.calender-view .react-datepicker__navigation-icon--next::before, .calender-view .react-datepicker__navigation-icon--previous::before {
+    border-color: #000;
+}
+.calender-view .react-datepicker-popper[data-placement^=bottom] .react-datepicker__triangle {
+    fill: #C0D9FF;
+    color: #f0f0f0;
+    stroke: none;
+    left: unset !important;
+    right: 32px;
+}
+.calender-view .react-datepicker__day.react-datepicker__day--026.react-datepicker__day--selected.react-datepicker__day--today {
+    background: #01337C;
+}
+.calender-view{
+    position: relative;
+}
+.calender-view .fire-history-btn.btn.btn-primary {
+    position: absolute;
+    z-index: 99;
+    right: 0;
+    white-space: nowrap;
+    width: max-content;
+    top: -19px;
+}
+.calender-view  .react-datepicker-wrapper {
+    opacity: 0;
+}
+.calender-view  .calendar-modal {
+    position: absolute;
+    right: 0;
+    border-radius: 8px;
+    background: rgba(192, 217, 255, 0.75);
+    box-shadow: 0px 30px 31.5px -4px rgba(0, 0, 0, 0.14);
+    backdrop-filter: blur(14.350000381469727px);
+    padding: 16px 28px;
+    top: 313px;
+}
+.calender-view  .react-datepicker-popper {
+    z-index: 1;
+    line-height: 0;
+    top: -353px !important;
+}
+.calender-view .react-datepicker__month-container {
+    border-radius: 6px;
+    background: rgba(255, 255, 255, 0.40);
+    padding: 12px;
+}
+.calender-view .react-datepicker__navigation--next {
+    right: 22px;
+    top: 29px;
+}
+.calender-view .react-datepicker__navigation--previous {
+    left: 19px;
+    top: 29px;
+}
+.selected-date-time {
+    font-size: 15px;
+    color: #000;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.under-date {
+    border-radius: 6px;
+    background: rgba(255, 255, 255, 0.40);
+    padding: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.up-icon {
+    position: absolute;
+    top: -6px;
+    left: 3px;
+}
+.down-icon {
+    position: absolute;
+    bottom: -6px;
+    left: 3px;
+    transform: rotate(180deg);
+}
+.apply-btn.btn.btn-primary {
+    width: 100%;
+    margin-top: 16px;
+    background: #01337c;
+    border: none;
+}
+.under-fire-boxes .red-texting {
+    margin: 1px 0 9px 0;
+}

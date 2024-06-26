@@ -40,8 +40,21 @@ export const APIServices = {
     currentWather,
     currentHourlyWather,
     currentTenDaysWather,
-    currentPropertyWather
-    
+    currentPropertyWather,
+    alertStats,
+    firealerts,
+    firealertsHistory,
+    moldalerts,
+    moldalertsHistory,
+    moldproperty,
+    securityalertsHistory,
+    securityalerts,
+    SystemMonitoringHistory,
+    SystemMonitoringalerts,
+    InsuranceAlert,
+    InsuranceAlertHistory,
+    InsuranceSevereAlert,
+    fireDeviceList
 }
 
 function updateDevice(params) {
@@ -138,3 +151,109 @@ function currentTenDaysWather() {
 function currentPropertyWather() {
     return axios.get(`${config.apiUrl}/weather/hourly/current/properties`, configJsonHeaders());
 }
+
+function alertStats() {
+    return axios.get(`${config.apiUrl}/alerts/stats`, configJsonHeaders());
+}
+function firealerts() {
+    return axios.get(`${config.apiUrl}/alerts/fire`, configJsonHeaders());
+}
+function firealertsHistory(page, size=10) {
+    return axios.get(`${config.apiUrl}/alerts/fire/history?pageNumber=${page}&pageSize=${size}`, configJsonHeaders());
+}
+
+function moldalerts() {
+    return axios.get(`${config.apiUrl}/alerts/mold`, configJsonHeaders());
+}
+function moldalertsHistory(page, size=10) {
+    return axios.get(`${config.apiUrl}/alerts/mold/history?pageNumber=${page}&pageSize=${size}`, configJsonHeaders());
+}
+
+function moldproperty() {
+    return axios.get(`${config.apiUrl}/mold/properties`, configJsonHeaders());
+}
+
+function securityalerts() {
+    return axios.get(`${config.apiUrl}/alerts/security`, configJsonHeaders());
+}
+
+function securityalertsHistory(page, size=10) {
+    return axios.get(`${config.apiUrl}/alerts/security/history?pageNumber=${page}&pageSize=${size}`, configJsonHeaders());
+}
+
+function SystemMonitoringalerts() {
+    return axios.get(`${config.apiUrl}/alerts/monitoring`, configJsonHeaders());
+}
+
+function SystemMonitoringHistory(page, size=10) {
+    return axios.get(`${config.apiUrl}/alerts/monitoring/history?pageNumber=${page}&pageSize=${size}`, configJsonHeaders());
+}
+
+function InsuranceAlert() {
+    return axios.get(`${config.apiUrl}/alerts/insurance`, configJsonHeaders());
+}
+
+function InsuranceAlertHistory(page, size=10) {
+    return axios.get(`${config.apiUrl}/alerts/insurance/history?pageNumber=${page}&pageSize=${size}`, configJsonHeaders());
+}
+
+function InsuranceSevereAlert(page, size=10) {
+    return axios.get(`${config.apiUrl}/alerts/insurance/history/severe`, configJsonHeaders());
+}
+
+
+// function fireDeviceList(filter, data) {
+//     let url = `${config.apiUrl}/monitoring/devices`;
+//     let queryParams = [];
+
+//     // Add filters to queryParams if defined
+//     if (filter?.online !== undefined) {
+//         queryParams.push(`online=${filter.online}`);
+//     }
+//     if (filter?.lowBattery !== undefined) {
+//         queryParams.push(`lowBattery=${filter.lowBattery}`);
+//     }
+
+//     // Add page and size parameters if defined in data
+//     if (data?.page !== undefined) {
+//         queryParams.push(`page=${data.page}`);
+//     }
+//     if (data?.size !== undefined) {
+//         queryParams.push(`size=${data.size}`);
+//     }
+
+//     // Append queryParams to URL if there are any
+//     if (queryParams.length > 0) {
+//         url += '?' + queryParams.join('&');
+//     }
+
+
+//     return axios.get(url, configJsonHeaders());
+// }
+
+function fireDeviceList(filter, data) {
+    console.log("data--------->",data,filter)
+    let url = `${config.apiUrl}/monitoring/devices`;
+    let queryParams = [];
+
+    // Add filters to queryParams if defined
+    if (filter?.online !== undefined) {
+        queryParams.push(`online=${filter.online}`);
+    }
+    if (filter?.lowBattery !== undefined) {
+        queryParams.push(`lowBattery=${filter.lowBattery}`);
+    }
+
+    // Add page and size parameters
+    queryParams.push(`pageNumber=${data.page}`);
+    queryParams.push(`pageSize=${data.size}`);
+
+    // Append queryParams to URL if there are any
+    if (queryParams.length > 0) {
+        url += '?' + queryParams.join('&');
+    }
+
+    return axios.get(url, configJsonHeaders());
+}
+
+
