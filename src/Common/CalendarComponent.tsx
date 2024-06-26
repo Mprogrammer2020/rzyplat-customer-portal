@@ -55,12 +55,12 @@ const CalendarComponent: React.FC<{ onClose: () => void, initialDate: Date | nul
         <div>
         <div className='under-date'>
           {/* <p className='selected-date-time'>Selected Date: <span>{selectedDate.toDateString()}</span></p> */}
-          <p className='selected-date-time position-relative'>
+          <p className='selected-date-time position-relative me-2'>
             <img src={require("../assets/images/up-icon.svg").default} className="up-icon" alt="icons" />
             <span>{startTime}</span>
             <img src={require("../assets/images/up-icon.svg").default} className="down-icon" alt="icons" />
           </p> -
-          <p className='selected-date-time position-relative'>
+          <p className='selected-date-time position-relative ms-2'>
             <img src={require("../assets/images/up-icon.svg").default} className="up-icon" alt="icons" />
             <span>{endTime}</span>
             <img src={require("../assets/images/up-icon.svg").default} className="down-icon" alt="icons" />
