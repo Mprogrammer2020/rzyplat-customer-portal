@@ -17,7 +17,7 @@ function SystemDevice() {
     const [firedevice, setfiredevice] = useState<firedevice | null>(null);
     const [firedeviceStatus, setFireDeviceStatus] = useState(true)
     const [filterCount, setFilterCount] = useState("")
-    const [selectedStatus, setSelectedStatus] = useState('online');
+    const [selectedStatus, setSelectedStatus] = useState('');
     const [filter, setFilter] = useState({ page: 0, size: 10 });
     const firedeviceRef = useRef();
     const loadingResponse = useRef(false);
