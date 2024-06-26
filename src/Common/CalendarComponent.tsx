@@ -38,8 +38,8 @@ const CalendarComponent: React.FC<{ onClose: () => void, initialDate: Date | nul
       // Setting end time to 23:59:59 of the selected date
       setEndTime('23:59:59');
     }
-    setIsDatePickerOpen(false);
-    onClose()
+   
+    
   };
 
   return (
@@ -66,7 +66,7 @@ const CalendarComponent: React.FC<{ onClose: () => void, initialDate: Date | nul
             <img src={require("../assets/images/up-icon.svg").default} className="down-icon" alt="icons" />
           </p>
         </div>
-        <Button className='apply-btn'>APPLY</Button>
+        <Button className='apply-btn' onClick={(e) => {onClose(); setIsDatePickerOpen(false);}}>APPLY</Button>
         </div>
       )}
     </div>
