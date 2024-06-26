@@ -202,18 +202,19 @@ function SystemDevice() {
                                         firedevice?.list?.map((item, index) => {
                                             return (
                                                 <tr >
-                                                    <td><p>{item?.deviceId || "N/A"}</p></td>
+                                                    <td><p className="device-text-main">{item?.deviceId || "N/A"}</p></td>
                                                     <td>{item?.property || "N/A"}</td>
                                                     <td>{item?.installationDate || "N/A"}</td>
-                                                    <td className="property-section"><p className='role inner-role'>
+                                                    <td className="property-section">
+                                                        <p className='role inner-role'>
                                                         <img src={item?.temperature < 20 ? require("../../assets/images/red-tem.svg").default : require("../../assets/images/lets-icons_temperature-fill.svg").default} className="me-2 red-temprature" alt="icons" />
 
                                                         Temperature: <span className={item?.temperature < 20 ? "red-temp" : "green-temp"}>{item?.temperature || "N/A"}</span></p>
-                                                        <p className='role inner-role'><img src={require("../../assets/images/humadity.svg").default} className="me-2" alt="icons" />Humidity: <span className="red-temp green-text">{item?.humidity || "N/A"}</span></p>
+                                                        <p className='role inner-role small-role'><img src={require("../../assets/images/humadity.svg").default} className="me-2" alt="icons" />Humidity: <span className="red-temp green-text">{item?.humidity || "N/A"}%</span></p>
                                                     </td>
                                                     <td className='action-div'>
                                                         <Button className={`battery-btn ${item?.batteryLevel < 20 ? 'red' : item?.batteryLevel < 50 ? 'yello' : ""}`}><img src={require("../../assets/images/battery.svg").default} className="" alt="icons" /> Battery<b className="ms-3 main-text-battery">{item?.batteryLevel || "-"}</b></Button>
-                                                        <Button className={`battery-btn ${item?.online === false ? 'offline' : 'online'}`}>
+                                                        <Button className={`battery-btn online-offline ${item?.online === false ? 'offline' : 'online'}`}>
                                                             {item?.online === false ? "OFFLINE" : "ONLINE"}
                                                         </Button>
                                                     </td>
