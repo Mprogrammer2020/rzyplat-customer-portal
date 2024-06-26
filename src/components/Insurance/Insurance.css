@@ -259,3 +259,105 @@
 img.rotate {
     transform: rotate(88deg);
 }
+.calender-view .react-datepicker {
+    display: inline-block;
+    position: relative;
+    line-height: initial;
+    border-radius: 8px;
+    background: rgba(192, 217, 255, 0.75);
+    box-shadow: 0px 30px 31.5px -4px rgba(0, 0, 0, 0.14);
+    backdrop-filter: blur(14.350000381469727px);
+    padding: 13px 19px 14px;
+    border: none;
+}
+.calender-view .react-datepicker__header {
+    background-color: transparent;
+    padding: 10px 0;
+}
+.calender-view .react-datepicker__navigation-icon--next::before, .calender-view .react-datepicker__navigation-icon--previous::before {
+    border-color: #000;
+}
+.calender-view .react-datepicker-popper[data-placement^=bottom] .react-datepicker__triangle {
+    fill: #C0D9FF;
+    color: #f0f0f0;
+    stroke: none;
+    left: unset !important;
+    right: 32px;
+}
+.calender-view .react-datepicker__day.react-datepicker__day--026.react-datepicker__day--selected.react-datepicker__day--today {
+    background: #01337C;
+}
+.calender-view{
+    position: relative;
+}
+.calender-view .fire-history-btn.btn.btn-primary {
+    position: absolute;
+    z-index: 99;
+    right: 0;
+    white-space: nowrap;
+    width: max-content;
+    top: -19px;
+}
+.calender-view  .react-datepicker-wrapper {
+    opacity: 0;
+}
+.calender-view  .calendar-modal {
+    position: absolute;
+    right: 0;
+    border-radius: 8px;
+    background: rgba(192, 217, 255, 0.75);
+    box-shadow: 0px 30px 31.5px -4px rgba(0, 0, 0, 0.14);
+    backdrop-filter: blur(14.350000381469727px);
+    padding: 16px 28px;
+    top: 313px;
+}
+.calender-view  .react-datepicker-popper {
+    z-index: 1;
+    line-height: 0;
+    top: -353px !important;
+}
+.calender-view .react-datepicker__month-container {
+    border-radius: 6px;
+    background: rgba(255, 255, 255, 0.40);
+    padding: 12px;
+}
+.calender-view .react-datepicker__navigation--next {
+    right: 22px;
+    top: 29px;
+}
+.calender-view .react-datepicker__navigation--previous {
+    left: 19px;
+    top: 29px;
+}
+.selected-date-time {
+    font-size: 15px;
+    color: #000;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.under-date {
+    border-radius: 6px;
+    background: rgba(255, 255, 255, 0.40);
+    padding: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.up-icon {
+    position: absolute;
+    top: -6px;
+    left: 3px;
+}
+.down-icon {
+    position: absolute;
+    bottom: -6px;
+    left: 3px;
+    transform: rotate(180deg);
+}
+.apply-btn.btn.btn-primary {
+    width: 100%;
+    margin-top: 16px;
+    background: #01337c;
+    border: none;
+}
