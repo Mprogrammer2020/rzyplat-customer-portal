@@ -9,15 +9,12 @@ const AddNewDeviceType = ({ show, handleClose, categoryId }) => {
     const deviceImageRef = useRef(null);
     const [deviceDetail, setDeviceDetail] = useState({ deviceImage: "", deviceName: "", errors: { deviceImage: "", deviceName: "" } });
     const [showLoader, setShowLoader] = useState(false);
-
-
     function selectDeviceImage() {
         if (deviceImageRef.current) {
             deviceImageRef.current.value = null;
             deviceImageRef.current.click();
         }
     }
-
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;

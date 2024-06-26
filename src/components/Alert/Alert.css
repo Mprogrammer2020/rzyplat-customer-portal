@@ -1,0 +1,31 @@
+.alert-body-section {
+    border-radius: 12px;
+    background: var(--Shades-0, #FFF);
+    margin: 19px;
+    padding: 16px;
+}
+.alert-box {
+    border-radius: 6px;
+    background: var(--Shades-25, #EDF1F7);
+    padding: 12px;
+}
+.alert-box p {
+    color: #31353B;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+    margin-bottom: 8px;
+}
+.alert-box h4 {
+    color:  #31353B;
+    font-size: 24px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+    display: flex;
+    align-items: center;
+}
+.alert-box img {
+    margin-right: 6px;
+}
