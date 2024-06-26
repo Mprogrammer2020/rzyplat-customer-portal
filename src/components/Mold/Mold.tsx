@@ -190,20 +190,22 @@ function Mold() {
                                 <div className="weather-header">
                                     <h5 className='heading-main text-dark'><img src={require("../../assets/images/device.svg").default} className="me-2" alt="icons" /> Device Summary</h5>
                                 </div>
+                                <div className="position-relative">
+                                    <img src={require("../../assets/images/down-dropdown.svg").default} className="down-main-arrow" alt="icons" />
+                                    <Dropdown className="dropdown-main">
+                                        <Dropdown.Toggle id="dropdown-basic">
+                                            {selectedProperty}
+                                        </Dropdown.Toggle>
 
-                                <Dropdown className="dropdown-main">
-                                    <Dropdown.Toggle id="dropdown-basic">
-                                        {selectedProperty}
-                                    </Dropdown.Toggle>
-
-                                    <Dropdown.Menu>
-                                        {moldproperty?.map((item, index) => (
-                                            <Dropdown.Item key={index} onClick={() => handleSelect(item.propertyName)}>
-                                                {item.propertyName}
-                                            </Dropdown.Item>
-                                        ))}
-                                    </Dropdown.Menu>
-                                </Dropdown>
+                                        <Dropdown.Menu>
+                                            {moldproperty?.map((item, index) => (
+                                                <Dropdown.Item key={index} onClick={() => handleSelect(item.propertyName)}>
+                                                    {item.propertyName}
+                                                </Dropdown.Item>
+                                            ))}
+                                        </Dropdown.Menu>
+                                    </Dropdown>
+                                </div>
                             </div>
                         </Col>
                     </Row>

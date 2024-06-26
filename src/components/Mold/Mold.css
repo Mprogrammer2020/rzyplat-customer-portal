@@ -262,6 +262,8 @@
     box-shadow: 0px 30px 31.5px -4px rgba(0, 0, 0, 0.14);
     backdrop-filter: blur(14.350000381469727px);
     line-height: 42px;
+    height: 414px;
+    overflow: auto;
 }
 .dropdown-main .dropdown-item {
     border-bottom: 1px solid #D6D6D6;
@@ -273,4 +275,12 @@
     background-color: #fff !important;
     border-color: #fff !important;
     color: var(--Shades-100, #31353B);
+}
+.down-main-arrow {
+    position: absolute;
+    z-index: 9;
+    top: 14px;
+    right: 8px;
+    background: #fff;
+    pointer-events: none;
 }
