@@ -254,6 +254,7 @@ button.battery-btn.yello.btn.btn-primary {
     display: flex !important;
     align-items: center !important;
     justify-content: space-between !important;
+    width: 100%;
 }
 .system-device-section .action-div {
     max-width: 302px !important;
@@ -313,4 +314,15 @@ button.battery-btn.yello.btn.btn-primary {
     .property-section {
         min-width: 402px !important;
     }
+    .role.inner-role {
+        width: 53% !important;
+    }
+    .role.inner-role.small-role {
+        width: 48% !important;
+    }
 } 
+@media (max-width: 1600px) {
+    .system-device-section .action-div {
+        max-width: 252px !important;
+    }
+}

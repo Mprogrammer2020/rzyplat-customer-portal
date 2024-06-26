@@ -154,7 +154,12 @@
     padding: 0 12px 15px 12px;
     display: flex;
 }
-
+.property-address {
+    padding: 0 6px;
+}
+.date-time-format {
+    padding: 0 11px;
+}
 .inner-status-bar {
     border-radius: 4px;
     background: #EDF1F7;

@@ -234,6 +234,12 @@
 .inner-status-bar.active .close-window {
     display: block;
 }
+.property-address {
+    padding: 0 6px;
+}
+.date-time-format {
+    padding: 0 11px;
+}
 .inner-status-bar.active span{
     color: #fff;
 }   

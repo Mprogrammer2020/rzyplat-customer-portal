@@ -263,6 +263,12 @@
     backdrop-filter: blur(14.350000381469727px);
     line-height: 42px;
 }
+.property-address {
+    padding: 0 6px;
+}
+.date-time-format {
+    padding: 0 11px;
+}
 .dropdown-main .dropdown-item {
     border-bottom: 1px solid #D6D6D6;
 }
@@ -273,4 +279,12 @@
     background-color: #fff !important;
     border-color: #fff !important;
     color: var(--Shades-100, #31353B);
+}
+@media (max-width: 1600px) {
+    .system-device-section .action-div {
+        max-width: 252px !important;
+    }
+    .battery-btn.btn.btn-primary {
+        padding: 9px 8px;
+    }
 }
