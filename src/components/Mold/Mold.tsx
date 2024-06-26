@@ -6,6 +6,7 @@ import { APIServices } from "../../services/APIServices";
 import { exceptionHandling } from "../../Common/CommonComponents";
 import Skeleton from "react-loading-skeleton";
 import moment from "moment";
+import CalendarComponent from "../../Common/CalendarComponent.tsx";
 
 interface moldalert {
     activeAlerts: number;
@@ -39,6 +40,10 @@ function Mold() {
     const loadingResponse = useRef(false);
     const [filter, setFilter] = useState({ page: 0, size: 10, sortBy: "name", orderBy: "DESC" });
     const [selectedProperty, setSelectedProperty] = useState("Hidden Valley Apartments");
+    const [showCalanderModal, setShowCalanderModal] = useState(false)
+    const handleCloseCalander = () => setShowCalanderModal(false);
+    const handleCalanderShow = () => setShowCalanderModal(true);
+    const [selectedDate, setSelectedDate] = useState<Date | null>(null);
 
     const handleSelect = (propertyName) => {
         setSelectedProperty(propertyName);
@@ -154,7 +159,11 @@ function Mold() {
                             <div className="weather-outer-section">
                                 <div className="weather-header">
                                     <h5 className='heading-main text-dark'><img src={require("../../assets/images/alarm.svg").default} className="me-2" alt="icons" /> Alert Summary</h5>
-                                    <Button className="fire-history-btn">FILTER <img src={require("../../assets/images/CALENDER.svg").default} className="ms-2" alt="icons" /></Button>
+                                    <div className="calender-view">
+                                        <Button className="fire-history-btn" onClick={handleCalanderShow}>FILTER <img src={require("../../assets/images/CALENDER.svg").default} className="ms-2" alt="icons" /></Button>
+                                        {showCalanderModal &&
+                                            <CalendarComponent onClose={handleCloseCalander}  initialDate={selectedDate} />}
+                                    </div>
                                 </div>
                                 <div className="alarm-body">
                                     <Row>

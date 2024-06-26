@@ -10,36 +10,33 @@ const CalendarComponent: React.FC<{ onClose: () => void, initialDate: Date | nul
   const [isDatePickerOpen, setIsDatePickerOpen] = useState<boolean>(true);
 
   useEffect(() => {
-    const now = new Date();
-    setSelectedDate(now);
-
-    // Setting start time to current time
-    const currentHour = now.getHours();
-    const currentMinute = now.getMinutes();
-    setStartTime(`${currentHour}:${currentMinute}`);
-
-    // Setting end time to 23:59:59 of the current date
-    setEndTime('23:59');
+    if (initialDate) {
+      setSelectedDate(initialDate);
+      // Setting start time to 00:00:00 of the initial date
+      setStartTime('00:00');
+      // Setting end time to 23:59:59 of the initial date
+      setEndTime('23:59');
+    } else {
+      const now = new Date();
+      setSelectedDate(now);
+      const currentHour = now.getHours();
+      const currentMinute = now.getMinutes();
+      setStartTime(`${currentHour}:${currentMinute}`);
+      setEndTime('23:59');
+    }
 
     setIsDatePickerOpen(true); // Open date picker when component mounts
-  }, []);
+  }, [initialDate]);
 
   const handleDateChange = (date: Date | null) => {
     if (date) {
       setSelectedDate(date);
-
-      // Setting start time to current time
       const now = new Date();
       const currentHour = now.getHours();
       const currentMinute = now.getMinutes();
-      const currentSecond = now.getSeconds();
       setStartTime(`${currentHour}:${currentMinute}`);
-
-      // Setting end time to 23:59:59 of the selected date
       setEndTime('23:59:59');
     }
-   
-    
   };
 
   return (
@@ -49,24 +46,23 @@ const CalendarComponent: React.FC<{ onClose: () => void, initialDate: Date | nul
         onChange={handleDateChange}
         dateFormat="yyyy/MM/dd"
         open={isDatePickerOpen}
-        onClickOutside={() => setIsDatePickerOpen(false)} // Close on outside click
+        onClickOutside={() => {setIsDatePickerOpen(false); onClose()}} // Close on outside click
       />
       {selectedDate && (
         <div>
-        <div className='under-date'>
-          {/* <p className='selected-date-time'>Selected Date: <span>{selectedDate.toDateString()}</span></p> */}
-          <p className='selected-date-time position-relative me-2'>
-            <img src={require("../assets/images/up-icon.svg").default} className="up-icon" alt="icons" />
-            <span>{startTime}</span>
-            <img src={require("../assets/images/up-icon.svg").default} className="down-icon" alt="icons" />
-          </p> -
-          <p className='selected-date-time position-relative ms-2'>
-            <img src={require("../assets/images/up-icon.svg").default} className="up-icon" alt="icons" />
-            <span>{endTime}</span>
-            <img src={require("../assets/images/up-icon.svg").default} className="down-icon" alt="icons" />
-          </p>
-        </div>
-        <Button className='apply-btn' onClick={(e) => {onClose(); setIsDatePickerOpen(false);}}>APPLY</Button>
+          <div className='under-date'>
+            <p className='selected-date-time position-relative me-2'>
+              <img src={require("../assets/images/up-icon.svg").default} className="up-icon" alt="icons" />
+              <span>{startTime}</span>
+              <img src={require("../assets/images/up-icon.svg").default} className="down-icon" alt="icons" />
+            </p> -
+            <p className='selected-date-time position-relative ms-2'>
+              <img src={require("../assets/images/up-icon.svg").default} className="up-icon" alt="icons" />
+              <span>{endTime}</span>
+              <img src={require("../assets/images/up-icon.svg").default} className="down-icon" alt="icons" />
+            </p>
+          </div>
+          <Button className='apply-btn' onClick={() => { onClose(); setIsDatePickerOpen(false); }}>APPLY</Button>
         </div>
       )}
     </div>

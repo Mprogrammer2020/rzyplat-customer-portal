@@ -15,6 +15,7 @@ interface statsAlert {
 
 function Alert() {
     const [statsAlert, setStatsAlert]=useState<statsAlert | null>(null);
+    
 
     useEffect(() =>{
         getStatsAlert()

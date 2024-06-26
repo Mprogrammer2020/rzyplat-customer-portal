@@ -7,6 +7,7 @@ import { APIServices } from "../../services/APIServices";
 import moment from "moment";
 // import { Link,useNavigate } from 'react-router-dom';
 import Skeleton from "react-loading-skeleton";
+import CalendarComponent from "../../Common/CalendarComponent.tsx";
 
 
 interface firealert {
@@ -36,6 +37,10 @@ function Fire() {
         setShow(true);
         getFireAlertHistory(filter)
     }
+    const [showCalanderModal, setShowCalanderModal] = useState(false)
+    const handleCloseCalander = () => setShowCalanderModal(false);
+    const handleCalanderShow = () => setShowCalanderModal(true);
+    const [selectedDate, setSelectedDate] = useState<Date | null>(null);
 
     useEffect(() =>{
         getFireAlert()
@@ -131,7 +136,11 @@ function Fire() {
                             <div className="weather-outer-section">
                                 <div className="weather-header">
                                     <h5 className='heading-main text-dark'><img src={require("../../assets/images/alarm.svg").default} className="me-2" alt="icons" /> Alert Summary</h5>
-                                    <Button className="fire-history-btn">FILTER <img src={require("../../assets/images/CALENDER.svg").default} className="ms-2" alt="icons" /></Button>
+                                    <div className="calender-view">
+                                        <Button className="fire-history-btn" onClick={handleCalanderShow}>FILTER <img src={require("../../assets/images/CALENDER.svg").default} className="ms-2" alt="icons" /></Button>
+                                        {showCalanderModal &&
+                                            <CalendarComponent onClose={handleCloseCalander}  initialDate={selectedDate} />}
+                                    </div>
                                 </div>
                                 <div className="alarm-body">
                                     <Row>
