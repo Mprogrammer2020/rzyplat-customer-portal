@@ -240,6 +240,7 @@
 .under-fire-boxes {
     display: flex;
     justify-content: space-between;
+    align-items: flex-start;
 }
 .fire-red-box {
     border-radius: 6px;

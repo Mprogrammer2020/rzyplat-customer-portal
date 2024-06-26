@@ -213,7 +213,9 @@ function SystemDevice() {
                                                         <p className='role inner-role small-role'><img src={require("../../assets/images/humadity.svg").default} className="me-2" alt="icons" />Humidity: <span className="red-temp green-text">{item?.humidity || "N/A"}%</span></p>
                                                     </td>
                                                     <td className='action-div'>
-                                                        <Button className={`battery-btn ${item?.batteryLevel < 20 ? 'red' : item?.batteryLevel < 50 ? 'yello' : ""}`}><img src={require("../../assets/images/battery.svg").default} className="" alt="icons" /> Battery<b className="ms-3 main-text-battery">{item?.batteryLevel || "-"}</b></Button>
+                                                        <Button className={`battery-btn ${item?.batteryLevel < 20 ? 'red' : item?.batteryLevel < 50 ? 'yello' : ""}`}>
+                                                            <img src={require(item?.batteryLevel < 20 ? "../../assets/images/loose-battery.svg" :"../../assets/images/battery.svg").default} className="me-2" alt="icons" />
+                                                             Battery<b className="ms-3 main-text-battery">{item?.batteryLevel || "-"}</b></Button>
                                                         <Button className={`battery-btn online-offline ${item?.online === false ? 'offline' : 'online'}`}>
                                                             {item?.online === false ? "OFFLINE" : "ONLINE"}
                                                         </Button>

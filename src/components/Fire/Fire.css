@@ -237,6 +237,12 @@ button.battery-btn.yello.btn.btn-primary {
 .battery-btn.online-offline.online.btn.btn-primary {
     width: 39%;
 }
+.system-device-section .action-div {
+    display: flex;
+}
+.fire-history-btn.btn.btn-primary img {
+    width: 19px;
+}
 .battery-btn.btn.btn-primary {
     border-radius: 4px;
     background: var(--Secondary-100, #00C17B);
@@ -245,6 +251,9 @@ button.battery-btn.yello.btn.btn-primary {
     height: 45px;
     border-radius: 6px;
     margin-right: 5px;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
 }
 .system-device-section .action-div {
     max-width: 302px !important;
@@ -285,6 +294,11 @@ button.battery-btn.yello.btn.btn-primary {
 }
 .device-text-main {
     padding-left: 7px;
+}
+.battery-saver {
+    width: 62px;
+    height: 13px;
+    transform: rotate(-90deg);
 }
 @media (max-width: 1712px) {
     .property-section {
