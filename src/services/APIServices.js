@@ -201,8 +201,20 @@ function InsuranceSevereAlert(page, size=10) {
     return axios.get(`${config.apiUrl}/alerts/insurance/history/severe`, configJsonHeaders());
 }
 
-function fireDeviceList() {
-    return axios.get(`${config.apiUrl}/monitoring/devices`, configJsonHeaders());
+function fireDeviceList(filter) {
+    let url = `${config.apiUrl}/monitoring/devices`;
+    let queryParams = [];
+    if (filter?.online !== undefined) {
+        queryParams.push(`online=${filter.online}`);
+    }
+    if (filter?.lowBattery !== undefined) {
+        queryParams.push(`lowBattery=${filter.lowBattery}`);
+    }
+    if (queryParams.length > 0) {
+        url += '?' + queryParams.join('&');
+    }
+    return axios.get(url, configJsonHeaders());
 }
+
 
 

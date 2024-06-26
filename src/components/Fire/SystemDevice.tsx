@@ -28,7 +28,6 @@ function SystemDevice() {
             if (response.status === 200) {
                 console.log("setFilterCount", response)
                 let responseData = response.data as firedevice;
-                console.log("getFireDeviceList responseData------->", responseData)
                 setfiredevice(responseData);
                 setFireDeviceStatus(false)
             } else {
@@ -40,23 +39,24 @@ function SystemDevice() {
     }
 
     const handleStatusClick = async (status) => {
-        setSelectedStatus(status);
-    
+        let newStatus = selectedStatus === status ? '' : status;
+        setSelectedStatus(newStatus);
+
         let filters = {};
-        if (status === 'online') {
-          filters = { online: true };
-        } else if (status === 'offline') {
-          filters = { online: false };
-        } else if (status === 'lowBattery') {
-          filters = { lowBattery: true };
+        if (newStatus === 'online') {
+            filters = { online: true };
+        } else if (newStatus === 'offline') {
+            filters = { online: false };
+        } else if (newStatus === 'lowBattery') {
+            filters = { lowBattery: true };
         }
-    
+
         try {
-            getFireDeviceList(filters)
+            getFireDeviceList(filters);
         } catch (error) {
-          console.error('API call failed', error);
+            console.error('API call failed', error);
         }
-      };
+    };
 
 
     return (
@@ -102,7 +102,7 @@ function SystemDevice() {
                                     <h3>  Devices</h3>
                                     <div className="inventory-detail-top-right">
                                         <div className='sort-box d-flex align-items-center'>
-                                            <p class="mobile-tab mobile-tab-contact">492</p>
+                                            <p class="mobile-tab mobile-tab-contact">{firedevice?.totalElements}</p>
                                             <Form.Group
                                                 className="sort-by-top-right"
                                                 controlId="exampleForm.ControlInput1"
@@ -117,30 +117,7 @@ function SystemDevice() {
                                         </div>
                                     </div>
                                 </div>
-                                {/* <div className="status-bar-section">
-                                    <div className="inner-status-bar active">
-                                        <div>
-                                            <img src={require("../../assets/images/online.svg").default} className="me-2" alt="icons" />
-                                            <span>Online</span>
-                                        </div>
-                                        <span className="status-text">{firedevice?.onlineCount || "-"}</span>
-                                        <img src={require("../../assets/images/close-window.svg").default} className="close-window" alt="icons" />
-                                    </div>
-                                    <div className="inner-status-bar">
-                                        <div>
-                                            <img src={require("../../assets/images/offline.svg").default} className="me-2" alt="icons" />
-                                            <span>Offline</span>
-                                        </div>
-                                        <span className="status-text">{firedevice?.offlineCount || "-"}</span>
-                                    </div>
-                                    <div className="inner-status-bar">
-                                        <div>
-                                            <img src={require("../../assets/images/battery-low.svg").default} className="me-2" alt="icons" />
-                                            <span>Low Battery</span>
-                                        </div>
-                                        <span className="status-text">{firedevice?.lowbatteryCount || "-"}</span>
-                                    </div>
-                                </div> */}
+                              
                                 <div className="status-bar-section">
                                     <div className={`inner-status-bar ${selectedStatus === 'online' ? 'active' : ''}`} onClick={() => handleStatusClick('online')}>
                                         <div>

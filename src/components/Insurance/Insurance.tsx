@@ -22,6 +22,9 @@ interface InsuranceHistory {
     totalElements: number
 }
 interface Insuranceproperty {
+    createdDate: string,
+    closedDate: string,
+    property: string,
 
 }
 function Insurance() {
@@ -34,7 +37,7 @@ function Insurance() {
     }
     const [Insurancealert, setInsurancealert] = useState<Insurancealert | null>(null);
     const [InsuranceHistory, setInsuranceHistory] = useState<InsuranceHistory | null>(null)
-    const [Insuranceproperty, setInsuranceproperty] = useState<Insuranceproperty | null>(null)
+    const [Insuranceproperty, setInsuranceproperty] = useState()
     const [InsuranceHistoryStatus, setInsuranceHistoryStatus] = useState(true)
     const InsuranceHistoryRef = useRef();
     const loadingResponse = useRef(false);
@@ -84,7 +87,7 @@ function Insurance() {
             const response = await APIServices.InsuranceSevereAlert();
             if (response.status === 200) {
                 let responseData = response.data as Insuranceproperty;
-                console.log("3rd api-------->",responseData)
+                console.log("3rd api-------->", responseData)
                 setInsuranceproperty(responseData);
             } else {
                 throw new Error('Failed to fetch data');
@@ -206,46 +209,23 @@ function Insurance() {
                                         <img src={require("../../assets/images/right-icon.svg").default} className="" alt="icons" />
                                     </div>
                                 </div>
-                                <div className="fire-red-box mt-2">
-                                    <div className="under-fire-boxes">
-                                        <p className="red-texting"><img src={require("../../assets/images/fire-goal.svg").default} className="me-2" alt="icons" /> Fire 911</p>
-                                        <p className="dark-text">9 min  <img src={require("../../assets/images/right-arrow.svg").default} className="" alt="icons" /></p>
-                                    </div>
-                                    <div className="under-fire-boxes">
-                                        <p className="red-texting">Property Name Building 20 - Unit 02</p>
-                                        <p className="accupied-btn">OCCUPIED</p>
-                                    </div>
-                                </div>
-                                <div className="fire-red-box mt-2">
-                                    <div className="under-fire-boxes">
-                                        <p className="red-texting"><img src={require("../../assets/images/fire-goal.svg").default} className="me-2" alt="icons" /> Fire 911</p>
-                                        <p className="dark-text">9 min  <img src={require("../../assets/images/right-arrow.svg").default} className="" alt="icons" /></p>
-                                    </div>
-                                    <div className="under-fire-boxes">
-                                        <p className="red-texting">Property Name Building 20 - Unit 02</p>
-                                        <p className="accupied-btn">OCCUPIED</p>
-                                    </div>
-                                </div>
-                                <div className="fire-red-box mt-2">
-                                    <div className="under-fire-boxes">
-                                        <p className="red-texting"><img src={require("../../assets/images/fire-goal.svg").default} className="me-2" alt="icons" /> Fire 911</p>
-                                        <p className="dark-text">9 min  <img src={require("../../assets/images/right-arrow.svg").default} className="" alt="icons" /></p>
-                                    </div>
-                                    <div className="under-fire-boxes">
-                                        <p className="red-texting">Property Name Building 20 - Unit 02</p>
-                                        <p className="accupied-btn">OCCUPIED</p>
-                                    </div>
-                                </div>
-                                <div className="fire-red-box mt-2">
-                                    <div className="under-fire-boxes">
-                                        <p className="red-texting"><img src={require("../../assets/images/fire-goal.svg").default} className="me-2" alt="icons" /> Fire 911</p>
-                                        <p className="dark-text">9 min  <img src={require("../../assets/images/right-arrow.svg").default} className="" alt="icons" /></p>
-                                    </div>
-                                    <div className="under-fire-boxes">
-                                        <p className="red-texting">Property Name Building 20 - Unit 02</p>
-                                        <p className="accupied-btn">OCCUPIED</p>
-                                    </div>
-                                </div>
+
+                                {Insuranceproperty && Insuranceproperty?.list?.map((item, index) => {
+                                    return (
+                                        <div className="fire-red-box mt-2">
+                                            <div className="under-fire-boxes">
+                                                <p className="red-texting"><img src={require("../../assets/images/fire-goal.svg").default} className="me-2" alt="icons" />{item?.title || "-"}</p>
+                                                <p className="dark-text"> {item?.createdDate ? moment(item.createdDate).fromNow() : "-"}
+                                                    <img src={require("../../assets/images/right-arrow.svg").default} className="" alt="icons" /></p>
+                                            </div>
+                                            <div className="under-fire-boxes">
+                                                <p className="red-texting">{item?.property || "-"}</p>
+                                                <p className="accupied-btn">{item?.unitStatus || "-"}</p>
+                                            </div>
+                                        </div>
+                                    )
+                                })}
+
                             </div>
                         </Col>
                     </Row>
